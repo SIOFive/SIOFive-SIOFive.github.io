@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Codeforces 55D Beautiful numbers（数位DP） | SIO__Five</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="数位dp," />
+  
+
+  <meta name="description" content="题目源地址：http://codeforces.com/problemset/problem/55/D 题意给定一个数字n，如果n能被它数位上的每一个非零数字整除，这个数就被称为Beautiful number。为给定区间[l, r]内有多少个Beautiful numbers。其中1≤l≤r≤9*1e18 思路一个数能被其所有数位上的非零数字整除，即被他们的最小公倍数整除，而1~9的lcm为25">
+<meta name="keywords" content="数位dp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Codeforces 55D Beautiful numbers（数位DP）">
+<meta property="og:url" content="http://yoursite.com/2015/08/16/CF55D/index.html">
+<meta property="og:site_name" content="SIO__Five">
+<meta property="og:description" content="题目源地址：http://codeforces.com/problemset/problem/55/D 题意给定一个数字n，如果n能被它数位上的每一个非零数字整除，这个数就被称为Beautiful number。为给定区间[l, r]内有多少个Beautiful numbers。其中1≤l≤r≤9*1e18 思路一个数能被其所有数位上的非零数字整除，即被他们的最小公倍数整除，而1~9的lcm为25">
+<meta property="og:updated_time" content="2015-08-16T05:34:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Codeforces 55D Beautiful numbers（数位DP）">
+<meta name="twitter:description" content="题目源地址：http://codeforces.com/problemset/problem/55/D 题意给定一个数字n，如果n能被它数位上的每一个非零数字整除，这个数就被称为Beautiful number。为给定区间[l, r]内有多少个Beautiful numbers。其中1≤l≤r≤9*1e18 思路一个数能被其所有数位上的非零数字整除，即被他们的最小公倍数整除，而1~9的lcm为25">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/books/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            书单
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#题意"><span class="toc-text">题意</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#思路"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-CF55D" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Codeforces 55D Beautiful numbers（数位DP）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.08.16</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>SIO__Five</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/ACM/">ACM</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.forsigner.com/2015/08/16/CF55D/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>源地址：<a href="http://codeforces.com/problemset/problem/55/D" target="_blank" rel="external">http://codeforces.com/problemset/problem/55/D</a></p>
+<h1 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h1><p>给定一个数字n，如果n能被它数位上的每一个非零数字整除，这个数就被称为Beautiful number。为给定区间[l, r]内有多少个Beautiful numbers。其中1≤l≤r≤9*1e18</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>一个数能被其所有数位上的非零数字整除，即被他们的最小公倍数整除，而1~9的lcm为2520。所以数位dp时只需要保存前面那些位的最小公倍数即可，到边界就把所有位的lcm求出了，为了判断这个数能不能被lcm整除，还需要保存这个数的值，显然记录是不行的。其实只要记录这个数模2520即可。这样可以设计如下dp：dfs(pos,mod,lcm,f)。pos为当前位，mod为模2520的值，lcm为最小公倍数，f表示前面是否达到上限。但其实1~9的所有最小公倍数只有48个。这样开dp[20][2520][48]的数组即可。</p>
+<a id="more"></a>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><p>标称<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line">#include&lt;cmath&gt;</div><div class="line">#include&lt;algorithm&gt;</div><div class="line">#include&lt;cstring&gt;</div><div class="line">#include&lt;string&gt;</div><div class="line">#include&lt;cstdio&gt;</div><div class="line">#include&lt;vector&gt;</div><div class="line">#include&lt;queue&gt;</div><div class="line">#define pb push_back</div><div class="line">#define debug puts(&quot;=====================&quot;);</div><div class="line">using namespace std;</div><div class="line">typedef long long ll;</div><div class="line">const int mod = 2520;</div><div class="line">ll dp[20][mod][48];</div><div class="line">ll l, r;</div><div class="line">int num[mod + 10], cnt, t, bit[20];</div><div class="line">void init() &#123;</div><div class="line">	for (int i = 1; i &lt;= mod; i++) if (mod % i == 0) &#123;</div><div class="line">		num[i] = cnt++;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">int gcd(int x, int y) &#123;</div><div class="line">	if (!y) return x;</div><div class="line">	return gcd(y, x % y);</div><div class="line">&#125;</div><div class="line">int lcm(int x, int y) &#123;</div><div class="line">	return x / gcd(x, y) * y;</div><div class="line">&#125;</div><div class="line">ll dfs(int pos, int pre, int prelcm, bool flag) &#123;</div><div class="line">	if (pos == -1) return (pre % prelcm == 0);</div><div class="line">	ll ret = dp[pos][pre][num[prelcm]];</div><div class="line">	if (!flag &amp;&amp; ret != -1) return ret;</div><div class="line">	int u = flag ? bit[pos] : 9;</div><div class="line">	ret = 0;</div><div class="line">	for (int i = 0; i &lt;= u; i++) &#123;</div><div class="line">		int now = (pre * 10 + i) % mod;</div><div class="line">		int nowlcm = prelcm;</div><div class="line">		if (i) nowlcm = lcm(prelcm, i);</div><div class="line">		ret += dfs(pos - 1, now, nowlcm, (i == u ? 1 : 0) &amp;&amp; flag);</div><div class="line">	&#125;</div><div class="line">	if (!flag) dp[pos][pre][num[prelcm]] = ret;</div><div class="line">	return ret;</div><div class="line">&#125;</div><div class="line">ll calc(ll x) &#123;</div><div class="line">	int pos = 0;</div><div class="line">	while(x) &#123;</div><div class="line">		bit[pos++] = x % 10;</div><div class="line">		x /= 10;</div><div class="line">	&#125;</div><div class="line">	return dfs(pos - 1, 0, 1, 1);</div><div class="line">&#125;</div><div class="line">int main () &#123;</div><div class="line">	init();</div><div class="line">	memset(dp, -1, sizeof(dp));</div><div class="line">	scanf(&quot;%d&quot;, &amp;t);</div><div class="line">	while(t--) &#123;</div><div class="line">		scanf(&quot;%I64d%I64d&quot;, &amp;l, &amp;r);</div><div class="line">		printf(&quot;%I64d\n&quot;, calc(r) - calc(l - 1));</div><div class="line">	&#125;</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2015/08/08/hdu5057/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2015/08/16/hdu4986/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/books/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              书单
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'SIO__Five';
+    
+    var disqus_url = 'http://yoursite.com/2015/08/16/CF55D/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//SIO__Five.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

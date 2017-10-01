@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>HDU 5058 Harry And Math Teacher（dp+矩阵+线段树） | SIO__Five</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="dp,线段树,矩阵," />
+  
+
+  <meta name="description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5058 题意有n层楼，每一层有两扇门。从第i层楼到第i+1层楼有4条路，即从i层的每扇门到i+1层的每扇门都有一条路。现在有两种操作，一种是将第i层到第i+1层的某条路给干掉（或者重新修好）。另一种是询问从第i层到第j层有多少不同的路。 思路假设到第i层的第一扇门为dp[i][1]种，第二扇们有dp[">
+<meta name="keywords" content="dp,线段树,矩阵">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HDU 5058 Harry And Math Teacher（dp+矩阵+线段树）">
+<meta property="og:url" content="http://yoursite.com/2015/08/18/hdu5058/index.html">
+<meta property="og:site_name" content="SIO__Five">
+<meta property="og:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5058 题意有n层楼，每一层有两扇门。从第i层楼到第i+1层楼有4条路，即从i层的每扇门到i+1层的每扇门都有一条路。现在有两种操作，一种是将第i层到第i+1层的某条路给干掉（或者重新修好）。另一种是询问从第i层到第j层有多少不同的路。 思路假设到第i层的第一扇门为dp[i][1]种，第二扇们有dp[">
+<meta property="og:updated_time" content="2015-08-18T14:19:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HDU 5058 Harry And Math Teacher（dp+矩阵+线段树）">
+<meta name="twitter:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5058 题意有n层楼，每一层有两扇门。从第i层楼到第i+1层楼有4条路，即从i层的每扇门到i+1层的每扇门都有一条路。现在有两种操作，一种是将第i层到第i+1层的某条路给干掉（或者重新修好）。另一种是询问从第i层到第j层有多少不同的路。 思路假设到第i层的第一扇门为dp[i][1]种，第二扇们有dp[">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/books/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            书单
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#题意"><span class="toc-text">题意</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#思路"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#更新日志"><span class="toc-text">更新日志</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-hdu5058" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">HDU 5058 Harry And Math Teacher（dp+矩阵+线段树）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.08.18</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>SIO__Five</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/ACM/">ACM</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.forsigner.com/2015/08/18/hdu5058/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>源地址：<a href="http://acm.hdu.edu.cn/showproblem.php?pid=5058" target="_blank" rel="external">http://acm.hdu.edu.cn/showproblem.php?pid=5058</a></p>
+<h1 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h1><p>有n层楼，每一层有两扇门。从第i层楼到第i+1层楼有4条路，即从i层的每扇门到i+1层的每扇门都有一条路。现在有两种操作，一种是将第i层到第i+1层的某条路给干掉（或者重新修好）。另一种是询问从第i层到第j层有多少不同的路。</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>假设到第i层的第一扇门为dp[i][1]种，第二扇们有dp[i][2]中。那么<br>dp[i + 1][1] = a1 <em> dp[i][1] + a2 </em> dp[i][2]<br>dp[i + 1][2] = b1 <em> dp[i][2] + b2 </em> dp[i][2]<br>所以就相当于从第i层到第i+1层只需要乘以一个转换矩阵即可。而一开始转换矩阵中元素都为1。当有一条路被干掉则变为0<br>于是这道题就变成线段树维护矩阵乘积，单点更新，区间求乘积</p>
+<a id="more"></a>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line">#include&lt;cmath&gt;</div><div class="line">#include&lt;algorithm&gt;</div><div class="line">#include&lt;cstring&gt;</div><div class="line">#include&lt;string&gt;</div><div class="line">#include&lt;cstdio&gt;</div><div class="line">#include&lt;vector&gt;</div><div class="line">#define pb push_back</div><div class="line">#define debug puts(&quot;=====================&quot;);</div><div class="line">#define lson l, m, rt &lt;&lt; 1</div><div class="line">#define rson m + 1, r, rt &lt;&lt; 1 | 1</div><div class="line">using namespace std;</div><div class="line">typedef long long ll;</div><div class="line">int n, m;</div><div class="line">const int N = 50000 + 100;</div><div class="line">const ll mod = 1000000007;</div><div class="line">struct node &#123;</div><div class="line">    ll a[2][2];</div><div class="line">    void clr() &#123;</div><div class="line">        memset(a, 0, sizeof(a));</div><div class="line">    &#125;</div><div class="line">    void uni() &#123;</div><div class="line">        for (int i = 0; i &lt; 2; i++)</div><div class="line">            for (int j = 0; j &lt; 2; j++) a[i][j] = 1;</div><div class="line">    &#125;</div><div class="line">    void one() &#123;</div><div class="line">        for (int i = 0; i &lt; 2; i++) &#123;</div><div class="line">            for (int j = 0; j &lt; 2; j++) a[i][j] = 0;</div><div class="line">            a[i][i] = 1;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    void out() &#123;</div><div class="line">        for (int i = 0; i &lt; 2; i++) &#123;</div><div class="line">            for (int j = 0; j &lt; 2; j++) cout&lt;&lt;a[i][j]&lt;&lt;&quot; &quot;;</div><div class="line">            cout&lt;&lt;endl;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    ll get() &#123;</div><div class="line">        ll ans = 0;</div><div class="line">        for (int i = 0; i &lt; 2; i++)</div><div class="line">            for (int j = 0; j &lt; 2; j++) ans += a[i][j], ans %= mod;</div><div class="line">        return ans;</div><div class="line">    &#125;</div><div class="line">    node operator * (const node &amp; T) &#123;</div><div class="line">        node tmp;</div><div class="line">        memset(tmp.a, 0, sizeof(tmp.a));</div><div class="line">        for (int i = 0; i &lt; 2; i++)</div><div class="line">            for (int j = 0; j &lt; 2; j++)</div><div class="line">                for (int k = 0; k &lt; 2; k++)</div><div class="line">                    tmp.a[i][j] += a[i][k] * T.a[k][j], tmp.a[i][j] %= mod;</div><div class="line">        return tmp;</div><div class="line">    &#125;</div><div class="line">&#125;mul[N &lt;&lt; 2], tmp;</div><div class="line">void pushup(int rt) &#123;</div><div class="line">    mul[rt].clr();</div><div class="line">    mul[rt] = mul[rt &lt;&lt; 1] * mul[rt &lt;&lt; 1 | 1];</div><div class="line">&#125;</div><div class="line">void build(int l, int r, int rt) &#123;</div><div class="line">    if (l == r) &#123;</div><div class="line">        mul[rt].uni();</div><div class="line">        return ;</div><div class="line">    &#125;</div><div class="line">    int m = (l + r) &gt;&gt; 1;</div><div class="line">    build(lson);</div><div class="line">    build(rson);</div><div class="line">    pushup(rt);</div><div class="line">&#125;</div><div class="line">void update(int L, int R, int y, int z, int l, int r, int rt) &#123;</div><div class="line">    if (L &lt;= l &amp;&amp; r &lt;= R) &#123;</div><div class="line">        mul[rt].a[y][z] ^= 1;</div><div class="line">        //mul[rt].out();</div><div class="line">        return ;</div><div class="line">    &#125;</div><div class="line">    int m = (l + r) &gt;&gt; 1;</div><div class="line">    if (L &lt;= m) update(L, R, y, z, lson);</div><div class="line">    if (R &gt; m) update(L, R, y, z, rson);</div><div class="line">    pushup(rt);</div><div class="line">&#125;</div><div class="line">node query(int L, int R, int l, int r, int rt) &#123;</div><div class="line">    if (L &lt;= l &amp;&amp; r &lt;= R) &#123;</div><div class="line">        return mul[rt];</div><div class="line">    &#125;</div><div class="line">    int m = (l + r) &gt;&gt; 1;</div><div class="line">    node ret;</div><div class="line">    ret.one();</div><div class="line">    if (L &lt;= m) ret = ret * query(L, R, lson);</div><div class="line">    if (R &gt; m) ret = ret * query(L, R, rson);</div><div class="line">    return ret;</div><div class="line">&#125;</div><div class="line">int main () &#123;</div><div class="line">    int op, a, b, x, y, z;</div><div class="line">    while(~scanf(&quot;%d%d&quot;, &amp;n, &amp;m)) &#123;</div><div class="line">        n--;</div><div class="line">        build(1, n, 1);</div><div class="line">        while(m--) &#123;</div><div class="line">            scanf(&quot;%d&quot;, &amp;op);</div><div class="line">            if (op == 0) &#123;</div><div class="line">                scanf(&quot;%d%d&quot;, &amp;a, &amp;b);</div><div class="line">                tmp = query(a, b - 1, 1, n, 1);</div><div class="line">                printf(&quot;%I64d\n&quot;, tmp.get());</div><div class="line">            &#125; else &#123;</div><div class="line">                scanf(&quot;%d%d%d&quot;, &amp;x, &amp;y, &amp;z);</div><div class="line">                if (y == 1 &amp;&amp; z == 1) y = 0, z = 0;</div><div class="line">                else if (y == 1 &amp;&amp; z == 2) y = 0, z = 1;</div><div class="line">                else if (y == 2 &amp;&amp; z == 1) y = 1, z = 0;</div><div class="line">                else y = 1, z = 1;</div><div class="line">                update(x, x, y, z, 1, n, 1);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="更新日志"><a href="#更新日志" class="headerlink" title="更新日志"></a>更新日志</h1><ul>
+<li>14562794  2015-08-18 21:47:28 Accepted    5068    795MS   5688K   2508 B  G++ SIO__Five</li>
+</ul>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2015/08/18/hdu5067/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2015/08/19/hdu5103/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/books/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              书单
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'SIO__Five';
+    
+    var disqus_url = 'http://yoursite.com/2015/08/18/hdu5058/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//SIO__Five.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

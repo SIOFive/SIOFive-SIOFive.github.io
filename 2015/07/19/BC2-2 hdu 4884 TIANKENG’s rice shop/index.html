@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>HDU 4884 TIANKENG&#39;s rice shop（模拟） | SIO__Five</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="模拟," />
+  
+
+  <meta name="description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=4884 题意有一家餐厅，有n种炒饭，每次炒一次饭需要t时间，其中炒一次饭有k碗。有m个人来到在某一个时间来到餐厅，他点了num碗第id种的炒饭。问每一个客人最早离开餐厅的时间。在炒饭过程中，保证先来先服务。但是每次炒会炒尽可能多的份数，不过不会有多余的。 思路这道模拟题特别恶心。。举个例子，比如每次可">
+<meta name="keywords" content="模拟">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HDU 4884 TIANKENG&#39;s rice shop（模拟）">
+<meta property="og:url" content="http://yoursite.com/2015/07/19/BC2-2 hdu 4884 TIANKENG’s rice shop/index.html">
+<meta property="og:site_name" content="SIO__Five">
+<meta property="og:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=4884 题意有一家餐厅，有n种炒饭，每次炒一次饭需要t时间，其中炒一次饭有k碗。有m个人来到在某一个时间来到餐厅，他点了num碗第id种的炒饭。问每一个客人最早离开餐厅的时间。在炒饭过程中，保证先来先服务。但是每次炒会炒尽可能多的份数，不过不会有多余的。 思路这道模拟题特别恶心。。举个例子，比如每次可">
+<meta property="og:updated_time" content="2015-07-19T12:47:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HDU 4884 TIANKENG&#39;s rice shop（模拟）">
+<meta name="twitter:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=4884 题意有一家餐厅，有n种炒饭，每次炒一次饭需要t时间，其中炒一次饭有k碗。有m个人来到在某一个时间来到餐厅，他点了num碗第id种的炒饭。问每一个客人最早离开餐厅的时间。在炒饭过程中，保证先来先服务。但是每次炒会炒尽可能多的份数，不过不会有多余的。 思路这道模拟题特别恶心。。举个例子，比如每次可">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/books/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            书单
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#题意"><span class="toc-text">题意</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#思路"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#更新日志"><span class="toc-text">更新日志</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-BC2-2 hdu 4884 TIANKENG’s rice shop" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">HDU 4884 TIANKENG&#39;s rice shop（模拟）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.07.19</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>SIO__Five</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/ACM/">ACM</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.forsigner.com/2015/07/19/BC2-2 hdu 4884 TIANKENG’s rice shop/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>源地址：<a href="http://acm.hdu.edu.cn/showproblem.php?pid=4884" target="_blank" rel="external">http://acm.hdu.edu.cn/showproblem.php?pid=4884</a></p>
+<h1 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h1><p>有一家餐厅，有n种炒饭，每次炒一次饭需要t时间，其中炒一次饭有k碗。有m个人来到在某一个时间来到餐厅，他点了num碗第id种的炒饭。问每一个客人最早离开餐厅的时间。<br>在炒饭过程中，保证先来先服务。但是每次炒会炒尽可能多的份数，不过不会有多余的。</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>这道模拟题特别恶心。。<br>举个例子，比如每次可以炒5份，每次5分钟。<br>第一个顾客08:00进来，点了2份A，<br>第二个顾客08:04进来，点了3份A。<br>在08:00开始炒的话，由于这个时候第二个顾客还没进来，所以就只炒2份，第一个顾客在08:05离开，这时才炒第二个的3份，所以第二个离开时间是08:10。</p>
+<p>同样是每次可以炒5份，每次5分钟。<br>第一个顾客08:00进来，点了6份A，<br>第二个顾客08:01进来，点了5份B，<br>第三个顾客08:02进来，点了4份A。<br>同样地，先炒5份给第一个，还差一份，这是已经是08:05了，第三个顾客也进来了，所以这时直接炒5份A（因为会尽可能多地炒），08：10第一个和第三个可以同时离开。接着才炒第二个的。</p>
+<p>我的做法时，每次服务某个客人时，判断最多能够多炒几份饭，然后分给后来的客人。<br>这道题还有一个坑的地方是，客人最后离开的时间可能会超过24小时，需要取模。</p>
+<a id="more"></a>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line">#include&lt;cstring&gt;</div><div class="line">#include&lt;cstdio&gt;</div><div class="line">#include&lt;cmath&gt;</div><div class="line">#include&lt;algorithm&gt;</div><div class="line">using namespace std;</div><div class="line">int T, n, t, k, m;</div><div class="line">int a[1010], id[1010], num[1010], out[1010], kind[1010];</div><div class="line">int main () &#123;</div><div class="line">    scanf(&quot;%d&quot;, &amp;T);</div><div class="line">    while(T--) &#123;</div><div class="line">        scanf(&quot;%d%d%d%d&quot;, &amp;n ,&amp;t, &amp;k, &amp;m);</div><div class="line">        //memset(kind, 0, sizeof(kind));</div><div class="line">        int x, y, now = 0;</div><div class="line">        for (int i = 0; i &lt; m; i++) &#123;</div><div class="line">            scanf(&quot;%d:%d%d%d&quot;, &amp;x, &amp;y, &amp;id[i], &amp;num[i]);</div><div class="line">            a[i] = x * 60 + y;</div><div class="line">        &#125;</div><div class="line">        for (int i = 0; i &lt; m; i++) &#123;</div><div class="line">            if (!i) now = 0;</div><div class="line">            else now = max(now, a[i - 1]);</div><div class="line">            //cout&lt;&lt;num[i]&lt;&lt;endl;</div><div class="line">            if (!num[i]) continue;</div><div class="line">            now = out[i] = max(now, a[i]) + (num[i] + k - 1) / k * t;</div><div class="line">            int tmp = k - num[i] % k;</div><div class="line">            if (tmp == k) continue;</div><div class="line">            for (int j = i + 1; j &lt; m; j++) &#123;</div><div class="line">                if (a[j] &gt; out[i] - t) break;</div><div class="line">                if (id[j] == id[i]) &#123;</div><div class="line">                    if (num[j] &lt;= tmp) &#123;</div><div class="line">                        tmp -= num[j];</div><div class="line">                        num[j] = 0;</div><div class="line">                        out[j] = max(out[i], a[j]);</div><div class="line">                    &#125; else &#123;</div><div class="line">                        num[j] -= tmp;</div><div class="line">                        tmp = 0;</div><div class="line">                    &#125;</div><div class="line">                    //cout&lt;&lt;j&lt;&lt;&quot;-------------&quot;&lt;&lt;tmp&lt;&lt;endl;</div><div class="line">                    if (!tmp) break;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        for (int i = 0; i &lt; m; i++) printf(&quot;%02d:%02d\n&quot;, (out[i] % 1440) / 60, (out[i] % 1440) % 60);</div><div class="line">        if (T) puts(&quot;&quot;);</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="更新日志"><a href="#更新日志" class="headerlink" title="更新日志"></a>更新日志</h1><ul>
+<li>14055192  2015-07-18 21:42:51 Accepted    4884    93MS    1608K   1565 B  G++ SIO__Five</li>
+</ul>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2015/07/19/BC2-1 hdu 4883 TIANKENG’s restaurant/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2015/07/19/BC2-4 hdu 4886 TIANKENG’s restaurant(Ⅱ)/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/books/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              书单
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'SIO__Five';
+    
+    var disqus_url = 'http://yoursite.com/2015/07/19/BC2-2 hdu 4884 TIANKENG’s rice shop/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//SIO__Five.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

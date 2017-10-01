@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>POJ2104 K-th Number（静态区间第K大 主席树） | SIO__Five</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="数据结构,主席树," />
+  
+
+  <meta name="description" content="题目源地址：http://poj.org/problem?id=2104 题意静态查询区间第K大数 思路http://www.cnblogs.com/Empress/p/4652449.html主席数利用函数式线段树来维护数列，即每一个前缀维护一个线段树。再利用两个相邻的线段树只需要修改log级别，所以空间也能开下。一般用来解决区间第k大问题">
+<meta name="keywords" content="数据结构,主席树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="POJ2104 K-th Number（静态区间第K大 主席树）">
+<meta property="og:url" content="http://yoursite.com/2015/10/22/POJ2104/index.html">
+<meta property="og:site_name" content="SIO__Five">
+<meta property="og:description" content="题目源地址：http://poj.org/problem?id=2104 题意静态查询区间第K大数 思路http://www.cnblogs.com/Empress/p/4652449.html主席数利用函数式线段树来维护数列，即每一个前缀维护一个线段树。再利用两个相邻的线段树只需要修改log级别，所以空间也能开下。一般用来解决区间第k大问题">
+<meta property="og:updated_time" content="2015-10-22T14:04:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="POJ2104 K-th Number（静态区间第K大 主席树）">
+<meta name="twitter:description" content="题目源地址：http://poj.org/problem?id=2104 题意静态查询区间第K大数 思路http://www.cnblogs.com/Empress/p/4652449.html主席数利用函数式线段树来维护数列，即每一个前缀维护一个线段树。再利用两个相邻的线段树只需要修改log级别，所以空间也能开下。一般用来解决区间第k大问题">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/books/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            书单
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#题意"><span class="toc-text">题意</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#思路"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-POJ2104" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">POJ2104 K-th Number（静态区间第K大 主席树）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.10.22</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>SIO__Five</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/ACM/">ACM</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.forsigner.com/2015/10/22/POJ2104/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>源地址：<a href="http://poj.org/problem?id=2104" target="_blank" rel="external">http://poj.org/problem?id=2104</a></p>
+<h1 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h1><p>静态查询区间第K大数</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p><a href="http://www.cnblogs.com/Empress/p/4652449.html" target="_blank" rel="external">http://www.cnblogs.com/Empress/p/4652449.html</a><br>主席数利用函数式线段树来维护数列，即每一个前缀维护一个线段树。再利用两个相邻的线段树只需要修改log级别，所以空间也能开下。一般用来解决区间第k大问题</p>
+<a id="more"></a>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line">#include&lt;cmath&gt;</div><div class="line">#include&lt;algorithm&gt;</div><div class="line">#include&lt;cstring&gt;</div><div class="line">#include&lt;string&gt;</div><div class="line">#include&lt;cstdio&gt;</div><div class="line">#include&lt;vector&gt;</div><div class="line">#define pb push_back</div><div class="line">#define INF 1 &lt;&lt; 30</div><div class="line">#define fi first</div><div class="line">#define se second</div><div class="line">#define debug puts(&quot;=====================&quot;);</div><div class="line">using namespace std;</div><div class="line">typedef long long ll;</div><div class="line">#define lson l, m</div><div class="line">#define rson m + 1, r</div><div class="line">const int N = 1e5 + 5;</div><div class="line">int ln[N &lt;&lt; 5], rn[N &lt;&lt; 5], sum[N &lt;&lt; 5];</div><div class="line">int tot;</div><div class="line">int a[N], root[N], b[N];</div><div class="line">int build(int l, int r) &#123;</div><div class="line">    int rt = ++tot;</div><div class="line">    sum[rt] = 0;</div><div class="line">    if (l &lt; r) &#123;</div><div class="line">        int m = l + r &gt;&gt; 1;</div><div class="line">        ln[rt] = build(lson);</div><div class="line">        rn[rt] = build(rson);</div><div class="line">    &#125;</div><div class="line">    return rt;</div><div class="line">&#125;</div><div class="line">int update(int pre, int l, int r, int x) &#123;</div><div class="line">    int rt = ++tot;</div><div class="line">    ln[rt] = ln[pre], rn[rt] = rn[pre], sum[rt] = sum[pre] + 1;</div><div class="line">    if (l &lt; r) &#123;</div><div class="line">        int m = l + r &gt;&gt; 1;</div><div class="line">        if (x &lt;= m) ln[rt] = update(ln[pre], lson, x);</div><div class="line">        else rn[rt] = update(rn[pre], rson, x);</div><div class="line">    &#125;</div><div class="line">    return rt;</div><div class="line">&#125;</div><div class="line">int query(int u, int v, int l, int r, int k) &#123;</div><div class="line">    if (l &gt;= r) return l;</div><div class="line">    int m = l + r &gt;&gt; 1;</div><div class="line">    int num = sum[ln[v]] - sum[ln[u]];</div><div class="line">    if (num &gt;= k) return query(ln[u], ln[v], lson, k);</div><div class="line">    else return query(rn[u], rn[v], rson, k - num);</div><div class="line">&#125;</div><div class="line">int main () &#123;</div><div class="line">    tot = 0;</div><div class="line">    int n, m;</div><div class="line">    scanf(&quot;%d%d&quot;, &amp;n, &amp;m);</div><div class="line">    for (int i = 1; i &lt;= n; i++) scanf(&quot;%d&quot;, a + i), b[i] = a[i];</div><div class="line">    sort(b + 1, b + n + 1);</div><div class="line">    int cnt = unique(b + 1, b + n + 1) - b - 1;</div><div class="line">    root[0] = build(1, cnt);</div><div class="line">    for (int i = 1; i &lt;= n; i++) &#123;</div><div class="line">        int x = lower_bound(b + 1, b + n + 1, a[i]) - b;</div><div class="line">        root[i] = update(root[i - 1], 1, cnt, x);</div><div class="line">    &#125;</div><div class="line">    while(m--) &#123;</div><div class="line">        int l, r, k;</div><div class="line">        scanf(&quot;%d%d%d&quot;, &amp;l, &amp;r, &amp;k);</div><div class="line">        int x = query(root[l - 1], root[r], 1, cnt, k);</div><div class="line">        printf(&quot;%d\n&quot;, b[x]);</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+    
+  </div>
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2015/10/22/SPOJ-DQUERY/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2015/10/28/ZOJ2112/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/books/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              书单
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'SIO__Five';
+    
+    var disqus_url = 'http://yoursite.com/2015/10/22/POJ2104/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//SIO__Five.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

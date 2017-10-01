@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>POJ 2528 Mayor&#39;s posters（线段树） | SIO__Five</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="数据结构,线段树," />
+  
+
+  <meta name="description" content="题目源地址：http://poj.org/problem?id=2528 题意有一块长度为$1e7$的板子，现在有$n$张海报，依次贴上板子，后面的海报会覆盖前面的海报。每张海报占据[l, r]的区间。求最后能够在板子上看到多少张海报。数据范围：$1{\leq}n{\leq}1e4$, $1{\leq}l,r{\leq}1e7$ 如图所示51 42 68 103 47 10答案为4 思路由于区间范">
+<meta name="keywords" content="数据结构,线段树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="POJ 2528 Mayor&#39;s posters（线段树）">
+<meta property="og:url" content="http://yoursite.com/2014/10/30/poj 2528 线段树/index.html">
+<meta property="og:site_name" content="SIO__Five">
+<meta property="og:description" content="题目源地址：http://poj.org/problem?id=2528 题意有一块长度为$1e7$的板子，现在有$n$张海报，依次贴上板子，后面的海报会覆盖前面的海报。每张海报占据[l, r]的区间。求最后能够在板子上看到多少张海报。数据范围：$1{\leq}n{\leq}1e4$, $1{\leq}l,r{\leq}1e7$ 如图所示51 42 68 103 47 10答案为4 思路由于区间范">
+<meta property="og:image" content="http://siofive.qiniudn.com/2528_1.jpg">
+<meta property="og:updated_time" content="2014-10-30T13:18:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="POJ 2528 Mayor&#39;s posters（线段树）">
+<meta name="twitter:description" content="题目源地址：http://poj.org/problem?id=2528 题意有一块长度为$1e7$的板子，现在有$n$张海报，依次贴上板子，后面的海报会覆盖前面的海报。每张海报占据[l, r]的区间。求最后能够在板子上看到多少张海报。数据范围：$1{\leq}n{\leq}1e4$, $1{\leq}l,r{\leq}1e7$ 如图所示51 42 68 103 47 10答案为4 思路由于区间范">
+<meta name="twitter:image" content="http://siofive.qiniudn.com/2528_1.jpg">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/books/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            书单
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#题意"><span class="toc-text">题意</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#思路"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#更新日志"><span class="toc-text">更新日志</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-poj 2528 线段树" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">POJ 2528 Mayor&#39;s posters（线段树）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2014.10.30</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>SIO__Five</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/ACM/">ACM</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.forsigner.com/2014/10/30/poj 2528 线段树/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>源地址：<a href="http://poj.org/problem?id=2528" target="_blank" rel="external">http://poj.org/problem?id=2528</a></p>
+<h1 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h1><p>有一块长度为$1e7$的板子，现在有$n$张海报，依次贴上板子，后面的海报会覆盖前面的海报。每张海报占据[l, r]的区间。<br>求最后能够在板子上看到多少张海报。<br>数据范围：$1{\leq}n{\leq}1e4$, $1{\leq}l,r{\leq}1e7$</p>
+<p>如图所示<br><img src="http://siofive.qiniudn.com/2528_1.jpg" alt=""><br>5<br>1 4<br>2 6<br>8 10<br>3 4<br>7 10<br>答案为4</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>由于区间范围很大，但海报数相对较少，所以可以将海报的坐标离散化。<br>离散化之后再用线段树维护。<br>线段树成段更新，update：成段修改    query：区间求种类数<br><a id="more"></a></p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line">#include&lt;cstdio&gt;</div><div class="line">#include&lt;cmath&gt;</div><div class="line">#include&lt;algorithm&gt;</div><div class="line">#include&lt;cstring&gt;</div><div class="line">using namespace std;</div><div class="line">#define lson l, m, rt &lt;&lt; 1</div><div class="line">#define rson m + 1, r, rt &lt;&lt; 1 | 1</div><div class="line">const int maxn = 11111;</div><div class="line">int col[maxn &lt;&lt; 4];</div><div class="line">int x[maxn &lt;&lt; 2];</div><div class="line">int l[maxn], r[maxn], ans;</div><div class="line">bool has[maxn];</div><div class="line">void pushdown(int rt) &#123;</div><div class="line">    if (col[rt] != -1) &#123;</div><div class="line">        col[rt &lt;&lt; 1] = col[rt &lt;&lt; 1 | 1] = col[rt];</div><div class="line">        col[rt] = -1;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">void update(int L, int R, int c, int l, int r, int rt) &#123;</div><div class="line">    if (L &lt;= l &amp;&amp; r &lt;= R) &#123;</div><div class="line">        col[rt] = c;</div><div class="line">        return ;</div><div class="line">    &#125;</div><div class="line">    pushdown(rt);</div><div class="line">    int m = (l + r) &gt;&gt; 1;</div><div class="line">    if (L &lt;= m) update(L, R, c, lson);</div><div class="line">    if (R &gt; m) update(L, R, c, rson);</div><div class="line">&#125;</div><div class="line">void query(int l, int r, int rt) &#123;</div><div class="line">    if (col[rt] != -1) &#123;</div><div class="line">        if (!has[col[rt]]) ans++;</div><div class="line">        has[col[rt]] = true;</div><div class="line">        return ;</div><div class="line">    &#125;</div><div class="line">    if (l == r) return ;</div><div class="line">    int m = (l + r) &gt;&gt; 1;</div><div class="line">    query(lson);</div><div class="line">    query(rson);</div><div class="line">&#125;</div><div class="line">int main () &#123;</div><div class="line">    int T, n;</div><div class="line">    scanf(&quot;%d&quot;, &amp;T);</div><div class="line">    while(T--) &#123;</div><div class="line">        scanf(&quot;%d&quot;, &amp;n);</div><div class="line">        int cnt = 0;</div><div class="line">        for (int i = 0; i &lt; n; i++) &#123;</div><div class="line">            scanf(&quot;%d%d&quot;, l + i, r + i);</div><div class="line">            x[cnt++] = l[i], x[cnt++] = r[i];</div><div class="line">        &#125;</div><div class="line">        sort(x, x + cnt);</div><div class="line">        cnt = unique(x, x + cnt) - x;</div><div class="line">        memset(col, -1, sizeof(col));</div><div class="line">        for (int i = 0; i &lt; n; i++) &#123;</div><div class="line">            int a = lower_bound(x, x + cnt, l[i]) - x;</div><div class="line">            int b = lower_bound(x, x + cnt, r[i]) - x;</div><div class="line">            update(a, b, i, 0, cnt, 1);</div><div class="line">        &#125;</div><div class="line">        ans = 0;</div><div class="line">        memset(has, 0, sizeof(has));</div><div class="line">        query(0, cnt, 1);</div><div class="line">        printf(&quot;%d\n&quot;, ans);</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="更新日志"><a href="#更新日志" class="headerlink" title="更新日志"></a>更新日志</h1><ul>
+<li>13582214    SIO__Five    2528    Accepted    1536K    63MS    G++    1718B    2014-10-30 20:42:27</li>
+</ul>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2014/10/29/poj 3468 线段树/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2014/10/31/poj 3225 线段树/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/books/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              书单
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'SIO__Five';
+    
+    var disqus_url = 'http://yoursite.com/2014/10/30/poj 2528 线段树/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//SIO__Five.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

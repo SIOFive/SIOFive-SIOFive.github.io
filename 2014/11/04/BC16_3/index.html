@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>hdu 5088 Revenge of Nim II (高斯消元) | SIO__Five</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="博弈,高斯消元," />
+  
+
+  <meta name="description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5088 题意Nim游戏的后手作弊移走一些整堆的物体（不能全拿走），可以保证先手必败吗？">
+<meta name="keywords" content="博弈,高斯消元">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hdu 5088 Revenge of Nim II (高斯消元)">
+<meta property="og:url" content="http://yoursite.com/2014/11/04/BC16_3/index.html">
+<meta property="og:site_name" content="SIO__Five">
+<meta property="og:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5088 题意Nim游戏的后手作弊移走一些整堆的物体（不能全拿走），可以保证先手必败吗？">
+<meta property="og:updated_time" content="2014-11-07T15:50:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hdu 5088 Revenge of Nim II (高斯消元)">
+<meta name="twitter:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5088 题意Nim游戏的后手作弊移走一些整堆的物体（不能全拿走），可以保证先手必败吗？">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/books/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            书单
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#题意"><span class="toc-text">题意</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#思路"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#更新日志"><span class="toc-text">更新日志</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-BC16_3" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">hdu 5088 Revenge of Nim II (高斯消元)</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2014.11.04</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>SIO__Five</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/ACM/">ACM</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.forsigner.com/2014/11/04/BC16_3/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>源地址：<a href="http://acm.hdu.edu.cn/showproblem.php?pid=5088" target="_blank" rel="external">http://acm.hdu.edu.cn/showproblem.php?pid=5088</a></p>
+<h1 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h1><p>Nim游戏的后手作弊移走一些整堆的物体（不能全拿走），可以保证先手必败吗？</p>
+<a id="more"></a>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>Nim游戏先手必败的条件是$XORSum(a[i])=0$。后手的目的就是找到这样的一个非空子集。把这里的a[i]看做一个每位为0或1的行，所有的数字组成一个矩阵，矩阵空间的运算是XOR。<br>可以发现，$10^{12}$最多为40位二进制，所以当数字个数大于40时，对该矩阵高斯消元之后，一定有某些行全为0，代表着该数字和其他数字异或之后为0。<br>当数字个数小于等于40时，对该矩阵进行高斯消元，如果矩阵的秩小于数字个数，代表能异或为0。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line">ID: wuqi9395@126.com</div><div class="line">PROG:</div><div class="line">LANG: C++</div><div class="line">*/</div><div class="line">#include&lt;map&gt;</div><div class="line">#include&lt;set&gt;</div><div class="line">#include&lt;queue&gt;</div><div class="line">#include&lt;stack&gt;</div><div class="line">#include&lt;cmath&gt;</div><div class="line">#include&lt;cstdio&gt;</div><div class="line">#include&lt;vector&gt;</div><div class="line">#include&lt;string&gt;</div><div class="line">#include&lt;fstream&gt;</div><div class="line">#include&lt;cstring&gt;</div><div class="line">#include&lt;ctype.h&gt;</div><div class="line">#include&lt;iostream&gt;</div><div class="line">#include&lt;algorithm&gt;</div><div class="line">using namespace std;</div><div class="line">#define INF (1 &lt;&lt; 30)</div><div class="line">#define LINF (1LL &lt;&lt; 60)</div><div class="line">#define PI acos(-1.0)</div><div class="line">#define mem(a, b) memset(a, b, sizeof(a))</div><div class="line">#define rep(i, a, n) for (int i = a; i &lt; n; i++)</div><div class="line">#define per(i, a, n) for (int i = n - 1; i &gt;= a; i--)</div><div class="line">#define eps 1e-6</div><div class="line">#define debug puts(&quot;===============&quot;)</div><div class="line">#define pb push_back</div><div class="line">#define mkp make_pair</div><div class="line">#define all(x) (x).begin(),(x).end()</div><div class="line">#define fi first</div><div class="line">#define se second</div><div class="line">#define SZ(x) ((int)(x).size())</div><div class="line">#define POSIN(x,y) (0 &lt;= (x) &amp;&amp; (x) &lt; n &amp;&amp; 0 &lt;= (y) &amp;&amp; (y) &lt; m)</div><div class="line">typedef long long ll;</div><div class="line">typedef unsigned long long ULL;</div><div class="line">const int maxn = 65;</div><div class="line">const int N = 1010;</div><div class="line">ll a[N];</div><div class="line">int b[maxn][maxn];</div><div class="line">int rnk(int a[maxn][maxn], int n, int m) &#123;</div><div class="line">    int ret = 0;</div><div class="line">    for (int i = 0, pivot = 0; i &lt; n &amp;&amp; pivot &lt; m; ++pivot) &#123;</div><div class="line">        int pos = -1;</div><div class="line">        for (int j = i; j &lt; n; j++) &#123;</div><div class="line">            if (a[j][pivot] == 1) &#123;</div><div class="line">                pos = j;</div><div class="line">                break;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        if (pos == -1) continue;</div><div class="line">        if (pos != i) &#123;</div><div class="line">            for (int j = pivot; j &lt; m; j++) swap(a[i][j], a[pos][j]);</div><div class="line">        &#125;</div><div class="line">        ++ret;</div><div class="line">        for (int j = 0; j &lt; n; j++) &#123;</div><div class="line">            if (a[j][pivot] &amp;&amp; j != i) &#123;</div><div class="line">                for (int k = pivot; k &lt; m; k++) a[j][k] ^= a[i][k];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        i++;</div><div class="line">    &#125;</div><div class="line">    return ret;</div><div class="line">&#125;</div><div class="line">int main () &#123;</div><div class="line">    int t, n;</div><div class="line">    scanf(&quot;%d&quot;, &amp;t);</div><div class="line">    while(t--) &#123;</div><div class="line">        ll sum = 0;</div><div class="line">        scanf(&quot;%d&quot;, &amp;n);</div><div class="line">        for (int i = 0; i &lt; n; i++) &#123;</div><div class="line">            scanf(&quot;%I64d&quot;, a + i);</div><div class="line">            sum ^= a[i];</div><div class="line">        &#125;</div><div class="line">        if (n &gt; maxn || sum == 0) &#123;</div><div class="line">            puts(&quot;Yes&quot;);</div><div class="line">            continue;</div><div class="line">        &#125;</div><div class="line">        for (int i = 0; i &lt; n; i++) &#123;</div><div class="line">            for (int j = 0; j &lt; maxn; j++) &#123;</div><div class="line">                b[i][j] = a[i] &gt;&gt; j &amp; 1;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        if (rnk(b, n, maxn) &lt; n) puts(&quot;Yes&quot;);</div><div class="line">        else puts(&quot;No&quot;);</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="更新日志"><a href="#更新日志" class="headerlink" title="更新日志"></a>更新日志</h1><ul>
+<li>2014-11-4 AK</li>
+</ul>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2014/11/04/BC16_2/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2014/11/04/BC16_4/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/books/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              书单
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'SIO__Five';
+    
+    var disqus_url = 'http://yoursite.com/2014/11/04/BC16_3/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//SIO__Five.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>CF练习赛3 | SIO__Five</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="SIO__Five, siofive, C++, algorithm, machinelearning, deeplearning" />
+  
+
+  <meta name="description" content="题目 Problem A [CodeForces 6A] Triangle (水题) Problem B [CodeForces 6C] Alice, Bob and Chocolate (水题)  Problem C [CodeForces 6B] President’s Office (水题) Problem D [CodeForces 5C] Longest Regular Bracket">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CF练习赛3">
+<meta property="og:url" content="http://yoursite.com/2014/11/09/拉练3/index.html">
+<meta property="og:site_name" content="SIO__Five">
+<meta property="og:description" content="题目 Problem A [CodeForces 6A] Triangle (水题) Problem B [CodeForces 6C] Alice, Bob and Chocolate (水题)  Problem C [CodeForces 6B] President’s Office (水题) Problem D [CodeForces 5C] Longest Regular Bracket">
+<meta property="og:updated_time" content="2014-11-21T16:52:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CF练习赛3">
+<meta name="twitter:description" content="题目 Problem A [CodeForces 6A] Triangle (水题) Problem B [CodeForces 6C] Alice, Bob and Chocolate (水题)  Problem C [CodeForces 6B] President’s Office (水题) Problem D [CodeForces 5C] Longest Regular Bracket">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/books/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            书单
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Problem-A-Triangle-水题"><span class="toc-text">Problem A Triangle (水题)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#思路"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Problem-B-Alice-Bob-and-Chocolate-水题"><span class="toc-text">Problem B Alice, Bob and Chocolate (水题)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#思路-1"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Problem-C-President’s-Office-水题"><span class="toc-text">Problem C President’s Office (水题)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#思路-2"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Problem-D-Longest-Regular-Bracket-Sequence-贪心"><span class="toc-text">Problem D Longest Regular Bracket Sequence (贪心)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Problem-E-Exposition-二分-RMQ-set"><span class="toc-text">Problem E Exposition (二分, RMQ, set)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#更新日志"><span class="toc-text">更新日志</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-拉练3" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">CF练习赛3</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2014.11.09</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>SIO__Five</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/ACM/">ACM</a> / <a class="article-category-link" href="/categories/ACM/Contest/">Contest</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.forsigner.com/2014/11/09/拉练3/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><ul>
+<li>Problem A [CodeForces 6A] Triangle (水题)</li>
+<li>Problem B [CodeForces 6C] Alice, Bob and Chocolate (水题) </li>
+<li>Problem C [CodeForces 6B] President’s Office (水题)</li>
+<li>Problem D [CodeForces 5C] Longest Regular Bracket Sequence (贪心)</li>
+<li>Problem E [CodeForces 6E] Exposition (二分, RMQ)</li>
+</ul>
+<a id="more"></a>
+<h2 id="Problem-A-Triangle-水题"><a href="#Problem-A-Triangle-水题" class="headerlink" title="Problem A Triangle (水题)"></a>Problem A Triangle (水题)</h2><p>给出四个数字，从中任意选取三个，问能否构成三角形。如果不能，能否构成退化的三角形（即两边之和等于第三遍）</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>每次选出三个数字，试试看能否构成三角形。试的时候可以先将数字排序一下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">int a, b, c, d;</div><div class="line">int get(int x, int y, int z) &#123;</div><div class="line">    if (x &gt; y) swap(x, y);</div><div class="line">    if (x &gt; z) swap(x, z);</div><div class="line">    if (y &gt; z) swap(y, z);</div><div class="line">    if (x + y &gt; z) return 1;</div><div class="line">    if (x + y == z) return 0;</div><div class="line">    return -1;</div><div class="line">&#125;</div><div class="line">int main () &#123;</div><div class="line">    cin&gt;&gt;a&gt;&gt;b&gt;&gt;c&gt;&gt;d;</div><div class="line">    int q = get(a, b, c);</div><div class="line">    int w = get(a, b, d);</div><div class="line">    int x = get(a, c, d);</div><div class="line">    int y = get(b, c, d);</div><div class="line">    if (q == 1 || w == 1 || x == 1 || y == 1) puts(&quot;TRIANGLE&quot;);</div><div class="line">    else if (q == 0 || w == 0 || x == 0 || y == 0) puts(&quot;SEGMENT&quot;);</div><div class="line">    else puts(&quot;IMPOSSIBLE&quot;);</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Problem-B-Alice-Bob-and-Chocolate-水题"><a href="#Problem-B-Alice-Bob-and-Chocolate-水题" class="headerlink" title="Problem B Alice, Bob and Chocolate (水题)"></a>Problem B Alice, Bob and Chocolate (水题)</h2><p>有一排巧克力，Alice和Bob分别从两头开始吃巧克力，Alice从左边，Bob右边。每个巧克力要消耗不同的时间，两个人不能同时吃一块巧克力。当两人要同时开始吃一块时，Bob会让Alice吃，问Alice和Bob各可以吃几块巧克力。</p>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><p>模拟一下就行。或者直接从中间时间找一下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">const int N = 1e5 + 10;</div><div class="line">int n;</div><div class="line">int a[N];</div><div class="line">int main () &#123;</div><div class="line">    cin&gt;&gt;n;</div><div class="line">    a[0] = 0;</div><div class="line">    int x;</div><div class="line">    for (int i = 1; i &lt;= n; i++) &#123;</div><div class="line">        scanf(&quot;%d&quot;, &amp;x);</div><div class="line">        a[i] = a[i - 1] + x;</div><div class="line">    &#125;</div><div class="line">    if (n == 1) &#123;</div><div class="line">        cout&lt;&lt;1&lt;&lt;&quot; &quot;&lt;&lt;0&lt;&lt;endl;</div><div class="line">        return 0;</div><div class="line">    &#125;</div><div class="line">    int id = lower_bound(a + 1, a + n + 1, a[n] / 2) - a;</div><div class="line">    for (int j = max(id - 3, 1); j &lt;= min(id + 3, n); j++) &#123;</div><div class="line">        if (a[j - 1] &gt; a[n] - a[j]) &#123;</div><div class="line">            cout&lt;&lt;j - 1&lt;&lt;&quot; &quot;&lt;&lt;n - j + 1&lt;&lt;endl;</div><div class="line">            break;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Problem-C-President’s-Office-水题"><a href="#Problem-C-President’s-Office-水题" class="headerlink" title="Problem C President’s Office (水题)"></a>Problem C President’s Office (水题)</h2><p>给定一个地图，’R’表示boss的地盘，’.’表示空地，其他字符表示小怪的地盘。问与’R’相邻的小怪有多少种。</p>
+<h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><p>对于每个’R’，上下左右搜一下，统计一下小怪数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">int n, m;</div><div class="line">char mp[111][111];</div><div class="line">int dx[4] = &#123;0, 0, 1, -1&#125;, dy[4] = &#123;1, -1, 0, 0&#125;;</div><div class="line">char p;</div><div class="line">int pos[10010][2], cnt;</div><div class="line">map&lt;char, int&gt; has;</div><div class="line">int main () &#123;</div><div class="line">    cin&gt;&gt;n&gt;&gt;m&gt;&gt;p;</div><div class="line">    cnt = 0;</div><div class="line">    for (int i = 0; i &lt; n; i++) &#123;</div><div class="line">        for (int j = 0; j &lt; m; j++) &#123;</div><div class="line">            cin&gt;&gt;mp[i][j];</div><div class="line">            if (mp[i][j] == p) &#123;</div><div class="line">                pos[cnt][0] = i, pos[cnt++][1] = j;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    int sum = 0;</div><div class="line">    has.clear();</div><div class="line">    has[p] = 1;</div><div class="line">    for (int t = 0; t &lt; cnt; t++) &#123;</div><div class="line">        int x = pos[t][0], y = pos[t][1];</div><div class="line">        for (int i = 0; i &lt; 4; i++) &#123;</div><div class="line">            int tx = x + dx[i], ty = y + dy[i];</div><div class="line">            if (POSIN(tx, ty) &amp;&amp; mp[tx][ty] != &apos;.&apos;) &#123;</div><div class="line">                int d = ++has[mp[tx][ty]];</div><div class="line">                if (d == 1) sum++;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    cout&lt;&lt;sum&lt;&lt;endl;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Problem-D-Longest-Regular-Bracket-Sequence-贪心"><a href="#Problem-D-Longest-Regular-Bracket-Sequence-贪心" class="headerlink" title="Problem D Longest Regular Bracket Sequence (贪心)"></a>Problem D Longest Regular Bracket Sequence (贪心)</h2><p>给定一串括号，长度为$n$, 求最长的能够匹配的(符合规则)的子序列，输出最长的长度，以及该长度的个数。如果没有匹配的，输出0 1<br>数据范围：$1{\leq}n{\leq}10^6$<br><a href="http://siofive.github.io/2014/11/09/拉练3_D/" target="_blank" rel="external">http://siofive.github.io/2014/11/09/拉练3_D/</a></p>
+<h2 id="Problem-E-Exposition-二分-RMQ-set"><a href="#Problem-E-Exposition-二分-RMQ-set" class="headerlink" title="Problem E Exposition (二分, RMQ, set)"></a>Problem E Exposition (二分, RMQ, set)</h2><p>给定$n$个数，每个数为$h_i$，以及一个$k$。求最长的区间，使得该区间内所有数字的差值不超过$k$。第一行输出区间长度以及区间的个数，第二行输出每个区间$[l_i, r_i]$<br>数据范围：$1{\leq}n{\leq}10^5, 0{\leq}k, h_i{\leq}10^6$<br><a href="http://siofive.github.io/2014/11/09/拉练3_E/" target="_blank" rel="external">http://siofive.github.io/2014/11/09/拉练3_E/</a></p>
+<h1 id="更新日志"><a href="#更新日志" class="headerlink" title="更新日志"></a>更新日志</h1><ul>
+<li>2014-11-9 AK</li>
+</ul>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2014/11/09/拉练3_E/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2014/11/12/拉练4_E/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/books/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              书单
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'SIO__Five';
+    
+    var disqus_url = 'http://yoursite.com/2014/11/09/拉练3/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//SIO__Five.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
