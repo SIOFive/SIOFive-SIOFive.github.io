@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>CF练习赛1 | SIO__Five</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="SIO__Five, siofive, C++, algorithm, machinelearning, deeplearning" />
+  
+
+  <meta name="description" content="题目源地址：http://acm.hust.edu.cn/vjudge/contest/view.action?cid=61581#overview  Problem A Before an Exam (水题) Problem B The least round way (DP) Problem C Tic-tac-toe (模拟) Problem D    Ancient Berland Cir">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CF练习赛1">
+<meta property="og:url" content="http://yoursite.com/2014/11/02/拉练1/index.html">
+<meta property="og:site_name" content="SIO__Five">
+<meta property="og:description" content="题目源地址：http://acm.hust.edu.cn/vjudge/contest/view.action?cid=61581#overview  Problem A Before an Exam (水题) Problem B The least round way (DP) Problem C Tic-tac-toe (模拟) Problem D    Ancient Berland Cir">
+<meta property="og:updated_time" content="2014-11-09T10:51:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CF练习赛1">
+<meta name="twitter:description" content="题目源地址：http://acm.hust.edu.cn/vjudge/contest/view.action?cid=61581#overview  Problem A Before an Exam (水题) Problem B The least round way (DP) Problem C Tic-tac-toe (模拟) Problem D    Ancient Berland Cir">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/books/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            书单
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Problem-A-Before-an-Exam"><span class="toc-text">Problem A Before an Exam</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#思路"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Problem-B-The-least-round-way"><span class="toc-text">Problem B The least round way</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#思路-1"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Problem-C-Tic-tac-toe"><span class="toc-text">Problem C Tic-tac-toe</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#思路-2"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Problem-D-Ancient-Berland-Circus"><span class="toc-text">Problem D     Ancient Berland Circus</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Problem-E-Least-Cost-Bracket-Sequence"><span class="toc-text">Problem E     Least Cost Bracket Sequence</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#更新日志"><span class="toc-text">更新日志</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-拉练1" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">CF练习赛1</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2014.11.02</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>SIO__Five</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/ACM/">ACM</a> / <a class="article-category-link" href="/categories/ACM/Contest/">Contest</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.forsigner.com/2014/11/02/拉练1/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>源地址：<a href="http://acm.hust.edu.cn/vjudge/contest/view.action?cid=61581#overview" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/contest/view.action?cid=61581#overview</a></p>
+<ul>
+<li>Problem A Before an Exam (水题)</li>
+<li>Problem B The least round way (DP)</li>
+<li>Problem C Tic-tac-toe (模拟)</li>
+<li>Problem D    Ancient Berland Circus (几何)</li>
+<li>Problem E    Least Cost Bracket Sequence (贪心)</li>
+</ul>
+<p>这场比赛做的很挫，水过A之后，看到学弟出了D，就去看D，发现可敲（不知道怎么发现的。。）敲一半不知道怎么处理圆心角了（赛后发现n才100！NM呀，这么重要的范围我竟然自动跳过了。n这么小枚举即可）。之后去做B，发现是个水DP（我这个不搞DP的都会，一定是水DP），但是在记录路径的时候写错坐标了。。一直没发现错。。然后听说C是模拟，便去看C。脑洞大开，以为接下来不管双方怎么走都赢不了才算平局，没什么太好的办法，只能二进制枚举一下。。然后死活不对。。最后时刻被告之是理解错题了。。sad。E比赛时候没时间看了。</p>
+<a id="more"></a>
+<h1 id="Problem-A-Before-an-Exam"><a href="#Problem-A-Before-an-Exam" class="headerlink" title="Problem A Before an Exam"></a>Problem A Before an Exam</h1><p>给定$d$天，每天可以学习$[min_i,max_i]$个小时，问如果一共学习了$sum$个小时，能否合理安排每天的学习，使得满足要求。</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>求一下最小值和，最大值和，如果sum在之间，一定满足。</p>
+<h1 id="Problem-B-The-least-round-way"><a href="#Problem-B-The-least-round-way" class="headerlink" title="Problem B The least round way"></a>Problem B The least round way</h1><p>给定一个$n × n$的矩阵，每个格子上有一个数字。现在从左上角走到右下角，规定每次只能向右、向下走，每走到一格，得到该格子上的数字。问怎么走，能够使得这些数字的乘积末尾0最少。给出最少的0和路径。</p>
+<h1 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h1><p>对于每一个数字，进行处理，我们只需要知道这个数字分别是2、5的多少次方。<br>先每次走的时候，先保证取2最小，（2一样的时候，5要最小），且在走的过程中记录路径。<br>然后反着来一遍，先保证取5最小，（5一样的时候，2要最小），且在走的过程中记录路径。<br>最后的答案就是上面两个的最小值。<br>这道题有个trick：有可能数字为0。如果起点或终点为0，乘积一定为0，否则上述得到的最小值大于1，那么便不取，而是选择走0那条路径。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line">ID: wuqi9395@126.com</div><div class="line">PROG:</div><div class="line">LANG: C++</div><div class="line">*/</div><div class="line">#include&lt;map&gt;</div><div class="line">#include&lt;set&gt;</div><div class="line">#include&lt;queue&gt;</div><div class="line">#include&lt;stack&gt;</div><div class="line">#include&lt;cmath&gt;</div><div class="line">#include&lt;cstdio&gt;</div><div class="line">#include&lt;vector&gt;</div><div class="line">#include&lt;string&gt;</div><div class="line">#include&lt;fstream&gt;</div><div class="line">#include&lt;cstring&gt;</div><div class="line">#include&lt;ctype.h&gt;</div><div class="line">#include&lt;iostream&gt;</div><div class="line">#include&lt;algorithm&gt;</div><div class="line">using namespace std;</div><div class="line">#define INF (1 &lt;&lt; 30)</div><div class="line">#define LINF (1LL &lt;&lt; 60)</div><div class="line">#define PI acos(-1.0)</div><div class="line">#define mem(a, b) memset(a, b, sizeof(a))</div><div class="line">#define rep(i, a, n) for (int i = a; i &lt; n; i++)</div><div class="line">#define per(i, a, n) for (int i = n - 1; i &gt;= a; i--)</div><div class="line">#define eps 1e-6</div><div class="line">#define debug puts(&quot;===============&quot;)</div><div class="line">#define pb push_back</div><div class="line">#define mkp make_pair</div><div class="line">#define all(x) (x).begin(),(x).end()</div><div class="line">#define fi first</div><div class="line">#define se second</div><div class="line">#define SZ(x) ((int)(x).size())</div><div class="line">#define POSIN(x,y) (0 &lt;= (x) &amp;&amp; (x) &lt; n &amp;&amp; 0 &lt;= (y) &amp;&amp; (y) &lt; m)</div><div class="line">typedef long long ll;</div><div class="line">typedef unsigned long long ULL;</div><div class="line">const int N = 1000 + 10;</div><div class="line">int a[N][N][2];</div><div class="line">int dp[N][N];</div><div class="line">int ss[N][N];</div><div class="line">int pre[N][N][2];</div><div class="line">int pre1[N][N][2];</div><div class="line">string str;</div><div class="line">void out(int o, int x, int y) &#123;</div><div class="line">    //cout&lt;&lt;x&lt;&lt;&quot; &quot;&lt;&lt;y&lt;&lt;endl;</div><div class="line">    if (x == -1 &amp;&amp; y == -1) &#123;</div><div class="line">        reverse(str.begin(), str.end());</div><div class="line">        cout&lt;&lt;str&lt;&lt;endl;</div><div class="line">        return ;</div><div class="line">    &#125; else &#123;</div><div class="line">        if (o == 2) &#123;</div><div class="line">            int tx = pre[x][y][0], ty = pre[x][y][1];</div><div class="line">            if (tx == -1 || ty == -1) ;</div><div class="line">            else &#123;</div><div class="line">                if (tx == x - 1) str += &apos;D&apos;;</div><div class="line">                else str += &apos;R&apos;;</div><div class="line">            &#125;</div><div class="line">            out(2, tx, ty);</div><div class="line">        &#125; else &#123;</div><div class="line">            int tx = pre1[x][y][0], ty = pre1[x][y][1];</div><div class="line">            if (tx == -1 || ty == -1) ;</div><div class="line">            else &#123;</div><div class="line">                if (tx == x - 1) str += &apos;D&apos;;</div><div class="line">                else str += &apos;R&apos;;</div><div class="line">            &#125;</div><div class="line">            out(1, tx, ty);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">int main () &#123;</div><div class="line">    int n;</div><div class="line">    cin &gt;&gt; n;</div><div class="line">    int sx = -1, sy = -1;</div><div class="line">    for (int i = 0; i &lt; n; i++) &#123;</div><div class="line">        for (int j = 0; j &lt; n; j++) &#123;</div><div class="line">            int x, s = 0, b = 0;</div><div class="line">            scanf(&quot;%d&quot;, &amp;x);</div><div class="line">            while(x % 2 == 0 &amp;&amp; x) &#123;</div><div class="line">                s++;</div><div class="line">                x /= 2;</div><div class="line">            &#125;</div><div class="line">            while(x % 5 == 0 &amp;&amp; x) &#123;</div><div class="line">                b++;</div><div class="line">                x /= 5;</div><div class="line">            &#125;</div><div class="line">            if (x == 0) &#123;</div><div class="line">                sx = i, sy = j;</div><div class="line">                a[i][j][0] = INF, a[i][j][1] = INF;</div><div class="line">            &#125;a[i][j][0] = s, a[i][j][1] = b;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    if (a[0][0][0] == INF || a[n - 1][n - 1][0] == INF) &#123;</div><div class="line">        cout&lt;&lt;1&lt;&lt;endl;</div><div class="line">        for (int i = 0; i &lt; n - 1; i++) cout&lt;&lt;&quot;D&quot;;</div><div class="line">        for (int i = 0; i &lt; n - 1; i++) cout&lt;&lt;&quot;R&quot;;</div><div class="line">        return 0;</div><div class="line">    &#125;</div><div class="line">    dp[0][0] = a[0][0][0], ss[0][0] = a[0][0][1];</div><div class="line">    for (int i = 0; i &lt; n; i++) &#123;</div><div class="line">        for (int j = 0; j &lt; n; j++) &#123;</div><div class="line">            if (!i &amp;&amp; !j) continue;</div><div class="line">            dp[i][j] = INF, ss[i][j] = INF;</div><div class="line">            if (i) &#123;</div><div class="line">                if ((dp[i][j] &gt; dp[i - 1][j] + a[i][j][0]) || ((dp[i][j] == dp[i - 1][j] + a[i][j][0]) &amp;&amp; ss[i][j] &gt; ss[i - 1][j] + a[i][j][1]))&#123;</div><div class="line">                    dp[i][j] = dp[i - 1][j] + a[i][j][0];</div><div class="line">                    ss[i][j] = ss[i - 1][j] + a[i][j][1];</div><div class="line">                    pre[i][j][0] = i - 1, pre[i][j][1] = j;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            if (j) &#123;</div><div class="line">                if ((dp[i][j] &gt; dp[i][j - 1] + a[i][j][0]) || ((dp[i][j] == dp[i][j - 1] + a[i][j][0]) &amp;&amp; ss[i][j] &gt; ss[i][j - 1] + a[i][j][1]))&#123;</div><div class="line">                    dp[i][j] = dp[i][j - 1] + a[i][j][0];</div><div class="line">                    ss[i][j] = ss[i][j - 1] + a[i][j][1];</div><div class="line">                    pre[i][j][0] = i, pre[i][j][1] = j - 1;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    int mx1 = min(dp[n - 1][n - 1], ss[n - 1][n - 1]);</div><div class="line"></div><div class="line">    dp[0][0] = a[0][0][1], ss[0][0] = a[0][0][0];</div><div class="line">    for (int i = 0; i &lt; n; i++) &#123;</div><div class="line">        for (int j = 0; j &lt; n; j++) &#123;</div><div class="line">            if (!i &amp;&amp; !j) continue;</div><div class="line">            dp[i][j] = INF, ss[i][j] = INF;</div><div class="line">            if (i) &#123;</div><div class="line">                if ((dp[i][j] &gt; dp[i - 1][j] + a[i][j][1]) || ((dp[i][j] == dp[i - 1][j] + a[i][j][1]) &amp;&amp; ss[i][j] &gt; ss[i - 1][j] + a[i][j][0]))&#123;</div><div class="line">                    dp[i][j] = dp[i - 1][j] + a[i][j][1];</div><div class="line">                    ss[i][j] = ss[i - 1][j] + a[i][j][0];</div><div class="line">                    pre1[i][j][0] = i - 1, pre1[i][j][1] = j;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            if (j) &#123;</div><div class="line">                if ((dp[i][j] &gt; dp[i][j - 1] + a[i][j][1]) || ((dp[i][j] == dp[i][j - 1] + a[i][j][1]) &amp;&amp; ss[i][j] &gt; ss[i][j - 1] + a[i][j][0]))&#123;</div><div class="line">                    dp[i][j] = dp[i][j - 1] + a[i][j][1];</div><div class="line">                    ss[i][j] = ss[i][j - 1] + a[i][j][0];</div><div class="line">                    pre1[i][j][0] = i, pre1[i][j][1] = j - 1;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    int mx2 = min(dp[n - 1][n - 1], ss[n - 1][n - 1]);</div><div class="line">    int mx = min(mx1, mx2);</div><div class="line">    if (sx != -1 &amp;&amp; mx &gt; 0) &#123;</div><div class="line">        cout&lt;&lt;1&lt;&lt;endl;</div><div class="line">        for (int i = 0; i &lt; sx; i++) cout&lt;&lt;&quot;D&quot;;</div><div class="line">        for (int i = 0; i &lt; n - 1; i++) cout&lt;&lt;&quot;R&quot;;</div><div class="line">        for (int i = sx; i &lt; n - 1; i++) cout&lt;&lt;&quot;D&quot;;</div><div class="line">    &#125; else &#123;</div><div class="line">        pre[0][0][0] = pre[0][0][1] = -1;</div><div class="line">        pre1[0][0][0] = pre1[0][0][1] = -1;</div><div class="line">        cout&lt;&lt;mx&lt;&lt;endl;</div><div class="line">        if (mx1 == mx) out(2, n - 1, n - 1);</div><div class="line">        else out(1, n - 1, n - 1);</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="Problem-C-Tic-tac-toe"><a href="#Problem-C-Tic-tac-toe" class="headerlink" title="Problem C Tic-tac-toe"></a>Problem C Tic-tac-toe</h1><p>有一个游戏，给定一个3 X 3的棋盘，两个人连续在棋盘上放棋子（第一个人为X，第二个人为0），如果出现某行某列或者对角线上全为同样的棋子，那么该人获胜。<br>现在的问题是：给定一个棋盘，以及棋盘上的状态（空为.），问分别为以下哪种情况？</p>
+<ul>
+<li>illegal 棋盘不可能出现这种情况</li>
+<li>the first player won 第一个人赢</li>
+<li>the second player won 第二个人赢</li>
+<li>draw 平局</li>
+<li>first 接下来轮到第一个人走</li>
+<li>second 接下来轮到第二个人走 -</li>
+</ul>
+<h1 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h1><p>其实理解对题意了，就是道很水的题。。<br>主要illegal的情况比较多：</p>
+<ul>
+<li>双方棋子数不符合规则</li>
+<li>双方都赢了</li>
+<li>先手赢了，后手还放棋子</li>
+<li>后手赢了，先手还放棋子<br>然后是判断先手赢、后手赢或是平局（摆满了才有平局。。）最后都不符合，判断该谁走。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line">ID: wuqi9395@126.com</div><div class="line">PROG:</div><div class="line">LANG: C++</div><div class="line">*/</div><div class="line">#include&lt;map&gt;</div><div class="line">#include&lt;set&gt;</div><div class="line">#include&lt;queue&gt;</div><div class="line">#include&lt;stack&gt;</div><div class="line">#include&lt;cmath&gt;</div><div class="line">#include&lt;cstdio&gt;</div><div class="line">#include&lt;vector&gt;</div><div class="line">#include&lt;string&gt;</div><div class="line">#include&lt;fstream&gt;</div><div class="line">#include&lt;cstring&gt;</div><div class="line">#include&lt;ctype.h&gt;</div><div class="line">#include&lt;iostream&gt;</div><div class="line">#include&lt;algorithm&gt;</div><div class="line">using namespace std;</div><div class="line">#define INF (1 &lt;&lt; 30)</div><div class="line">#define LINF (1LL &lt;&lt; 60)</div><div class="line">#define PI acos(-1.0)</div><div class="line">#define mem(a, b) memset(a, b, sizeof(a))</div><div class="line">#define rep(i, a, n) for (int i = a; i &lt; n; i++)</div><div class="line">#define per(i, a, n) for (int i = n - 1; i &gt;= a; i--)</div><div class="line">#define eps 1e-6</div><div class="line">#define debug puts(&quot;===============&quot;)</div><div class="line">#define pb push_back</div><div class="line">#define mkp make_pair</div><div class="line">#define all(x) (x).begin(),(x).end()</div><div class="line">#define fi first</div><div class="line">#define se second</div><div class="line">#define SZ(x) ((int)(x).size())</div><div class="line">#define POSIN(x,y) (0 &lt;= (x) &amp;&amp; (x) &lt; n &amp;&amp; 0 &lt;= (y) &amp;&amp; (y) &lt; m)</div><div class="line">typedef long long ll;</div><div class="line">typedef unsigned long long ULL;</div><div class="line">char mp[4][4];</div><div class="line">int fi, se;</div><div class="line">int win(char mp[4][4], int t) &#123;</div><div class="line">    char ch;</div><div class="line">    if (t == 1) ch = &apos;X&apos;;</div><div class="line">    else ch = &apos;0&apos;;</div><div class="line">    for (int i = 0; i &lt; 3; i++) &#123;</div><div class="line">        int x = 0;</div><div class="line">        for (int j = 0; j &lt; 3; j++) &#123;</div><div class="line">            if (mp[i][j] == ch) x++;</div><div class="line">        &#125;</div><div class="line">        if (x == 3) return 1;</div><div class="line">    &#125;</div><div class="line">    for (int j = 0; j &lt; 3; j++) &#123;</div><div class="line">        int x = 0;</div><div class="line">        for (int i = 0; i &lt; 3; i++) &#123;</div><div class="line">            if (mp[i][j] == ch) x++;</div><div class="line">        &#125;</div><div class="line">        if (x == 3) return 1;</div><div class="line">    &#125;</div><div class="line">    int x = 0;</div><div class="line">    for (int i = 0; i &lt; 3; i++) &#123;</div><div class="line">        if (mp[i][i] == ch) x++;</div><div class="line">    &#125;</div><div class="line">    if (x == 3) return 1;</div><div class="line">    x = 0;</div><div class="line">    for (int i = 0; i &lt; 3; i++) &#123;</div><div class="line">        if (mp[i][2 - i] == ch) x++;</div><div class="line">    &#125;</div><div class="line">    if (x == 3) return 1;</div><div class="line">    return 0;</div><div class="line">&#125;</div><div class="line">int check() &#123;</div><div class="line">    int x = win(mp, 1);</div><div class="line">    int y = win(mp, 2);</div><div class="line">    //cout&lt;&lt;x&lt;&lt;&quot; &quot;&lt;&lt;y&lt;&lt;endl;</div><div class="line">    if (x == 1 &amp;&amp; y == 1) return 0;</div><div class="line">    if (x == 1 &amp;&amp; fi == se) return 0;</div><div class="line">    if (y == 1 &amp;&amp; fi == se + 1) return 0;</div><div class="line">    if (x == 1) return 1;</div><div class="line">    if (y == 1) return 2;</div><div class="line">    if (fi + se == 9) return 3;</div><div class="line">    return 4;</div><div class="line">&#125;</div><div class="line">int main () &#123;</div><div class="line">    fi = se = 0;</div><div class="line">    for (int i = 0; i &lt; 3; i++) &#123;</div><div class="line">        for (int j = 0; j &lt; 3; j++) &#123;</div><div class="line">            cin&gt;&gt;mp[i][j];</div><div class="line">            if (mp[i][j] == &apos;X&apos;) fi++;</div><div class="line">            else if (mp[i][j] == &apos;0&apos;) se++;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    if ((fi &gt; se + 1) || (fi &lt; se)) &#123;</div><div class="line">        puts(&quot;illegal&quot;);</div><div class="line">        return 0;</div><div class="line">    &#125;</div><div class="line">    int dd = check();</div><div class="line">    if (dd == 0) puts(&quot;illegal&quot;);</div><div class="line">    else if (dd == 1) puts(&quot;the first player won&quot;);</div><div class="line">    else if (dd == 2) puts(&quot;the second player won&quot;);</div><div class="line">    else if (dd == 3) puts(&quot;draw&quot;);</div><div class="line">    else &#123;</div><div class="line">        if (fi == se) puts(&quot;first&quot;);</div><div class="line">        else puts(&quot;second&quot;);</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="Problem-D-Ancient-Berland-Circus"><a href="#Problem-D-Ancient-Berland-Circus" class="headerlink" title="Problem D     Ancient Berland Circus"></a>Problem D     Ancient Berland Circus</h1><p>有一个正多边形(3&lt;=n&lt;=100)，现在只知道其中的三个顶点，问这个正多边形最小可能的面积。<br><a href="http://siofive.github.io/2014/11/02/拉练1_D/" target="_blank" rel="external">http://siofive.github.io/2014/11/02/拉练1_D/</a></p>
+<h1 id="Problem-E-Least-Cost-Bracket-Sequence"><a href="#Problem-E-Least-Cost-Bracket-Sequence" class="headerlink" title="Problem E     Least Cost Bracket Sequence"></a>Problem E     Least Cost Bracket Sequence</h1><p>有一串字符串，每个字符为’(‘, ‘)’ 或’?’。现在需要将其中的’?’替换为’(‘或’)’，使得最后的括号匹配。每个’?’替换成相应的括号都有一个花费。如果最后不能匹配，输出-1。否则输出最少的花费。<br><a href="http://siofive.github.io/2014/11/02/拉练1_E/" target="_blank" rel="external">http://siofive.github.io/2014/11/02/拉练1_E/</a></p>
+<h1 id="更新日志"><a href="#更新日志" class="headerlink" title="更新日志"></a>更新日志</h1><ul>
+<li>2014-11-2 AK</li>
+</ul>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2014/11/02/拉练1_E/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2014/11/04/BC16_2/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/books/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              书单
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'SIO__Five';
+    
+    var disqus_url = 'http://yoursite.com/2014/11/02/拉练1/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//SIO__Five.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

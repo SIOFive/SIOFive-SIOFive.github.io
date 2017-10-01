@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>HDU 5125 magic balls（LIS+dp+树状数组） | SIO__Five</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="dp,树状数组,LIS," />
+  
+
+  <meta name="description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5125 题意有两排球，每排有n个。每个球有一个体积vi。现在要从第一排中选一些球，使得这些球的体积为最长上升序列。你可以使用m次魔法，每次可以把第一排的一个球换成第二排对应位置的球。求最长的子序列长度。 思路最长上升子序列可以用树状数组或者线段树维护。dp[i]表示以第i个数结尾的最长上升子序列长度。">
+<meta name="keywords" content="dp,树状数组,LIS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HDU 5125 magic balls（LIS+dp+树状数组）">
+<meta property="og:url" content="http://yoursite.com/2015/08/26/hdu5125/index.html">
+<meta property="og:site_name" content="SIO__Five">
+<meta property="og:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5125 题意有两排球，每排有n个。每个球有一个体积vi。现在要从第一排中选一些球，使得这些球的体积为最长上升序列。你可以使用m次魔法，每次可以把第一排的一个球换成第二排对应位置的球。求最长的子序列长度。 思路最长上升子序列可以用树状数组或者线段树维护。dp[i]表示以第i个数结尾的最长上升子序列长度。">
+<meta property="og:updated_time" content="2015-08-25T19:42:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HDU 5125 magic balls（LIS+dp+树状数组）">
+<meta name="twitter:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5125 题意有两排球，每排有n个。每个球有一个体积vi。现在要从第一排中选一些球，使得这些球的体积为最长上升序列。你可以使用m次魔法，每次可以把第一排的一个球换成第二排对应位置的球。求最长的子序列长度。 思路最长上升子序列可以用树状数组或者线段树维护。dp[i]表示以第i个数结尾的最长上升子序列长度。">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/books/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            书单
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#题意"><span class="toc-text">题意</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#思路"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-hdu5125" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">HDU 5125 magic balls（LIS+dp+树状数组）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.08.26</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>SIO__Five</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/ACM/">ACM</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.forsigner.com/2015/08/26/hdu5125/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>源地址：<a href="http://acm.hdu.edu.cn/showproblem.php?pid=5125" target="_blank" rel="external">http://acm.hdu.edu.cn/showproblem.php?pid=5125</a></p>
+<h1 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h1><p>有两排球，每排有n个。每个球有一个体积vi。现在要从第一排中选一些球，使得这些球的体积为最长上升序列。你可以使用m次魔法，每次可以把第一排的一个球换成第二排对应位置的球。求最长的子序列长度。</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>最长上升子序列可以用树状数组或者线段树维护。dp[i]表示以第i个数结尾的最长上升子序列长度。每加入一个新数，查询比该数小的数的dp最大值mx，用mx+1更新该数的dp值<br>回到这道题，我们先对球的体积进行离散化。用dp[i][j]表示到i个位置，使用了j次交换的最值，那么有如下转移方程：<br>dp[i][j] = max(dp[k][j] + 1) 其中k&lt;i,且s[j][k]&lt;a[i]<br>dp[i][j] = max(dp[k][j - 1] + 1) 其中k&lt;i,且s[j-1][k]&lt;b[i]<br>其中s[j]表示交换了j次时，需要维护的树状数组的情况<br>这道题用线段树维护常数太大，容易T。</p>
+<a id="more"></a>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line">#include&lt;cmath&gt;</div><div class="line">#include&lt;algorithm&gt;</div><div class="line">#include&lt;cstring&gt;</div><div class="line">#include&lt;string&gt;</div><div class="line">#include&lt;cstdio&gt;</div><div class="line">#include&lt;vector&gt;</div><div class="line">#define pb push_back</div><div class="line">#define INF 1 &lt;&lt; 30</div><div class="line">#define fi first</div><div class="line">#define se second</div><div class="line">#define debug puts(&quot;=====================&quot;);</div><div class="line">using namespace std;</div><div class="line">typedef long long ll;</div><div class="line">const int N = 1010;</div><div class="line">int a[N], b[N], c[N * 2], n, m, cnt;</div><div class="line">int bit[N][N * 2];</div><div class="line">inline int lowbit(int x) &#123;</div><div class="line">    return x &amp; (-x);</div><div class="line">&#125;</div><div class="line">void add(int i, int p, int v) &#123;</div><div class="line">    while(p &lt;= cnt) &#123;</div><div class="line">        bit[i][p] = max(bit[i][p], v);</div><div class="line">        p += lowbit(p);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">int sum(int i, int p) &#123;</div><div class="line">    int res = 0;</div><div class="line">    while(p &gt; 0) &#123;</div><div class="line">        res = max(res, bit[i][p]);</div><div class="line">        p -= lowbit(p);</div><div class="line">    &#125;</div><div class="line">    return res;</div><div class="line">&#125;</div><div class="line">int main () &#123;</div><div class="line">    int t;</div><div class="line">    scanf(&quot;%d&quot;, &amp;t);</div><div class="line">    while(t--) &#123;</div><div class="line">        scanf(&quot;%d%d&quot;, &amp;n, &amp;m);</div><div class="line">        c[0] = 0;</div><div class="line">        cnt = 1;</div><div class="line">        for (int i = 0; i &lt; n; i++) &#123;</div><div class="line">            scanf(&quot;%d%d&quot;, a + i, b + i);</div><div class="line">            c[cnt++] = a[i];</div><div class="line">            c[cnt++] = b[i];</div><div class="line">        &#125;</div><div class="line">        sort(c, c + cnt); cnt = unique(c, c + cnt) - c;</div><div class="line">        for (int i = 0; i &lt; n; i++) a[i] = lower_bound(c, c + cnt, a[i]) - c;</div><div class="line">        for (int i = 0; i &lt; n; i++) b[i] = lower_bound(c, c + cnt, b[i]) - c;</div><div class="line">        for (int i = 0; i &lt;= m; i++)</div><div class="line">            for (int j = 0; j &lt;= cnt; j++) bit[i][j] = 0;</div><div class="line">        int mx = 0;</div><div class="line">        for (int i = 0; i &lt; n; i++)</div><div class="line">            for (int j = min(i + 1, m); j &gt;= 0; j--) &#123;</div><div class="line">                int k = sum(j, a[i] - 1) + 1;</div><div class="line">                mx = max(mx, k);</div><div class="line">                add(j, a[i], k);</div><div class="line">                if (j) &#123;</div><div class="line">                    k = sum(j - 1, b[i] - 1) + 1;</div><div class="line">                    mx = max(mx, k);</div><div class="line">                    add(j, b[i], k);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        printf(&quot;%d\n&quot;, mx);</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2015/08/25/zoj3816/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2015/08/26/hdu5106/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/books/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              书单
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'SIO__Five';
+    
+    var disqus_url = 'http://yoursite.com/2015/08/26/hdu5125/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//SIO__Five.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

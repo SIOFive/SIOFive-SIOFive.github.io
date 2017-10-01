@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>SPOJ DQUERY - D-query（查询区间内有几个数 离线树状数组OR在线主席树） | SIO__Five</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="数据结构,树状数组,主席树," />
+  
+
+  <meta name="description" content="题目源地址：http://www.spoj.com/problems/DQUERY/en/ 题意查询区间内有几个不同的数 思路http://blog.csdn.net/acm_cxlove/article/details/8562634  离线树状数组将查询区间按左端点排序对于相同的数，先更新最左边的位置然后根据查询区间，不断更新next，保证查询区间内只记录一个位置维护前缀和用树状数组，时空效率">
+<meta name="keywords" content="数据结构,树状数组,主席树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SPOJ DQUERY - D-query（查询区间内有几个数 离线树状数组OR在线主席树）">
+<meta property="og:url" content="http://yoursite.com/2015/10/22/SPOJ-DQUERY/index.html">
+<meta property="og:site_name" content="SIO__Five">
+<meta property="og:description" content="题目源地址：http://www.spoj.com/problems/DQUERY/en/ 题意查询区间内有几个不同的数 思路http://blog.csdn.net/acm_cxlove/article/details/8562634  离线树状数组将查询区间按左端点排序对于相同的数，先更新最左边的位置然后根据查询区间，不断更新next，保证查询区间内只记录一个位置维护前缀和用树状数组，时空效率">
+<meta property="og:updated_time" content="2015-10-22T14:02:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SPOJ DQUERY - D-query（查询区间内有几个数 离线树状数组OR在线主席树）">
+<meta name="twitter:description" content="题目源地址：http://www.spoj.com/problems/DQUERY/en/ 题意查询区间内有几个不同的数 思路http://blog.csdn.net/acm_cxlove/article/details/8562634  离线树状数组将查询区间按左端点排序对于相同的数，先更新最左边的位置然后根据查询区间，不断更新next，保证查询区间内只记录一个位置维护前缀和用树状数组，时空效率">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/books/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            书单
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#题意"><span class="toc-text">题意</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#思路"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-SPOJ-DQUERY" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">SPOJ DQUERY - D-query（查询区间内有几个数 离线树状数组OR在线主席树）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.10.22</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>SIO__Five</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/ACM/">ACM</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.forsigner.com/2015/10/22/SPOJ-DQUERY/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>源地址：<a href="http://www.spoj.com/problems/DQUERY/en/" target="_blank" rel="external">http://www.spoj.com/problems/DQUERY/en/</a></p>
+<h1 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h1><p>查询区间内有几个不同的数</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p><a href="http://blog.csdn.net/acm_cxlove/article/details/8562634" target="_blank" rel="external">http://blog.csdn.net/acm_cxlove/article/details/8562634</a></p>
+<ol>
+<li><p>离线树状数组<br>将查询区间按左端点排序<br>对于相同的数，先更新最左边的位置<br>然后根据查询区间，不断更新next，保证查询区间内只记录一个位置<br>维护前缀和用树状数组，时空效率都高</p>
+</li>
+<li><p>在线主席树<br><a href="http://www.cnblogs.com/Empress/p/4675386.html" target="_blank" rel="external">http://www.cnblogs.com/Empress/p/4675386.html</a><br>将重复的元素建树。在query的时候把区间内重复的数加起来，用区间长度(r-l+1)去减就是答案<br>(query的是[l, r]之间重复元素的个数)<br>举个例子：1 1 2 1 3 2 3<br>我们从左到右枚举，如果没有重复的，那么树的形态和之前一样，出现重复的则在重复的位置加1，建一颗新树<br>这样我们需要建7颗数<br> 1 2 3 4 5 6 7<br>T0:<br>T1:<br>T2: 1<br>T3: 1<br>T4: 1 1<br>T5: 1 1<br>T6: 1 1 1<br>T7: 1 1 1  1<br>例如查询区间[2，5] 就需要用T5-T1，但是不能直接减，直接减重复的数为2个1。需要统计的是区间[2,5]内重复的个数，正好为1个1.</p>
+</li>
+</ol>
+<a id="more"></a>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><p>离线树状数组<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line">#include&lt;cmath&gt;</div><div class="line">#include&lt;algorithm&gt;</div><div class="line">#include&lt;cstring&gt;</div><div class="line">#include&lt;string&gt;</div><div class="line">#include&lt;cstdio&gt;</div><div class="line">#include&lt;vector&gt;</div><div class="line">#include&lt;map&gt;</div><div class="line">#define pb push_back</div><div class="line">#define INF 1 &lt;&lt; 30</div><div class="line">#define fi first</div><div class="line">#define se second</div><div class="line">#define debug puts(&quot;=====================&quot;);</div><div class="line">using namespace std;</div><div class="line">typedef long long ll;</div><div class="line">const int N = 30000 + 100;</div><div class="line">const int M = 200000 + 100;</div><div class="line">int a[N], s[N], n, nxt[N];</div><div class="line">struct node &#123;</div><div class="line">    int l, r, id;</div><div class="line">    bool operator &lt; (const node &amp; T) const &#123;</div><div class="line">        return l &lt; T.l;</div><div class="line">    &#125;</div><div class="line">&#125; Q[M];</div><div class="line">int ans[M];</div><div class="line">int lowbit(int x) &#123;</div><div class="line">    return x &amp; -x;</div><div class="line">&#125;</div><div class="line">void add(int p, int v) &#123;</div><div class="line">    while(p &lt;= n) &#123;</div><div class="line">        s[p] += v;</div><div class="line">        p += lowbit(p);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">int sum(int p) &#123;</div><div class="line">    int res = 0;</div><div class="line">    while(p &gt; 0) &#123;</div><div class="line">        res += s[p];</div><div class="line">        p -= lowbit(p);</div><div class="line">    &#125;</div><div class="line">    return res;</div><div class="line">&#125;</div><div class="line">map&lt;int, int&gt; mp;</div><div class="line">int main () &#123;</div><div class="line">    while(~scanf(&quot;%d&quot;, &amp;n)) &#123;</div><div class="line">        mp.clear();</div><div class="line">        for (int i = 1; i &lt;= n; i++) &#123;</div><div class="line">            scanf(&quot;%d&quot;, a + i);</div><div class="line">            if (!mp.count(a[i])) &#123;</div><div class="line">                mp[a[i]] = i;</div><div class="line">                add(i, 1);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        mp.clear();</div><div class="line">        for (int i = n; i &gt;= 1; i--) &#123;</div><div class="line">            if (!mp.count(a[i])) nxt[i] = n + 1;</div><div class="line">            else nxt[i] = mp[a[i]];</div><div class="line">            mp[a[i]] = i;</div><div class="line">        &#125;</div><div class="line">        int q;</div><div class="line">        scanf(&quot;%d&quot;, &amp;q);</div><div class="line">        for (int i = 0; i &lt; q; i++) &#123;</div><div class="line">            scanf(&quot;%d%d&quot;, &amp;Q[i].l, &amp;Q[i].r);</div><div class="line">            Q[i].id = i;</div><div class="line">        &#125;</div><div class="line">        sort(Q, Q + q);</div><div class="line">        int t = 1;</div><div class="line">        for (int i = 0; i &lt; q; i++) &#123;</div><div class="line">            while(t &lt;= n &amp;&amp; t &lt; Q[i].l) &#123;</div><div class="line">                add(nxt[t++], 1);</div><div class="line">            &#125;</div><div class="line">            ans[Q[i].id] = sum(Q[i].r) - sum(Q[i].l - 1);</div><div class="line">        &#125;</div><div class="line">        for (int i = 0; i &lt; q; i++) printf(&quot;%d\n&quot;, ans[i]);</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在线主席树<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line">#include&lt;cmath&gt;</div><div class="line">#include&lt;algorithm&gt;</div><div class="line">#include&lt;cstring&gt;</div><div class="line">#include&lt;string&gt;</div><div class="line">#include&lt;cstdio&gt;</div><div class="line">#include&lt;vector&gt;</div><div class="line">#include&lt;map&gt;</div><div class="line">#define pb push_back</div><div class="line">#define INF 1 &lt;&lt; 30</div><div class="line">#define fi first</div><div class="line">#define se second</div><div class="line">#define debug puts(&quot;=====================&quot;);</div><div class="line">using namespace std;</div><div class="line">typedef long long ll;</div><div class="line">typedef long long LL;</div><div class="line">#define lson l, m</div><div class="line">#define rson m + 1, r</div><div class="line">const int N = 30000 + 10;</div><div class="line">int ln[N &lt;&lt; 5], rn[N &lt;&lt; 5], sum[N &lt;&lt; 5];</div><div class="line">int tot, root[N], a[N];</div><div class="line">map&lt;int, int&gt; mp;</div><div class="line">int build(int l, int r) &#123;</div><div class="line">    int rt = ++tot;</div><div class="line">    sum[rt] = 0;</div><div class="line">    if (l &lt; r) &#123;</div><div class="line">        int m = l + r &gt;&gt; 1;</div><div class="line">        ln[rt] = build(lson);</div><div class="line">        rn[rt] = build(rson);</div><div class="line">    &#125;</div><div class="line">    return rt;</div><div class="line">&#125;</div><div class="line">int update(int pre, int l, int r, int x) &#123;</div><div class="line">    int rt = ++tot;</div><div class="line">    ln[rt] = ln[pre], rn[rt] = rn[pre], sum[rt] = sum[pre] + 1;</div><div class="line">    if (l &lt; r) &#123;</div><div class="line">        int m = l + r &gt;&gt; 1;</div><div class="line">        if (x &lt;= m) ln[rt] = update(ln[pre], lson, x);</div><div class="line">        else rn[rt] = update(rn[pre], rson, x);</div><div class="line">    &#125;</div><div class="line">    return rt;</div><div class="line">&#125;</div><div class="line">int query(int u, int v, int l, int r, int k) &#123;</div><div class="line">    if (l &gt;= k) return sum[v] - sum[u];</div><div class="line">    int ans = 0;</div><div class="line">    int m = l + r &gt;&gt; 1;</div><div class="line">    if (k &lt;= m) ans += query(ln[u], ln[v], lson, k);</div><div class="line">    ans += query(rn[u], rn[v], rson, k);</div><div class="line">    return ans;</div><div class="line">&#125;</div><div class="line">int main () &#123;</div><div class="line">    int n, m;</div><div class="line">    tot = 0;</div><div class="line">    scanf(&quot;%d&quot;, &amp;n);</div><div class="line">    for (int i = 1; i &lt;= n; i++) scanf(&quot;%d&quot;, a + i);</div><div class="line">    root[0] = build(1, n);</div><div class="line">    for (int i = 1; i &lt;= n; i++) &#123;</div><div class="line">        if (mp.find(a[i]) != mp.end()) root[i] = update(root[i - 1], 1, n, mp[a[i]]);</div><div class="line">        else root[i] = root[i - 1];</div><div class="line">        mp[a[i]] = i;</div><div class="line">    &#125;</div><div class="line">    scanf(&quot;%d&quot;, &amp;m);</div><div class="line">    int l, r;</div><div class="line">    while(m--) &#123;</div><div class="line">        scanf(&quot;%d%d&quot;, &amp;l, &amp;r);</div><div class="line">        printf(&quot;%d\n&quot;, r - l + 1 - query(root[l - 1], root[r], 1, n, l));</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2015/10/13/hdu5152/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2015/10/22/POJ2104/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/books/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              书单
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'SIO__Five';
+    
+    var disqus_url = 'http://yoursite.com/2015/10/22/SPOJ-DQUERY/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//SIO__Five.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>HDU 4988 Little Pony and Boast Busters（动态逆序对 树状数组+treap） | SIO__Five</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="动态逆序对,树状数组+treap," />
+  
+
+  <meta name="description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=4988 题意给定上下两个排列 A[], B[]，要求询问相同项之间两两连线的交叉数，并支持交换操作 思路题解： http://www.shuizilong.com/house/archives/bestcoder-round-7-solution/静态问题就是求排列 P[] 的逆序对其中 P[i] =">
+<meta name="keywords" content="动态逆序对,树状数组+treap">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HDU 4988 Little Pony and Boast Busters（动态逆序对 树状数组+treap）">
+<meta property="og:url" content="http://yoursite.com/2015/09/24/hdu4988/index.html">
+<meta property="og:site_name" content="SIO__Five">
+<meta property="og:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=4988 题意给定上下两个排列 A[], B[]，要求询问相同项之间两两连线的交叉数，并支持交换操作 思路题解： http://www.shuizilong.com/house/archives/bestcoder-round-7-solution/静态问题就是求排列 P[] 的逆序对其中 P[i] =">
+<meta property="og:updated_time" content="2015-09-24T16:29:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HDU 4988 Little Pony and Boast Busters（动态逆序对 树状数组+treap）">
+<meta name="twitter:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=4988 题意给定上下两个排列 A[], B[]，要求询问相同项之间两两连线的交叉数，并支持交换操作 思路题解： http://www.shuizilong.com/house/archives/bestcoder-round-7-solution/静态问题就是求排列 P[] 的逆序对其中 P[i] =">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/books/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            书单
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#题意"><span class="toc-text">题意</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#思路"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-hdu4988" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">HDU 4988 Little Pony and Boast Busters（动态逆序对 树状数组+treap）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.09.24</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>SIO__Five</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/ACM/">ACM</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.forsigner.com/2015/09/24/hdu4988/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>源地址：<a href="http://acm.hdu.edu.cn/showproblem.php?pid=4988" target="_blank" rel="external">http://acm.hdu.edu.cn/showproblem.php?pid=4988</a></p>
+<h1 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h1><p>给定上下两个排列 A[], B[]，要求询问相同项之间两两连线的交叉数，并支持交换操作</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>题解： <a href="http://www.shuizilong.com/house/archives/bestcoder-round-7-solution/" target="_blank" rel="external">http://www.shuizilong.com/house/archives/bestcoder-round-7-solution/</a><br>静态问题就是求排列 P[] 的逆序对<br>其中 P[i] = pA[B[i]]（这里 pA[] 是 A[] 中某个元素的位置 类似的 pB[] 是 B[] 中某个元素的位置）<br>考察交换操作，无论是交换下排还是上排，都可以看成交换 P[] 中的两项<br>于是转化成动态逆序对问题，支持修改排列中的任意一项。<br>动态逆序对问题等价于区间 kth 大值（区间 Rank）问题。。可以用经典的树套树方法<br>复杂度 O(nlog2n)。</p>
+<p><a href="http://blog.csdn.net/u013654696/article/details/38964519" target="_blank" rel="external">http://blog.csdn.net/u013654696/article/details/38964519</a><br><a href="http://blog.csdn.net/cq_phqg/article/details/39070857" target="_blank" rel="external">http://blog.csdn.net/cq_phqg/article/details/39070857</a></p>
+<p>这里其实就是每一个树状数组的结点都是一颗SBT。<br><a id="more"></a></p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div></pre></td><td class="code"><pre><div class="line">#include &lt;functional&gt;</div><div class="line">#include &lt;algorithm&gt;</div><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;fstream&gt;</div><div class="line">#include &lt;sstream&gt;</div><div class="line">#include &lt;iomanip&gt;</div><div class="line">#include &lt;numeric&gt;</div><div class="line">#include &lt;cstring&gt;</div><div class="line">#include &lt;climits&gt;</div><div class="line">#include &lt;cassert&gt;</div><div class="line">#include &lt;complex&gt;</div><div class="line">#include &lt;cstdio&gt;</div><div class="line">#include &lt;string&gt;</div><div class="line">#include &lt;vector&gt;</div><div class="line">#include &lt;bitset&gt;</div><div class="line">#include &lt;queue&gt;</div><div class="line">#include &lt;stack&gt;</div><div class="line">#include &lt;cmath&gt;</div><div class="line">#include &lt;ctime&gt;</div><div class="line">#include &lt;list&gt;</div><div class="line">#include &lt;set&gt;</div><div class="line">#include &lt;map&gt;</div><div class="line">using namespace std;</div><div class="line">typedef long long LL;</div><div class="line">const int N = 100005;</div><div class="line">struct SBT&#123;</div><div class="line">    //左子树指针，右子树指针，大小，键值</div><div class="line">    int left,right,size,key;</div><div class="line">    inline void Init()&#123;</div><div class="line">        left=right=key=0;</div><div class="line">        size=1;</div><div class="line">    &#125;</div><div class="line">&#125;T[N * 50];</div><div class="line">int tot; //根的位置以及节点个数</div><div class="line">//左旋转处理</div><div class="line">inline void Left_rot(int &amp;x)&#123;</div><div class="line">    int k=T[x].right;</div><div class="line">    T[x].right=T[k].left;</div><div class="line">    T[k].left=x;</div><div class="line">    T[k].size=T[x].size;</div><div class="line">    T[x].size=T[T[x].left].size+T[T[x].right].size+1;</div><div class="line">    x=k;</div><div class="line">&#125;</div><div class="line">//右旋转处理</div><div class="line">inline void Right_rot(int &amp;x)&#123;</div><div class="line">    int k=T[x].left;</div><div class="line">    T[x].left=T[k].right;</div><div class="line">    T[k].right=x;</div><div class="line">    T[k].size=T[x].size;</div><div class="line">    T[x].size=T[T[x].left].size+T[T[x].right].size+1;</div><div class="line">    x=k;</div><div class="line">&#125;</div><div class="line">//调整处理</div><div class="line">void Maintain(int &amp;r,bool flag)&#123;</div><div class="line">    if(flag)&#123;  //更新右子树</div><div class="line">        if(T[T[T[r].right].right].size&gt;T[T[r].left].size)</div><div class="line">            Left_rot(r);</div><div class="line">        else if(T[T[T[r].right].left].size&gt;T[T[r].left].size)&#123;</div><div class="line">            Right_rot(T[r].right);</div><div class="line">            Left_rot(r);</div><div class="line">        &#125;</div><div class="line">        else</div><div class="line">            return;</div><div class="line">    &#125;</div><div class="line">    else&#123;   //更新在左子树</div><div class="line">        if(T[T[T[r].left].left].size&gt;T[T[r].right].size)</div><div class="line">            Right_rot(r);</div><div class="line">        else if(T[T[T[r].left].right].size&gt;T[T[r].right].size)&#123;</div><div class="line">            Left_rot(T[r].left);</div><div class="line">            Right_rot(r);</div><div class="line">        &#125;</div><div class="line">        else</div><div class="line">            return;</div><div class="line">    &#125;</div><div class="line">    //更新子树，然后再更新根，直到平衡为止</div><div class="line">    Maintain(T[r].left,false);</div><div class="line">    Maintain(T[r].right,true);</div><div class="line">    Maintain(r,false);</div><div class="line">    Maintain(r,true);</div><div class="line">&#125;</div><div class="line">//插入新节点</div><div class="line">void Insert(int &amp;r,int k)&#123;</div><div class="line">    if(r==0)&#123;</div><div class="line">        r=++tot;</div><div class="line">        T[r].Init();</div><div class="line">        T[r].key=k;</div><div class="line">    &#125;</div><div class="line">    else&#123;</div><div class="line">        T[r].size++;</div><div class="line">        if(k&lt;=T[r].key)</div><div class="line">            Insert(T[r].left,k);</div><div class="line">        else</div><div class="line">            Insert(T[r].right,k);</div><div class="line">        //插入后要调整，保证平衡</div><div class="line">        Maintain(r,k&gt;=T[r].key);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">//删除结点，利用的是前驱替换</div><div class="line">int d_key;</div><div class="line">void Remove(int &amp;r,int k)&#123;</div><div class="line">    if(!r)</div><div class="line">        return ;</div><div class="line">    T[r].size--;</div><div class="line">    //前者说明就是要删的节点，后两者说明不存在此节点</div><div class="line">    if(T[r].key==k||(T[r].left==0&amp;&amp;k&lt;T[r].key)||(T[r].right==0&amp;&amp;k&gt;T[r].key))&#123;</div><div class="line">        if(T[r].left&amp;&amp;T[r].right) &#123;</div><div class="line">            Remove(T[r].left,k+1);</div><div class="line">            T[r].key = d_key;</div><div class="line">        &#125;</div><div class="line">        else &#123;</div><div class="line">            d_key = T[r].key;</div><div class="line">            r=T[r].left+T[r].right;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    else Remove(k&lt;=T[r].key?T[r].left:T[r].right,k);</div><div class="line">&#125;</div><div class="line"></div><div class="line">//取得最大值，即一直遍历到最右的结点</div><div class="line">int Get_Max(int r)&#123;</div><div class="line">    while(T[r].right)</div><div class="line">        r=T[r].right;</div><div class="line">    return r;</div><div class="line">&#125;</div><div class="line">//取得最小值，即一直遍历到最左的结点</div><div class="line">int Get_Min(int r)&#123;</div><div class="line">    while(T[r].left)</div><div class="line">        r=T[r].left;</div><div class="line">    return r;</div><div class="line">&#125;</div><div class="line">//获得前驱</div><div class="line">int Get_Pre(int &amp;r,int y,int k)&#123;</div><div class="line">    if(r==0) return y;</div><div class="line">    if(k&gt;T[r].key)</div><div class="line">        Get_Pre(T[r].right,r,k);</div><div class="line">    else</div><div class="line">        Get_Pre(T[r].left,y,k);</div><div class="line">&#125;</div><div class="line">//获得后继</div><div class="line">int Get_Next(int &amp;r,int y,int k)&#123;</div><div class="line">    if(r==0) return y;</div><div class="line">    if(k&lt;T[r].key)</div><div class="line">        Get_Next(T[r].left,r,k);</div><div class="line">    else</div><div class="line">        Get_Next(T[r].right,y,k);</div><div class="line">&#125;</div><div class="line">//取得第K小的数，注：暂不能解决有重复数的</div><div class="line">int Get_Kth(int &amp;r,int k)&#123;</div><div class="line">    int t=T[T[r].left].size+1;</div><div class="line">    if(t==k) return T[r].key;</div><div class="line">    if(t&lt;k)  return Get_Kth(T[r].right,k-r);</div><div class="line">    else return Get_Kth(T[r].left,k);</div><div class="line">&#125;</div><div class="line">//获得结点的名次</div><div class="line">int Get_Rank(int r,int k)&#123;</div><div class="line">    int ans = 0;</div><div class="line">    while (r) &#123;</div><div class="line">        if (T[r].key &lt; k) &#123;</div><div class="line">            ans += T[T[r].left].size + 1;</div><div class="line">            r = T[r].right;</div><div class="line">        &#125;</div><div class="line">        else r = T[r].left;</div><div class="line">    &#125;</div><div class="line">    return ans;</div><div class="line">&#125;</div><div class="line">//排序</div><div class="line">void Inorder(int &amp;r)&#123;</div><div class="line">    if(r==0) return;</div><div class="line">    Inorder(T[r].left);</div><div class="line">    printf(&quot;%d\n&quot;,T[r].key);</div><div class="line">    Inorder(T[r].right);</div><div class="line">&#125;</div><div class="line"></div><div class="line">int n, pa[N], pb[N], root[N], a[N], b[N], p[N];</div><div class="line">LL ans;</div><div class="line">inline int lowbit(int x) &#123;</div><div class="line">    return x &amp; (-x);</div><div class="line">&#125;</div><div class="line">inline int Rank(int x, int v) &#123;</div><div class="line">    int ret = 0;</div><div class="line">    for (int i = x; i; i -= lowbit(i))</div><div class="line">        ret += Get_Rank(root[i], v);</div><div class="line">    return ret;</div><div class="line">&#125;</div><div class="line">inline void Add(int x, int v) &#123;</div><div class="line">    for (int i = x; i &lt;= n; i += lowbit(i))</div><div class="line">        Insert(root[i], v);</div><div class="line">&#125;</div><div class="line">inline void Del(int x, int v) &#123;</div><div class="line">    for (int i = x; i &lt;= n; i += lowbit(i))</div><div class="line">        Remove(root[i], v);</div><div class="line">&#125;</div><div class="line">inline void init() &#123;</div><div class="line">    tot = 0; ans = 0;</div><div class="line">    for (int i = 1; i &lt;= n; i++) &#123;</div><div class="line">        root[i] = 0;</div><div class="line">        pa[a[i]] = i;</div><div class="line">        pb[b[i]] = i;</div><div class="line">    &#125;</div><div class="line">    for (int i = 1; i &lt;= n; i++) &#123;</div><div class="line">        int num = pa[b[i]];</div><div class="line">        ans += Rank(i, num);</div><div class="line">        Add(i, num); p[i] = num;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">inline void update (int x , int v) &#123;</div><div class="line">    // postion x , from p[x] to v</div><div class="line">    int pre = p[x];</div><div class="line">    Del (x , pre);</div><div class="line">    ans = ans - (Rank (x - 1 , pre) + (n - x - (Rank (n , pre + 1) - Rank (x , pre + 1))));</div><div class="line">    p[x] = v;</div><div class="line">    ans = ans + (Rank (x - 1 , v) + (n - x - (Rank (n , v + 1) - Rank (x , v + 1))));</div><div class="line">    Add (x , v);</div><div class="line">&#125;</div><div class="line">inline void update (int k , int A , int B) &#123;</div><div class="line">    if (k == 0) &#123;</div><div class="line">        swap (a[A] , a[B]);</div><div class="line">        pa[a[A]] = A;pa[a[B]] = B;</div><div class="line">        update (pb[a[A]] , A);</div><div class="line">        update (pb[a[B]] , B);</div><div class="line">    &#125;</div><div class="line">    else &#123;</div><div class="line">        swap (b[A] , b[B]);</div><div class="line">        pb[b[A]] = A;pb[b[B]] = B;</div><div class="line">        update (A , pa[b[A]]);</div><div class="line">        update (B , pa[b[B]]);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">int main () &#123;</div><div class="line">    while(~scanf(&quot;%d&quot;, &amp;n)) &#123;</div><div class="line">        for (int i = 1; i &lt;= n; i++) scanf(&quot;%d&quot;, a + i), a[i]++;</div><div class="line">        for (int i = 1; i &lt;= n; i++) scanf(&quot;%d&quot;, b + i), b[i]++;</div><div class="line">        init();</div><div class="line">        int q, k, A, B;</div><div class="line">        char op[10];</div><div class="line">        scanf(&quot;%d&quot;, &amp;q);</div><div class="line">        LL ret = (LL)n * (n - 1) / 2;</div><div class="line">        while(q--) &#123;</div><div class="line">            scanf(&quot;%s&quot;, op);</div><div class="line">            if (op[0] == &apos;Q&apos;) printf(&quot;%I64d\n&quot;, ret - ans);</div><div class="line">            else &#123;</div><div class="line">                scanf(&quot;%d%d%d&quot;, &amp;k, &amp;A, &amp;B);</div><div class="line">                A++, B++;</div><div class="line">                update(k, A, B);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2015/09/21/hdu5451/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2015/09/24/poj3481/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/books/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              书单
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'SIO__Five';
+    
+    var disqus_url = 'http://yoursite.com/2015/09/24/hdu4988/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//SIO__Five.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

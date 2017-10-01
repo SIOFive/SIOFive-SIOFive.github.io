@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>ZOJ 3816 Generalized Palindromic Number（dp） | SIO__Five</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="dp," />
+  
+
+  <meta name="description" content="题目源地址：http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemCode=3816 题意规定广义回文为：将字符串中相同的字符压缩为一个之后为回文串。例如：11233221-&amp;gt;12321现在给定一个n，求小于n的最大一个数，使其为广义回文串。（1≤n≤1e18） 思路从最后一位（最右位）开始改动，一直改动到第一位（第一位最小到1，不能">
+<meta name="keywords" content="dp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ZOJ 3816 Generalized Palindromic Number（dp）">
+<meta property="og:url" content="http://yoursite.com/2015/08/25/zoj3816/index.html">
+<meta property="og:site_name" content="SIO__Five">
+<meta property="og:description" content="题目源地址：http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemCode=3816 题意规定广义回文为：将字符串中相同的字符压缩为一个之后为回文串。例如：11233221-&amp;gt;12321现在给定一个n，求小于n的最大一个数，使其为广义回文串。（1≤n≤1e18） 思路从最后一位（最右位）开始改动，一直改动到第一位（第一位最小到1，不能">
+<meta property="og:updated_time" content="2015-08-25T16:16:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ZOJ 3816 Generalized Palindromic Number（dp）">
+<meta name="twitter:description" content="题目源地址：http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemCode=3816 题意规定广义回文为：将字符串中相同的字符压缩为一个之后为回文串。例如：11233221-&amp;gt;12321现在给定一个n，求小于n的最大一个数，使其为广义回文串。（1≤n≤1e18） 思路从最后一位（最右位）开始改动，一直改动到第一位（第一位最小到1，不能">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/books/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            书单
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#题意"><span class="toc-text">题意</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#思路"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-zoj3816" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">ZOJ 3816 Generalized Palindromic Number（dp）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.08.25</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>SIO__Five</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/ACM/">ACM</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.forsigner.com/2015/08/25/zoj3816/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>源地址：<a href="http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemCode=3816" target="_blank" rel="external">http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemCode=3816</a></p>
+<h1 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h1><p>规定广义回文为：将字符串中相同的字符压缩为一个之后为回文串。例如：11233221-&gt;12321<br>现在给定一个n，求小于n的最大一个数，使其为广义回文串。（1≤n≤1e18）</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>从最后一位（最右位）开始改动，一直改动到第一位（第一位最小到1，不能到0）。如果改动某一位可以得到一个回文串，答案就是这个数字。<br>现在假设改动到第k位：另dp[l][r]表示从第l位到第r位的符合回文的最大串<br>dp[l][r] = max(前缀和 <em> base[r - L + 1] + dp[L][j] </em> base[r - j] + 后缀和)<br>上述公式中：L为从l+1开始第一个与l不同的位，因为11121…的下一个状态直接转到21…(相同的1可以压缩)<br>j从r-1一直到k, 即把(j+1, r)的位全部变为l位</p>
+<p>需要注意当r&lt;=k时，此时dp[l][r]是已经确定的，我一开始直接判断该串是否为回文，但是这样不对。需要把右边和l-1相同的位全部压缩之后再判断。<br>例如：3443，当k为3，第三位为3时，dp[2][3] = 43，即3433，此时3433是广义回文，但43不是。所以应该判断4是不是为回文。<br><a id="more"></a></p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div></pre></td><td class="code"><pre><div class="line">#include&lt;iostream&gt;</div><div class="line">#include&lt;cmath&gt;</div><div class="line">#include&lt;algorithm&gt;</div><div class="line">#include&lt;cstring&gt;</div><div class="line">#include&lt;string&gt;</div><div class="line">#include&lt;cstdio&gt;</div><div class="line">#include&lt;vector&gt;</div><div class="line">#include&lt;map&gt;</div><div class="line">#include&lt;set&gt;</div><div class="line">#define pb push_back</div><div class="line">#define debug puts(&quot;=====================&quot;);</div><div class="line">using namespace std;</div><div class="line">typedef long long ll;</div><div class="line">ll n;</div><div class="line">int bit[22], len;</div><div class="line">ll dp[22][22];</div><div class="line">void work(ll n) &#123;</div><div class="line">    vector&lt;int&gt; g;</div><div class="line">    len = 0;</div><div class="line">    while(n) &#123;</div><div class="line">        g.pb(n % 10);</div><div class="line">        n /= 10;</div><div class="line">    &#125;</div><div class="line">    len = g.size();</div><div class="line">    reverse(g.begin(), g.end());</div><div class="line">    for (int i = 1; i &lt;= len; i++) bit[i] = g[i - 1];</div><div class="line">&#125;</div><div class="line">int k;</div><div class="line">ll base[22];</div><div class="line">bool check(vector&lt;int&gt; g) &#123;</div><div class="line">    int len = g.size();</div><div class="line">    for (int i = 0, j = len - 1; i &lt; j; i++, j--) if (g[i] != g[j]) return false;</div><div class="line">    return true;</div><div class="line">&#125;</div><div class="line">ll dfs(int l, int r) &#123;</div><div class="line">    if (dp[l][r] != -1) return dp[l][r];</div><div class="line">    if (l &gt; k) &#123; //l&gt;k,此时(l,r)为9...9最大</div><div class="line">        dp[l][r] = base[r - l + 1] - 1;</div><div class="line">        return dp[l][r];</div><div class="line">    &#125;</div><div class="line">    if (r &lt;= k) &#123; //r &lt;= k，此时(l,r)串为已知串</div><div class="line">        vector&lt;int&gt; g;</div><div class="line">        ll ss = 0;</div><div class="line">        ss = ss * 10 + bit[l];</div><div class="line">        g.pb(bit[l]);</div><div class="line">        for (int i = l + 1; i &lt;= r; i++) &#123;</div><div class="line">            ss = ss * 10 + bit[i];</div><div class="line">        &#125;</div><div class="line">        int R = r;</div><div class="line">        while(bit[R] == bit[l - 1] &amp;&amp; l &gt; 1) R--; //需要把右边的压缩</div><div class="line">        for (int i = l + 1; i &lt;= R; i++) &#123;</div><div class="line">            if (bit[i] != bit[i - 1]) g.pb(bit[i]);</div><div class="line">        &#125;</div><div class="line">        if (check(g)) return dp[l][r] = ss; //如果压缩后为回文串，修改值</div><div class="line">        return -1;</div><div class="line">    &#125;</div><div class="line">    int L;</div><div class="line">    for (L = l + 1; L &lt;= k; L++) &#123; //把L变为第一个不与l位相同的</div><div class="line">        if (bit[L] != bit[L - 1]) break;</div><div class="line">    &#125;</div><div class="line">    if (L == k + 1) ;</div><div class="line">    else if (L == k) &#123;</div><div class="line">        if (bit[L] == bit[L - 1]) L = k + 1;</div><div class="line">        else L = k;</div><div class="line">    &#125;</div><div class="line">    ll mx = -1;</div><div class="line">    ll ans = 0;</div><div class="line">    for (int i = l; i &lt; L; i++) ans = ans * 10 + bit[i]; //前缀和</div><div class="line">    ll tmp = 0;</div><div class="line">    for (int j = r - 1; j &gt;= k; j--) &#123;</div><div class="line">        tmp = tmp * 10 + bit[l]; //后缀和</div><div class="line">        ll res = dfs(L, j);</div><div class="line">        if (res != -1) mx = max(ans * base[r - L + 1] + res * base[r - j] + tmp, mx);</div><div class="line">    &#125;</div><div class="line">    if (mx &gt;= 0) dp[l][r] = mx;</div><div class="line">    return mx;</div><div class="line">&#125;</div><div class="line">int main () &#123;</div><div class="line">    int t;</div><div class="line">    scanf(&quot;%d&quot;, &amp;t);</div><div class="line">    base[0] = 1;</div><div class="line">    for (int i = 1; i &lt;= 18; i++) base[i] = base[i - 1] * 10;</div><div class="line">    while(t--) &#123;</div><div class="line">        scanf(&quot;%lld&quot;, &amp;n);</div><div class="line">        work(n);</div><div class="line">        bool flag = false;</div><div class="line">        for (int i = len; i &gt;= 1; i--) &#123;</div><div class="line">            int x = bit[i];</div><div class="line">            for (int j = x - 1; j &gt;= (i == 1) ? 1 : 0; j--) &#123;</div><div class="line">                k = i;</div><div class="line">                memset(dp, -1, sizeof(dp));</div><div class="line">                bit[i] = j;</div><div class="line">                dfs(1, len);</div><div class="line">                if (dp[1][len] != -1) &#123;</div><div class="line">                    printf(&quot;%lld\n&quot;, dp[1][len]);</div><div class="line">                    flag = true;</div><div class="line">                    break;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            bit[i] = x;</div><div class="line">            if (flag) break;</div><div class="line">        &#125;</div><div class="line">        if (!flag) &#123; //像100之类的数，上面的dp跑不出来，这里特别输出即可</div><div class="line">            printf(&quot;%lld\n&quot;, base[len - 1] - 1);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2015/08/25/zoj3810/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2015/08/26/hdu5125/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/books/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              书单
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'SIO__Five';
+    
+    var disqus_url = 'http://yoursite.com/2015/08/25/zoj3816/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//SIO__Five.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

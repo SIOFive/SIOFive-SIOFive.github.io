@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>CF练习赛4 | SIO__Five</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="SIO__Five, siofive, C++, algorithm, machinelearning, deeplearning" />
+  
+
+  <meta name="description" content="题目 Problem A [CodeForces 9A] Die Roll Problem B [CodeForces 8A] Train and Peter Problem C [CodeForces 7A] Kalevitch and Chess Problem D [CodeForces 7C] Line (扩展欧几里得) Problem E [CodeForces 8C] Looking">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CF练习赛4">
+<meta property="og:url" content="http://yoursite.com/2014/11/12/拉练4/index.html">
+<meta property="og:site_name" content="SIO__Five">
+<meta property="og:description" content="题目 Problem A [CodeForces 9A] Die Roll Problem B [CodeForces 8A] Train and Peter Problem C [CodeForces 7A] Kalevitch and Chess Problem D [CodeForces 7C] Line (扩展欧几里得) Problem E [CodeForces 8C] Looking">
+<meta property="og:updated_time" content="2014-11-28T11:05:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CF练习赛4">
+<meta name="twitter:description" content="题目 Problem A [CodeForces 9A] Die Roll Problem B [CodeForces 8A] Train and Peter Problem C [CodeForces 7A] Kalevitch and Chess Problem D [CodeForces 7C] Line (扩展欧几里得) Problem E [CodeForces 8C] Looking">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/books/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            书单
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Problem-A-Die-Roll"><span class="toc-text">Problem A Die Roll</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Problem-B-Train-and-Peter"><span class="toc-text">Problem B Train and Peter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Problem-C-Kalevitch-and-Chess"><span class="toc-text">Problem C Kalevitch and Chess</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Problem-D-Line-扩展欧几里得"><span class="toc-text">Problem D Line (扩展欧几里得)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#思路"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Problem-E-Exposition-bitmasks-dp"><span class="toc-text">Problem E Exposition (bitmasks, dp)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#更新日志"><span class="toc-text">更新日志</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-拉练4" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">CF练习赛4</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2014.11.12</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>SIO__Five</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/ACM/">ACM</a> / <a class="article-category-link" href="/categories/ACM/Contest/">Contest</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.forsigner.com/2014/11/12/拉练4/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><ul>
+<li>Problem A [CodeForces 9A] Die Roll</li>
+<li>Problem B [CodeForces 8A] Train and Peter</li>
+<li>Problem C [CodeForces 7A] Kalevitch and Chess</li>
+<li>Problem D [CodeForces 7C] Line (扩展欧几里得)</li>
+<li>Problem E [CodeForces 8C] Looking for Order (bitmasks, dp)</li>
+</ul>
+<a id="more"></a>
+<h2 id="Problem-A-Die-Roll"><a href="#Problem-A-Die-Roll" class="headerlink" title="Problem A Die Roll"></a>Problem A Die Roll</h2><p>给定三个骰子，已知前两个的数字，问有多大的概率使得第三个骰子的值不小于前两个的最大值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">int main () &#123;</div><div class="line">    int x, y;</div><div class="line">    cin&gt;&gt;x&gt;&gt;y;</div><div class="line">    if (x &gt; y) swap(x, y);</div><div class="line">    x = 6 - y + 1;</div><div class="line">    int g = __gcd(x, 6);</div><div class="line">    if (x == 0) puts(&quot;0/1&quot;);</div><div class="line">    else cout&lt;&lt;x / g&lt;&lt;&quot;/&quot;&lt;&lt;6 / g&lt;&lt;endl;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Problem-B-Train-and-Peter"><a href="#Problem-B-Train-and-Peter" class="headerlink" title="Problem B Train and Peter"></a>Problem B Train and Peter</h2><p>给定三个字符串A，B，C。问B和C是否按照顺序出现在A中（B和C分别为A的子串，且不重复）<br>如果只有从左到右可以，输出forward<br>如果只有从右到左可以，输出backward<br>如果都可以，输出both<br>否则输出fantasy</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">const int N = 1e5 + 10;</div><div class="line">char str[N];</div><div class="line">char a[111], b[111];</div><div class="line">int n, la, lb;</div><div class="line">int get(char a[], char b[], char str[]) &#123;</div><div class="line">    char *t = strstr(str, a);</div><div class="line">    if (!t) return -1;</div><div class="line">    if (strstr(t + la, b)) return 1;</div><div class="line">    return -1;</div><div class="line">&#125;</div><div class="line">int main () &#123;</div><div class="line">    scanf(&quot;%s%s%s&quot;, str, a, b);</div><div class="line">    n = strlen(str);</div><div class="line">    la = strlen(a); lb = strlen(b);</div><div class="line">    int x = get(a, b, str);</div><div class="line">    reverse(str, str + n);</div><div class="line">    int y = get(a, b, str);</div><div class="line">    if (x == 1 &amp;&amp; y == 1) puts(&quot;both&quot;);</div><div class="line">    else if (x == 1 &amp;&amp; y == -1) puts(&quot;forward&quot;);</div><div class="line">    else if (x == -1 &amp;&amp; y == 1) puts(&quot;backward&quot;);</div><div class="line">    else puts(&quot;fantasy&quot;);</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Problem-C-Kalevitch-and-Chess"><a href="#Problem-C-Kalevitch-and-Chess" class="headerlink" title="Problem C Kalevitch and Chess"></a>Problem C Kalevitch and Chess</h2><p>给定一张8X8的地图，一开始全是白色，每次可以选择一行或一列将其全部染为黑色。现给定一个最终状态的地图，问最少需要染色多少次。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">int mp[10][10];</div><div class="line">int b[10][10];</div><div class="line">int main () &#123;</div><div class="line">    int tot = 1 &lt;&lt; 16;</div><div class="line">    int mn = 100;</div><div class="line">    char ch;</div><div class="line">    rep(i, 0, 8) &#123;</div><div class="line">        rep(j, 0, 8) &#123;</div><div class="line">            cin&gt;&gt;ch;</div><div class="line">            if (ch == &apos;B&apos;) mp[i][j] = 1;</div><div class="line">            else mp[i][j] = 0;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    for (int i = 0; i &lt; tot; i++) &#123;</div><div class="line">        memset(b, 0, sizeof(b));</div><div class="line">        int t = 0;</div><div class="line">        for (int j = 0; j &lt; 16; j++) if ((i &gt;&gt; j) &amp; 1) &#123;</div><div class="line">            t++;</div><div class="line">            if (j &gt;= 8) for (int l = 0; l &lt; 8; l++) b[l][j - 8] = 1;</div><div class="line">            else rep(l, 0, 8) b[j][l] = 1;</div><div class="line">        &#125;</div><div class="line">        if (t &lt; mn) &#123;</div><div class="line">            bool ok = 1;</div><div class="line">            rep(l, 0, 8) rep(q, 0, 8) if (mp[l][q] != b[l][q]) &#123;</div><div class="line">                ok = 0;</div><div class="line">                break;</div><div class="line">            &#125;</div><div class="line">            if (ok) mn = t;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    cout&lt;&lt;mn&lt;&lt;endl;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Problem-D-Line-扩展欧几里得"><a href="#Problem-D-Line-扩展欧几里得" class="headerlink" title="Problem D Line (扩展欧几里得)"></a>Problem D Line (扩展欧几里得)</h2><p>给定一条直线：$Ax+By+C=0$。请在$[-5{\cdot}10^{18},5{\cdot}10^{18}]$的范围内找到任意一个在该直线上的整点，否则输出-1<br>数据范围：$-2{\cdot}10^9{\leq}A,B,C{\leq}2{\cdot}10^9$</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>扩展欧几里得，如果C % gcd(A, B) != 0，无整数点，否则有解。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">ll x, y;</div><div class="line">ll extend_gcd(ll a, ll b, ll &amp;x, ll &amp;y) &#123;</div><div class="line">    if (b == 0) &#123;</div><div class="line">        x = 1, y = 0;</div><div class="line">        return a;</div><div class="line">    &#125;</div><div class="line">    else &#123;</div><div class="line">        ll r = extend_gcd(b, a % b, y, x);</div><div class="line">        y -= x * (a / b);</div><div class="line">        return r;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">int main () &#123;</div><div class="line">    ll A, B, C;</div><div class="line">    cin&gt;&gt;A&gt;&gt;B&gt;&gt;C;</div><div class="line">    if (A == 0) &#123;</div><div class="line">        if (C % B) puts(&quot;-1&quot;);</div><div class="line">        else &#123;</div><div class="line">            cout&lt;&lt;0&lt;&lt;&quot; &quot;&lt;&lt;-C / B&lt;&lt;endl;</div><div class="line">        &#125;</div><div class="line">    &#125; else if (B == 0) &#123;</div><div class="line">        if (C % A) puts(&quot;-1&quot;);</div><div class="line">        else &#123;</div><div class="line">            cout&lt;&lt;-C / A&lt;&lt;&quot; &quot;&lt;&lt;0&lt;&lt;endl;</div><div class="line">        &#125;</div><div class="line">    &#125; else &#123;</div><div class="line">        ll d = __gcd(A, B);</div><div class="line">        if (C % d) puts(&quot;-1&quot;);</div><div class="line">        else &#123;</div><div class="line">            extend_gcd(A, B, x, y);</div><div class="line">            ll tx = x * (-C / d), ty = y * (-C / d);</div><div class="line">            cout&lt;&lt;tx&lt;&lt;&quot; &quot;&lt;&lt;ty&lt;&lt;endl;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Problem-E-Exposition-bitmasks-dp"><a href="#Problem-E-Exposition-bitmasks-dp" class="headerlink" title="Problem E Exposition (bitmasks, dp)"></a>Problem E Exposition (bitmasks, dp)</h2><p>给定起点，以及$n$个物品的位置。现在规定每次从起点出发，可以选择一个物品，并且将其带回起点；或者选择两个物品，先后走到两个物品处，将其带回起点。问将所有物品带回起点的最少时间，每段路程的时间为该路程值的平方。<br>数据范围：$1{\leq}n{\leq}24$<br><a href="http://siofive.github.io/2014/11/12/拉练4_E/" target="_blank" rel="external">http://siofive.github.io/2014/11/12/拉练4_E/</a></p>
+<h1 id="更新日志"><a href="#更新日志" class="headerlink" title="更新日志"></a>更新日志</h1><ul>
+<li>2014-11-12 AK</li>
+</ul>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2014/11/12/拉练4_E/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2015/07/19/BC1-1 hdu 4857 逃生(拓扑排序 逆向思考)/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/books/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              书单
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'SIO__Five';
+    
+    var disqus_url = 'http://yoursite.com/2014/11/12/拉练4/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//SIO__Five.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
