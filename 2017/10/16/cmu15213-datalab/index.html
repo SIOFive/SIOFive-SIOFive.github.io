@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="SIO__Five">
 <meta property="og:description" content="实验内容《深入理解计算机系统》的第一个实验，内容包括位操作，用二进制表示整数，浮点数，以及相应的操作。实验限定了可选用的操作符，并且有最大次数限制，总体来讲还是非常有趣的。 bitAnd只使用 ~ 和 | 实现 &amp;amp; De Morgan定律 12345678910/*  * bitAnd - x&amp;amp;y using only ~ and |  *   Example: bitAnd(6,">
 <meta property="og:image" content="http://siofive.qiniudn.com/datalab-bitCount.jpg">
-<meta property="og:updated_time" content="2017-10-17T11:47:21.000Z">
+<meta property="og:updated_time" content="2017-10-17T11:54:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CMU15213：CSAPP 实验一：DataLab">
 <meta name="twitter:description" content="实验内容《深入理解计算机系统》的第一个实验，内容包括位操作，用二进制表示整数，浮点数，以及相应的操作。实验限定了可选用的操作符，并且有最大次数限制，总体来讲还是非常有趣的。 bitAnd只使用 ~ 和 | 实现 &amp;amp; De Morgan定律 12345678910/*  * bitAnd - x&amp;amp;y using only ~ and |  *   Example: bitAnd(6,">
@@ -196,7 +196,7 @@
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+    <strong class="toc-title">Posts List</strong>
     <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#实验内容"><span class="toc-text">实验内容</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#bitAnd"><span class="toc-text">bitAnd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getByte"><span class="toc-text">getByte</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#logicalShift"><span class="toc-text">logicalShift</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bitCount"><span class="toc-text">bitCount</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bang"><span class="toc-text">bang</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tmin"><span class="toc-text">tmin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fitsBits"><span class="toc-text">fitsBits</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#divpwr2"><span class="toc-text">divpwr2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#negate"><span class="toc-text">negate</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#isPositive"><span class="toc-text">isPositive</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#isLessOrEqual"><span class="toc-text">isLessOrEqual</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ilog2"><span class="toc-text">ilog2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#float-neg"><span class="toc-text">float_neg</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#float-i2f"><span class="toc-text">float_i2f</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#float-twice"><span class="toc-text">float_twice</span></a></li></ol></li></ol>
   </div>
 
@@ -293,7 +293,7 @@
 <p>如果两者相同，x-y&lt;=0, x-y-1&lt;=-1, 即x+~y+1-1&lt;=-1。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">/* </div><div class="line"> * isLessOrEqual - if x &lt;= y  then return 1, else return 0 </div><div class="line"> *   Example: isLessOrEqual(4,5) = 1.</div><div class="line"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</div><div class="line"> *   Max ops: 24</div><div class="line"> *   Rating: 3</div><div class="line"> */</div><div class="line">int isLessOrEqual(int x, int y) &#123;</div><div class="line">  int sx = (x&gt;&gt;31) &amp; 1;</div><div class="line">  int sy = (y&gt;&gt;31) &amp; 1;</div><div class="line">  int sign_diff = sx &amp; !sy;</div><div class="line">  int sign_same = !(sx^sy) &amp; (((x+~y)&gt;&gt;31) &amp; 1);</div><div class="line">  return sign_diff | sign_same;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="ilog2"><a href="#ilog2" class="headerlink" title="ilog2"></a>ilog2</h2><p>ilog2(16)=4</p>
-<p>本质上就是求x的最高位1的位置，可以使用上面bitCount中分治法的思想。ilog2(x)的最大值为31，可以表示为 $ilog2(x) = 16<em>a+8</em>b+4<em>c+2</em>d+1*e$。其中a,b,c,d,e为0或1。</p>
+<p>本质上就是求x的最高位1的位置，可以使用上面bitCount中分治法的思想。ilog2(x)的最大值为31，可以表示为 $ilog2(x) = 16<em> a+8</em> b+4<em> c+2</em> d+1* e$。其中a,b,c,d,e为0或1。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * ilog2 - return floor(log base 2 of x), where x &gt; 0</div><div class="line"> *   Example: ilog2(16) = 4</div><div class="line"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</div><div class="line"> *   Max ops: 90</div><div class="line"> *   Rating: 4</div><div class="line"> */</div><div class="line">int ilog2(int x) &#123;</div><div class="line">  // max(x) = 31</div><div class="line">  // x can be replace by : x = 16*a+8*b+4*c+2*d+1*e</div><div class="line">  int ans = 0;</div><div class="line">  ans += (!!(x&gt;&gt;16)) &lt;&lt; 4;</div><div class="line">  ans += (!!(x&gt;&gt;(8+ans))) &lt;&lt; 3;</div><div class="line">  ans += (!!(x&gt;&gt;(4+ans))) &lt;&lt; 2;</div><div class="line">  ans += (!!(x&gt;&gt;(2+ans))) &lt;&lt; 1;</div><div class="line">  ans += (!!(x&gt;&gt;(1+ans))) &lt;&lt; 0;</div><div class="line">  return ans;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="float-neg"><a href="#float-neg" class="headerlink" title="float_neg"></a>float_neg</h2><p>用unsigned x表示float，并返回-x</p>
 <p>先判断uf是否为NaN，如果是，返回NaN，如果不是的话，返回-uf即可。当浮点数中阶数全为1，而尾数不为0时，表示该数为NaN。</p>
@@ -343,7 +343,7 @@
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">
@@ -515,5 +515,20 @@
   }
 </script>
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
