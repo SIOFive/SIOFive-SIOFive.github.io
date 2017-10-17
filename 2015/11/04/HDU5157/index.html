@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://yoursite.com/2015/11/04/HDU5157/index.html">
 <meta property="og:site_name" content="SIO__Five">
 <meta property="og:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5157 题意有一个字符串s，问有多少对子串对(suba, subb)，使得suba和subb均为回文子串，且两个子串不能有重叠部分。 思路首先可以用Manacher算法预处理出以每个字符（包括两个字符之间的位置）为中心能有多少个回文串。然后用差分前缀处理处pre、suf、sum三个数组。其中pre数组">
-<meta property="og:updated_time" content="2015-11-04T13:55:00.000Z">
+<meta property="og:updated_time" content="2017-10-01T02:36:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HDU5157 Harry and magic string（Manacher+差分前缀）">
 <meta name="twitter:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5157 题意有一个字符串s，问有多少对子串对(suba, subb)，使得suba和subb均为回文子串，且两个子串不能有重叠部分。 思路首先可以用Manacher算法预处理出以每个字符（包括两个字符之间的位置）为中心能有多少个回文串。然后用差分前缀处理处pre、suf、sum三个数组。其中pre数组">
@@ -265,7 +265,7 @@
     <a class="show pull-left" href="/2015/10/29/HDU5156/">
         <i class="icon icon-angle-left"></i>
     </a>
-    <a class="hide pull-right" href="/">
+    <a class="show pull-right" href="/2017/10/16/cmu15213-datalab/">
         <i class="icon icon-angle-right"></i>
     </a>
   </div>
@@ -459,20 +459,5 @@
   }
 </script>
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

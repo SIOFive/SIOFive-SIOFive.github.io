@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://yoursite.com/2015/07/22/hdu 5289/index.html">
 <meta property="og:site_name" content="SIO__Five">
 <meta property="og:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5289 题意给你n个数和一个数k，求存在多少个区间，区间内最大值减最小值小于k其中 n ≤ 100000; a[i], k ≤ 10^9 思路st表：用st表来维护区间最小值最大值。维护一个队列，从左往右开始遍历，每次要将一个数放进队列时，判断是否符合条件，符合则加入，不符合则将队首的元素移出，直到符">
-<meta property="og:updated_time" content="2015-07-28T11:50:24.000Z">
+<meta property="og:updated_time" content="2017-10-01T02:36:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HDU 5289 Assignment（st表 单调队列）">
 <meta name="twitter:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5289 题意给你n个数和一个数k，求存在多少个区间，区间内最大值减最小值小于k其中 n ≤ 100000; a[i], k ≤ 10^9 思路st表：用st表来维护区间最小值最大值。维护一个队列，从左往右开始遍历，每次要将一个数放进队列时，判断是否符合条件，符合则加入，不符合则将队首的元素移出，直到符">
@@ -466,20 +466,5 @@
   }
 </script>
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

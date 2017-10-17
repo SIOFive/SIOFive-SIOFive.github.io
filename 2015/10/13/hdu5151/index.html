@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://yoursite.com/2015/10/13/hdu5151/index.html">
 <meta property="og:site_name" content="SIO__Five">
 <meta property="og:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5151 题意有n个人陆续坐到n个椅子上，每张椅子为两种颜色中的一种。每个人每次可以选择一个空位置，如果该空位置两边都有人，且两边的椅子颜色不同，那么他便不能坐下，需要离开。现在问n个人全部坐下的方案数 思路dp[i][j]表示编号i-j的位置上都有人坐下的方案数。dp[i][i] = 1, dp[i]">
-<meta property="og:updated_time" content="2015-10-13T07:06:32.000Z">
+<meta property="og:updated_time" content="2017-10-01T02:36:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HDU 5151 Sit sit sit（区间dp）">
 <meta name="twitter:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5151 题意有n个人陆续坐到n个椅子上，每张椅子为两种颜色中的一种。每个人每次可以选择一个空位置，如果该空位置两边都有人，且两边的椅子颜色不同，那么他便不能坐下，需要离开。现在问n个人全部坐下的方案数 思路dp[i][j]表示编号i-j的位置上都有人坐下的方案数。dp[i][i] = 1, dp[i]">
@@ -460,20 +460,5 @@
   }
 </script>
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

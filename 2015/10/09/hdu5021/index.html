@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://yoursite.com/2015/10/09/hdu5021/index.html">
 <meta property="og:site_name" content="SIO__Five">
 <meta property="og:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5021 题意给定n个点，每个点有一个值。现在有一些询问，每次用离某点距离最小的K个点的平均值来更新该点的值，如果有两个点距离相同，去index小的点。 思路 可以用二分来求每次离该点最近的K个点，二分离该点的距离值即可。注意一些细节问题 用树状数组来维护距离和">
-<meta property="og:updated_time" content="2015-10-09T12:00:20.000Z">
+<meta property="og:updated_time" content="2017-10-01T02:36:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HDU 5021 Revenge of kNN II（二分+树状数组）">
 <meta name="twitter:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5021 题意给定n个点，每个点有一个值。现在有一些询问，每次用离某点距离最小的K个点的平均值来更新该点的值，如果有两个点距离相同，去index小的点。 思路 可以用二分来求每次离该点最近的K个点，二分离该点的距离值即可。注意一些细节问题 用树状数组来维护距离和">
@@ -463,20 +463,5 @@
   }
 </script>
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

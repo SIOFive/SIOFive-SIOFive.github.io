@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://yoursite.com/2015/08/17/hdu5102/index.html">
 <meta property="og:site_name" content="SIO__Five">
 <meta property="og:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5067 题意有一棵树n个节点，每条边都为1。现在把每两个点之间的距离放在一起，按照从大到小排列。问前k个的和为多少？保证k小于等于min(1e6, n*(n-1)/2) 思路把所有边(u,v)以及(v,u)放入队列，队列每弹出一个元素(u,v)，对于所有与v相邻的点w，如果w≠u，就把(v,w)入队，">
-<meta property="og:updated_time" content="2015-08-18T15:03:44.000Z">
+<meta property="og:updated_time" content="2017-10-01T02:36:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HDU 5102 The K-th Distance（想法）">
 <meta name="twitter:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5067 题意有一棵树n个节点，每条边都为1。现在把每两个点之间的距离放在一起，按照从大到小排列。问前k个的和为多少？保证k小于等于min(1e6, n*(n-1)/2) 思路把所有边(u,v)以及(v,u)放入队列，队列每弹出一个元素(u,v)，对于所有与v相邻的点w，如果w≠u，就把(v,w)入队，">
@@ -463,20 +463,5 @@
   }
 </script>
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://yoursite.com/2014/11/04/BC16_2/index.html">
 <meta property="og:site_name" content="SIO__Five">
 <meta property="og:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5087 题意求序列第二长的上升子序列。 思路LIS的$O(N^2)$做法是$dp[i]=max(dp[j]|a[j]&amp;lt;a[i])+1$。如果需要第二大的，额外开一维，记录到该位的最大长度能否由多个序列得到。复杂度：$O(N^2)$">
-<meta property="og:updated_time" content="2014-11-07T15:50:42.000Z">
+<meta property="og:updated_time" content="2017-10-01T02:36:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hdu 5087 Revenge of LIS II (dp)">
 <meta name="twitter:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5087 题意求序列第二长的上升子序列。 思路LIS的$O(N^2)$做法是$dp[i]=max(dp[j]|a[j]&amp;lt;a[i])+1$。如果需要第二大的，额外开一维，记录到该位的最大长度能否由多个序列得到。复杂度：$O(N^2)$">
@@ -463,20 +463,5 @@
   }
 </script>
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://yoursite.com/2015/08/26/hdu5141/index.html">
 <meta property="og:site_name" content="SIO__Five">
 <meta property="og:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5141 题意有n个数的序列，另该序列的最长上升子序列的长度为k。求该序列中子串满足最长上升子序列长度也为k的个数。1≤n≤100000 思路首先我们用线段树可以求出以第i位为结尾的最大长度。假如当前dp[i]=k, 如果可以求得以i结尾，符合条件的最短子串，那么用左边的长度 * 右边的长度就是符合条件">
-<meta property="og:updated_time" content="2015-08-25T20:00:32.000Z">
+<meta property="og:updated_time" content="2017-10-01T02:36:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HDU 5141 LIS again（LIS+dp+线段树）">
 <meta name="twitter:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5141 题意有n个数的序列，另该序列的最长上升子序列的长度为k。求该序列中子串满足最长上升子序列长度也为k的个数。1≤n≤100000 思路首先我们用线段树可以求出以第i位为结尾的最大长度。假如当前dp[i]=k, 如果可以求得以i结尾，符合条件的最短子串，那么用左边的长度 * 右边的长度就是符合条件">
@@ -262,7 +262,7 @@
 
    
   <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2015/08/26/hdu5106/">
+    <a class="show pull-left" href="/2015/08/26/hdu5125/">
         <i class="icon icon-angle-left"></i>
     </a>
     <a class="show pull-right" href="/2015/08/26/hdu5110/">
@@ -459,20 +459,5 @@
   }
 </script>
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://yoursite.com/2015/10/10/hdu5148/index.html">
 <meta property="og:site_name" content="SIO__Five">
 <meta property="og:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5148 题意给定一棵树，数的节点数为n。问从中选出K个点，使得这些点之间的距离和最小 思路考虑每条边的贡献，一条边会把树分成两部分，若在其中一部分里选择了x个点，则这条边被统计的次数为x(K-x)2. 那么考虑dp[u][i]表示在u的子树中选择了i个点的最小代价，有转移dp[u][i] = min(">
-<meta property="og:updated_time" content="2015-10-10T13:32:58.000Z">
+<meta property="og:updated_time" content="2017-10-01T02:36:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HDU 5148 Cities（树dp）">
 <meta name="twitter:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=5148 题意给定一棵树，数的节点数为n。问从中选出K个点，使得这些点之间的距离和最小 思路考虑每条边的贡献，一条边会把树分成两部分，若在其中一部分里选择了x个点，则这条边被统计的次数为x(K-x)2. 那么考虑dp[u][i]表示在u的子树中选择了i个点的最小代价，有转移dp[u][i] = min(">
@@ -459,20 +459,5 @@
   }
 </script>
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

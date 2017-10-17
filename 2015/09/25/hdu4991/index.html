@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://yoursite.com/2015/09/25/hdu4991/index.html">
 <meta property="og:site_name" content="SIO__Five">
 <meta property="og:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=4991 题意给定一个长度为N的序列，问所有长度为M的上升子序列的个数 思路另dp[i][j]表示以a[i]为结尾，长度为j的上升子序列的个数，有如下转移方程dp[i][j] = sum(dp[k][j - 1]) 其中k小于i，且a[k]&amp;lt;a[i]朴素的转移是n2m，可以通过树状数组来维护和，复">
-<meta property="og:updated_time" content="2015-09-25T08:26:12.000Z">
+<meta property="og:updated_time" content="2017-10-01T02:36:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HDU 4991 Ordered Subsequence（LIS+树状数组）">
 <meta name="twitter:description" content="题目源地址：http://acm.hdu.edu.cn/showproblem.php?pid=4991 题意给定一个长度为N的序列，问所有长度为M的上升子序列的个数 思路另dp[i][j]表示以a[i]为结尾，长度为j的上升子序列的个数，有如下转移方程dp[i][j] = sum(dp[k][j - 1]) 其中k小于i，且a[k]&amp;lt;a[i]朴素的转移是n2m，可以通过树状数组来维护和，复">
@@ -460,20 +460,5 @@
   }
 </script>
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
