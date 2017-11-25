@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>利用dlopen，dlsym加载动态链接库 | SIO__Five</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="dlopen,dlsym,动态库,函数签名," />
+  
+
+  <meta name="description" content="最近碰到一个需求，程序加载的动态库中有若干个函数，如何根据函数签名从这些函数中返回唯一匹配的函数。 分析该问题，首先需要知道编译后的目标文件中，每个函数的函数签名是什么。其次，要如何根据函数签名从动态库中获得对应的函数。 函数签名C函数签名C函数中，不能通过改变函数的参数列表实现重载，因为只使用函数名作为签名。 example： 123456789101112int add(int a, int">
+<meta name="keywords" content="dlopen,dlsym,动态库,函数签名">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用dlopen，dlsym加载动态链接库">
+<meta property="og:url" content="http://yoursite.com/2017/11/01/dlsym调用动态链接库/index.html">
+<meta property="og:site_name" content="SIO__Five">
+<meta property="og:description" content="最近碰到一个需求，程序加载的动态库中有若干个函数，如何根据函数签名从这些函数中返回唯一匹配的函数。 分析该问题，首先需要知道编译后的目标文件中，每个函数的函数签名是什么。其次，要如何根据函数签名从动态库中获得对应的函数。 函数签名C函数签名C函数中，不能通过改变函数的参数列表实现重载，因为只使用函数名作为签名。 example： 123456789101112int add(int a, int">
+<meta property="og:updated_time" content="2017-11-01T15:08:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用dlopen，dlsym加载动态链接库">
+<meta name="twitter:description" content="最近碰到一个需求，程序加载的动态库中有若干个函数，如何根据函数签名从这些函数中返回唯一匹配的函数。 分析该问题，首先需要知道编译后的目标文件中，每个函数的函数签名是什么。其次，要如何根据函数签名从动态库中获得对应的函数。 函数签名C函数签名C函数中，不能通过改变函数的参数列表实现重载，因为只使用函数名作为签名。 example： 123456789101112int add(int a, int">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/books/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            书单
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#函数签名"><span class="toc-text">函数签名</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#C函数签名"><span class="toc-text">C函数签名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-函数签名"><span class="toc-text">C++函数签名</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#将C-函数签名转换为C函数签名"><span class="toc-text">将C++函数签名转换为C函数签名</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#加载动态库"><span class="toc-text">加载动态库</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-dlsym调用动态链接库" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">利用dlopen，dlsym加载动态链接库</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.11.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>SIO__Five</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Linux环境编程/">Linux环境编程</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.forsigner.com/2017/11/01/dlsym调用动态链接库/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>最近碰到一个需求，程序加载的动态库中有若干个函数，如何根据函数签名从这些函数中返回唯一匹配的函数。</p>
+<p>分析该问题，首先需要知道编译后的目标文件中，每个函数的函数签名是什么。其次，要如何根据函数签名从动态库中获得对应的函数。</p>
+<h1 id="函数签名"><a href="#函数签名" class="headerlink" title="函数签名"></a>函数签名</h1><h2 id="C函数签名"><a href="#C函数签名" class="headerlink" title="C函数签名"></a>C函数签名</h2><p>C函数中，不能通过改变函数的参数列表实现重载，因为只使用函数名作为签名。</p>
+<p>example：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span>  </span>&#123;</div><div class="line">	<span class="keyword">return</span> (a + b);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">sub</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> (a - b);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">mul</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> (a * b);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">div</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> (a / b);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>将函数编译成动态链接库</strong></p>
+<p>gcc -fPIC -shared calc.c -o libcalc.so</p>
+<p>使用nm查看libcalc.so的函数列表, 可以看到四个对应的函数</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">nm libcalc.so </div><div class="line"><span class="number">0000000000000</span>eb0 <span class="built_in">T</span> _add</div><div class="line"><span class="number">0000000000000</span>ef5 <span class="built_in">T</span> _div</div><div class="line"><span class="number">0000000000000</span>ee2 <span class="built_in">T</span> _mul</div><div class="line"><span class="number">0000000000000</span>ed0 <span class="built_in">T</span> _sub</div></pre></td></tr></table></figure>
+<h2 id="C-函数签名"><a href="#C-函数签名" class="headerlink" title="C++函数签名"></a>C++函数签名</h2><p>c++函数以函数名加参数类型作为签名，所以可以通过改变参数列表实现重载。</p>
+<p>将上述文件保存为cpp之后，用g++编译成动态链接库，并查看函数列表</p>
+<p>g++ -fPIC -shared calc.cpp -o libcalc.so</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="number">0000000000000</span>ebc <span class="built_in">T</span> __Z3addii</div><div class="line"><span class="number">0000000000000</span>ef5 <span class="built_in">T</span> __Z3divii</div><div class="line"><span class="number">0000000000000</span>ee2 <span class="built_in">T</span> __Z3mulii</div><div class="line"><span class="number">0000000000000</span>ed0 <span class="built_in">T</span> __Z3subii</div></pre></td></tr></table></figure>
+<p>以加法函数为例，add为函数名，ii表示两个参数分别为int，int</p>
+<p>如果重载add函数，如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">float</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</div><div class="line">	<span class="keyword">return</span> (a + b);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>编译之后的函数签名如下，add的第一个参数为float,第二个为int</p>
+<p>0000000000000eb0 T __Z3addfi</p>
+<h3 id="将C-函数签名转换为C函数签名"><a href="#将C-函数签名转换为C函数签名" class="headerlink" title="将C++函数签名转换为C函数签名"></a>将C++函数签名转换为C函数签名</h3><p>在某些场景下，需要用c来调c++函数，就需要对c++函数做包装，使得函数名长得和C函数名一致。通过extern “C”来实现：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">extern</span> <span class="string">"C"</span> &#123;</div><div class="line">	code</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对应的code函数名就与C函数名一致</p>
+<h1 id="加载动态库"><a href="#加载动态库" class="headerlink" title="加载动态库"></a>加载动态库</h1><p>知道了函数的签名，可以通过dlopen, dlsym在动态库中查找对应的函数。</p>
+<ul>
+<li><strong>dlopen</strong>：打开指定动态库， 返回handle句柄给调用进程<ul>
+<li>打开方式有多种，比如<ul>
+<li>RTLD_LAZY:    在dlopen返回前，对于动态库中未定义的符号不执行解析</li>
+<li>RTLD_NOW:        需要在dlopen返回前，解析出所有未定义符号，否则返回错误</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>dlerror</strong>：    返回出现的错误</li>
+<li><strong>dlsym</strong>：    通过句柄和连接符名称获取函数，并返回该函数指针</li>
+<li><strong>dlclose</strong>：    关闭打开的库</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;dlfcn.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">void</span> *<span class="title">dlopen</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *filename, <span class="keyword">int</span> mode)</span></span>;</div><div class="line"><span class="function"><span class="keyword">char</span> *<span class="title">dlerror</span><span class="params">(<span class="keyword">void</span>)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> *<span class="title">dlsym</span><span class="params">(<span class="keyword">void</span> *handle, <span class="keyword">const</span> <span class="keyword">char</span> *symbol)</span></span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">dlclose</span><span class="params">(<span class="keyword">void</span> *handle)</span></span>;</div></pre></td></tr></table></figure>
+<p>采用上述生成的libcalc.so, 测试dlsym等函数功能</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;dlfcn.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;functional&gt;</span></span></div><div class="line"></div><div class="line"><span class="comment">//动态链接库路径</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> LIB_CALCULATE_PATH <span class="meta-string">"./libcalc.so"</span></span></div><div class="line"></div><div class="line"><span class="comment">//函数指针</span></div><div class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span> <span class="params">(*CAC_FUNC)</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>;</div><div class="line"><span class="keyword">typedef</span> <span class="built_in">std</span>::function&lt;<span class="keyword">int</span>(<span class="keyword">int</span>, <span class="keyword">int</span>)&gt; FUNC;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">void</span> *handle;</div><div class="line">    <span class="keyword">char</span> *error;</div><div class="line">    FUNC func = <span class="literal">NULL</span>;</div><div class="line"></div><div class="line">    <span class="comment">//打开动态链接库</span></div><div class="line">    handle = dlopen(LIB_CALCULATE_PATH, RTLD_LAZY);</div><div class="line">    <span class="keyword">if</span> (!handle) &#123;</div><div class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"%s\n"</span>, dlerror());</div><div class="line">        <span class="built_in">exit</span>(EXIT_FAILURE);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//清除之前存在的错误</span></div><div class="line">    dlerror();</div><div class="line"></div><div class="line">    <span class="comment">//获取一个函数</span></div><div class="line">    <span class="comment">// 将dlsym返回的 void* 转化为CAC_FUNC的函数指针，然后赋给func</span></div><div class="line">    func = (CAC_FUNC)(dlsym(handle, <span class="string">"add"</span>));</div><div class="line">    <span class="keyword">if</span> ((error = dlerror()) != <span class="literal">NULL</span>)  &#123;</div><div class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"%s\n"</span>, error);</div><div class="line">        <span class="built_in">exit</span>(EXIT_FAILURE);</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"add: %d\n"</span>, func(<span class="number">2</span>,<span class="number">7</span>));</div><div class="line"></div><div class="line">    func = (CAC_FUNC)(dlsym(handle, <span class="string">"sub"</span>));</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"sub: %d\n"</span>, func(<span class="number">9</span>,<span class="number">2</span>));</div><div class="line"></div><div class="line">    func = (CAC_FUNC)dlsym(handle, <span class="string">"mul"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"mul: %d\n"</span>, func(<span class="number">3</span>,<span class="number">2</span>));</div><div class="line"></div><div class="line">    func = (CAC_FUNC)dlsym(handle, <span class="string">"div"</span>);</div><div class="line">    <span class="comment">//*(void **) (&amp;cac_func) = dlsym(handle, "div");</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"div: %d\n"</span>, func(<span class="number">8</span>,<span class="number">2</span>));</div><div class="line"></div><div class="line">    <span class="comment">//关闭动态链接库</span></div><div class="line">    dlclose(handle);</div><div class="line">    <span class="built_in">exit</span>(EXIT_SUCCESS);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最后编译，运行如下</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">➜  tools gi<span class="variable">t:</span>(master) ✗ g++ -rdynamic -<span class="keyword">o</span> main main.cpp -ldl</div><div class="line">➜  tools gi<span class="variable">t:</span>(master) ✗ ./main </div><div class="line"><span class="built_in">add</span>: <span class="number">2</span></div><div class="line">su<span class="variable">b:</span> <span class="number">7</span></div><div class="line">mu<span class="variable">l:</span> <span class="number">6</span></div><div class="line"><span class="keyword">di</span><span class="variable">v:</span> <span class="number">4</span></div></pre></td></tr></table></figure>
+<p>利用上述的方案，能够方便的使用动态库中的函数，提高灵活性。</p>
+<p><strong>参考资料</strong></p>
+<p><a href="http://www.cnblogs.com/Anker/p/3746802.html" target="_blank" rel="external">http://www.cnblogs.com/Anker/p/3746802.html</a></p>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/10/16/cmu15213-datalab/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/books/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              书单
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'SIO__Five';
+    
+    var disqus_url = 'http://yoursite.com/2017/11/01/dlsym调用动态链接库/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//SIO__Five.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
