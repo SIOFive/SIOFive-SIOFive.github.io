@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>CMU15213：CSAPP 实验二：Bomb Lab | SIO__Five</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="计算机基础,GDB,汇编," />
+  
+
+  <meta name="description" content="实验内容给定一个x86-64下可运行的可执行文件bomb，和对应的主程序代码bomb.c。用户需要输入6个字符串，一步步解开炸弹。如果输入的字符串不符合要求，炸弹就会爆炸。通过gdb对bomb进行调试，对可执行文件反汇编，从而解出对应的字符串。 为了防止bomb爆炸，先在explode_bomb处下上breakpoint，每次运行到此处就停止。 Phase_1在phase_1出下断点，然后disa">
+<meta name="keywords" content="计算机基础,GDB,汇编">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CMU15213：CSAPP 实验二：Bomb Lab">
+<meta property="og:url" content="http://yoursite.com/2018/01/13/cmu15213-bomblab/index.html">
+<meta property="og:site_name" content="SIO__Five">
+<meta property="og:description" content="实验内容给定一个x86-64下可运行的可执行文件bomb，和对应的主程序代码bomb.c。用户需要输入6个字符串，一步步解开炸弹。如果输入的字符串不符合要求，炸弹就会爆炸。通过gdb对bomb进行调试，对可执行文件反汇编，从而解出对应的字符串。 为了防止bomb爆炸，先在explode_bomb处下上breakpoint，每次运行到此处就停止。 Phase_1在phase_1出下断点，然后disa">
+<meta property="og:updated_time" content="2018-01-14T10:27:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CMU15213：CSAPP 实验二：Bomb Lab">
+<meta name="twitter:description" content="实验内容给定一个x86-64下可运行的可执行文件bomb，和对应的主程序代码bomb.c。用户需要输入6个字符串，一步步解开炸弹。如果输入的字符串不符合要求，炸弹就会爆炸。通过gdb对bomb进行调试，对可执行文件反汇编，从而解出对应的字符串。 为了防止bomb爆炸，先在explode_bomb处下上breakpoint，每次运行到此处就停止。 Phase_1在phase_1出下断点，然后disa">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/books/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            书单
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#实验内容"><span class="toc-text">实验内容</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Phase-1"><span class="toc-text">Phase_1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Phase-2"><span class="toc-text">Phase_2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#phase-3"><span class="toc-text">phase_3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#phase-4"><span class="toc-text">phase_4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#phase-5"><span class="toc-text">phase_5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#phase-6"><span class="toc-text">phase_6</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-cmu15213-bomblab" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">CMU15213：CSAPP 实验二：Bomb Lab</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.01.13</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>SIO__Five</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/深入理解计算机系统/">深入理解计算机系统</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.forsigner.com/2018/01/13/cmu15213-bomblab/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="实验内容"><a href="#实验内容" class="headerlink" title="实验内容"></a>实验内容</h1><p>给定一个x86-64下可运行的可执行文件bomb，和对应的主程序代码bomb.c。用户需要输入6个字符串，一步步解开炸弹。如果输入的字符串不符合要求，炸弹就会爆炸。通过gdb对bomb进行调试，对可执行文件反汇编，从而解出对应的字符串。</p>
+<p>为了防止bomb爆炸，先在explode_bomb处下上breakpoint，每次运行到此处就停止。</p>
+<h2 id="Phase-1"><a href="#Phase-1" class="headerlink" title="Phase_1"></a>Phase_1</h2><p>在phase_1出下断点，然后disas phase_1, 对应的汇编码如下。</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Dump of assembler code <span class="keyword">for</span> function phase_1:</div><div class="line">   <span class="number">0</span>x0000000000400ee0 <span class="variable">&lt;+0&gt;</span>:		sub    <span class="variable">$0x8</span>,%rsp</div><div class="line">   <span class="number">0</span>x0000000000400ee4 <span class="variable">&lt;+4&gt;</span>:		mov    <span class="variable">$0x402400</span>,%esi</div><div class="line">   <span class="number">0</span>x0000000000400ee9 <span class="variable">&lt;+9&gt;</span>:		callq  <span class="number">0</span>x401338 <span class="variable">&lt;strings_not_equal&gt;</span></div><div class="line">   <span class="number">0</span>x0000000000400eee <span class="variable">&lt;+14&gt;</span>:	test   %eax,%eax</div><div class="line">   <span class="number">0</span>x0000000000400ef0 <span class="variable">&lt;+16&gt;</span>:	je     <span class="number">0</span>x400ef7 <span class="variable">&lt;phase_1+23&gt;</span></div><div class="line">   <span class="number">0</span>x0000000000400ef2 <span class="variable">&lt;+18&gt;</span>:	callq  <span class="number">0</span>x40143a <span class="variable">&lt;explode_bomb&gt;</span></div><div class="line">   <span class="number">0</span>x0000000000400ef7 <span class="variable">&lt;+23&gt;</span>:	add    <span class="variable">$0x8</span>,%rsp</div><div class="line">   <span class="number">0</span>x0000000000400efb <span class="variable">&lt;+27&gt;</span>:	retq   </div><div class="line">End of assembler dump.</div></pre></td></tr></table></figure>
+<p>发现调用了strings_not_equal函数，而我们输入的字符串地址存储在寄存器 %rdi 中，此外第二个参数在$rsi中。</p>
+<p>查看0x402400处字符串，得到phase_1的答案。</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">(gdb) x/s <span class="number">0x402400</span></div><div class="line"><span class="number">0x402400</span>:	"Border relations with Canada have never been better."</div></pre></td></tr></table></figure>
+<h2 id="Phase-2"><a href="#Phase-2" class="headerlink" title="Phase_2"></a>Phase_2</h2><p>反汇编phase_2, 可以看到调用了read_six_numbers这个函数。</p>
+<p>我们来看read_six_numbers这个函数，调用了sscanf，格式为sscanf(str, format_string)</p>
+<p>而format_string的格式为</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">(gdb) <span class="keyword">x</span>/<span class="keyword">s</span> <span class="number">0x4025c3</span></div><div class="line"><span class="number">0x4025c3</span>:	<span class="string">"%d %d %d %d %d %d"</span></div></pre></td></tr></table></figure>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">(gdb) disas read_six_numbers </div><div class="line">Dump <span class="keyword">of</span> assembler code <span class="keyword">for</span> <span class="keyword">function</span> read_six_numbers:</div><div class="line">   <span class="number">0x000000000040145c</span> &lt;+<span class="number">0</span>&gt;:		sub    $0x18,<span class="meta">%rsp</span></div><div class="line">   <span class="number">0x0000000000401460</span> &lt;+<span class="number">4</span>&gt;:		mov    <span class="meta">%rsi</span>,<span class="meta">%rdx</span></div><div class="line">   <span class="number">0x0000000000401463</span> &lt;+<span class="number">7</span>&gt;:		lea    <span class="number">0x4</span>(<span class="meta">%rsi</span>),<span class="meta">%rcx</span></div><div class="line">   <span class="number">0x0000000000401467</span> &lt;+<span class="number">11</span>&gt;:	lea    <span class="number">0x14</span>(<span class="meta">%rsi</span>),<span class="meta">%rax</span></div><div class="line">   <span class="number">0x000000000040146b</span> &lt;+<span class="number">15</span>&gt;:	mov    <span class="meta">%rax</span>,<span class="number">0x8</span>(<span class="meta">%rsp</span>)</div><div class="line">   <span class="number">0x0000000000401470</span> &lt;+<span class="number">20</span>&gt;:	lea    <span class="number">0x10</span>(<span class="meta">%rsi</span>),<span class="meta">%rax</span></div><div class="line">   <span class="number">0x0000000000401474</span> &lt;+<span class="number">24</span>&gt;:	mov    <span class="meta">%rax</span>,(<span class="meta">%rsp</span>)</div><div class="line">   <span class="number">0x0000000000401478</span> &lt;+<span class="number">28</span>&gt;:	lea    <span class="number">0xc</span>(<span class="meta">%rsi</span>),<span class="meta">%r9</span></div><div class="line">   <span class="number">0x000000000040147c</span> &lt;+<span class="number">32</span>&gt;:	lea    <span class="number">0x8</span>(<span class="meta">%rsi</span>),<span class="meta">%r8</span></div><div class="line">   <span class="number">0x0000000000401480</span> &lt;+<span class="number">36</span>&gt;:	mov    $0x4025c3,<span class="meta">%esi</span></div><div class="line">   <span class="number">0x0000000000401485</span> &lt;+<span class="number">41</span>&gt;:	mov    $0x0,<span class="meta">%eax</span></div><div class="line">   <span class="number">0x000000000040148a</span> &lt;+<span class="number">46</span>&gt;:	callq  <span class="number">0x400bf0</span> &lt;__isoc99_sscanf@plt&gt;</div><div class="line">   <span class="number">0x000000000040148f</span> &lt;+<span class="number">51</span>&gt;:	cmp    $0x5,<span class="meta">%eax</span></div><div class="line">   <span class="number">0x0000000000401492</span> &lt;+<span class="number">54</span>&gt;:	jg     <span class="number">0x401499</span> &lt;read_six_numbers+<span class="number">61</span>&gt;</div><div class="line">   <span class="number">0x0000000000401494</span> &lt;+<span class="number">56</span>&gt;:	callq  <span class="number">0x40143a</span> &lt;explode_bomb&gt;</div><div class="line">   <span class="number">0x0000000000401499</span> &lt;+<span class="number">61</span>&gt;:	add    $0x18,<span class="meta">%rsp</span></div><div class="line">   <span class="number">0x000000000040149d</span> &lt;+<span class="number">65</span>&gt;:	retq   </div><div class="line">End <span class="keyword">of</span> assembler dump.</div></pre></td></tr></table></figure>
+<p>可以看到read_six_numbers 从字符串中读入6个数字，并且将结果放在了栈中。</p>
+<p>之后看后续代码，其实就是保证第一个数字是1，后面的数字是前一个数字的两倍关系。所以最后的答案为 1 2 4 8 16 32</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">(gdb) disas phase_2</div><div class="line">Dump of assembler code for function phase_2:</div><div class="line">   <span class="number">0x0000000000400efc</span> &lt;+<span class="number">0</span>&gt;:		<span class="keyword">push</span>   %rbp</div><div class="line">   <span class="number">0x0000000000400efd</span> &lt;+<span class="number">1</span>&gt;:		<span class="keyword">push</span>   %rbx</div><div class="line">   <span class="number">0x0000000000400efe</span> &lt;+<span class="number">2</span>&gt;:		<span class="keyword">sub</span>    <span class="number">$0</span>x28,%rsp</div><div class="line">   <span class="number">0x0000000000400f02</span> &lt;+<span class="number">6</span>&gt;:		<span class="keyword">mov</span>    %rsp,%rsi</div><div class="line">   <span class="number">0x0000000000400f05</span> &lt;+<span class="number">9</span>&gt;:		callq  <span class="number">0x40145c</span> &lt;read_six_numbers&gt;</div><div class="line">   <span class="number">0x0000000000400f0a</span> &lt;+<span class="number">14</span>&gt;:	cmpl   <span class="number">$0</span>x1,(%rsp)</div><div class="line">   <span class="number">0x0000000000400f0e</span> &lt;+<span class="number">18</span>&gt;:	<span class="keyword">je</span>     <span class="number">0x400f30</span> &lt;phase_2+<span class="number">52</span>&gt;</div><div class="line">   <span class="number">0x0000000000400f10</span> &lt;+<span class="number">20</span>&gt;:	callq  <span class="number">0x40143a</span> &lt;explode_bomb&gt;</div><div class="line">   <span class="number">0x0000000000400f15</span> &lt;+<span class="number">25</span>&gt;:	<span class="keyword">jmp</span>    <span class="number">0x400f30</span> &lt;phase_2+<span class="number">52</span>&gt;</div><div class="line">   <span class="number">0x0000000000400f17</span> &lt;+<span class="number">27</span>&gt;:	<span class="keyword">mov</span>    -<span class="number">0x4</span>(%rbx),%eax</div><div class="line">   <span class="number">0x0000000000400f1a</span> &lt;+<span class="number">30</span>&gt;:	<span class="keyword">add</span>    %eax,%eax</div><div class="line">   <span class="number">0x0000000000400f1c</span> &lt;+<span class="number">32</span>&gt;:	<span class="keyword">cmp</span>    %eax,(%rbx)</div><div class="line">   <span class="number">0x0000000000400f1e</span> &lt;+<span class="number">34</span>&gt;:	<span class="keyword">je</span>     <span class="number">0x400f25</span> &lt;phase_2+<span class="number">41</span>&gt;</div><div class="line">   <span class="number">0x0000000000400f20</span> &lt;+<span class="number">36</span>&gt;:	callq  <span class="number">0x40143a</span> &lt;explode_bomb&gt;</div><div class="line">   <span class="number">0x0000000000400f25</span> &lt;+<span class="number">41</span>&gt;:	<span class="keyword">add</span>    <span class="number">$0</span>x4,%rbx</div><div class="line">   <span class="number">0x0000000000400f29</span> &lt;+<span class="number">45</span>&gt;:	<span class="keyword">cmp</span>    %rbp,%rbx</div><div class="line">   <span class="number">0x0000000000400f2c</span> &lt;+<span class="number">48</span>&gt;:	<span class="keyword">jne</span>    <span class="number">0x400f17</span> &lt;phase_2+<span class="number">27</span>&gt;</div><div class="line">   <span class="number">0x0000000000400f2e</span> &lt;+<span class="number">50</span>&gt;:	<span class="keyword">jmp</span>    <span class="number">0x400f3c</span> &lt;phase_2+<span class="number">64</span>&gt;</div><div class="line">   <span class="number">0x0000000000400f30</span> &lt;+<span class="number">52</span>&gt;:	<span class="keyword">lea</span>    <span class="number">0x4</span>(%rsp),%rbx</div><div class="line">   <span class="number">0x0000000000400f35</span> &lt;+<span class="number">57</span>&gt;:	<span class="keyword">lea</span>    <span class="number">0x18</span>(%rsp),%rbp</div><div class="line">   <span class="number">0x0000000000400f3a</span> &lt;+<span class="number">62</span>&gt;:	<span class="keyword">jmp</span>    <span class="number">0x400f17</span> &lt;phase_2+<span class="number">27</span>&gt;</div><div class="line">   <span class="number">0x0000000000400f3c</span> &lt;+<span class="number">64</span>&gt;:	<span class="keyword">add</span>    <span class="number">$0</span>x28,%rsp</div><div class="line">   <span class="number">0x0000000000400f40</span> &lt;+<span class="number">68</span>&gt;:	<span class="keyword">pop</span>    %rbx</div><div class="line">   <span class="number">0x0000000000400f41</span> &lt;+<span class="number">69</span>&gt;:	<span class="keyword">pop</span>    %rbp</div><div class="line">   <span class="number">0x0000000000400f42</span> &lt;+<span class="number">70</span>&gt;:	retq   </div><div class="line">End of assembler dump.</div></pre></td></tr></table></figure>
+<h2 id="phase-3"><a href="#phase-3" class="headerlink" title="phase_3"></a>phase_3</h2><p>观察phase_3,同样调用了sscanf函数，而对应的format_string为”%d %d”。</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">(gdb) disas phase_3 </div><div class="line">Dump of assembler code for function phase_3:</div><div class="line">   <span class="number">0x0000000000400f43</span> &lt;+<span class="number">0</span>&gt;:		<span class="keyword">sub</span>    <span class="number">$0</span>x18,%rsp</div><div class="line">   <span class="number">0x0000000000400f47</span> &lt;+<span class="number">4</span>&gt;:		<span class="keyword">lea</span>    <span class="number">0xc</span>(%rsp),%rcx</div><div class="line">   <span class="number">0x0000000000400f4c</span> &lt;+<span class="number">9</span>&gt;:		<span class="keyword">lea</span>    <span class="number">0x8</span>(%rsp),%rdx</div><div class="line">   <span class="number">0x0000000000400f51</span> &lt;+<span class="number">14</span>&gt;:	<span class="keyword">mov</span>    <span class="number">$0</span>x4025cf,%esi</div><div class="line">   <span class="number">0x0000000000400f56</span> &lt;+<span class="number">19</span>&gt;:	<span class="keyword">mov</span>    <span class="number">$0</span>x0,%eax</div><div class="line">   <span class="number">0x0000000000400f5b</span> &lt;+<span class="number">24</span>&gt;:	callq  <span class="number">0x400bf0</span> &lt;__isoc99_sscanf@plt&gt;</div><div class="line">   <span class="number">0x0000000000400f60</span> &lt;+<span class="number">29</span>&gt;:	<span class="keyword">cmp</span>    <span class="number">$0</span>x1,%eax</div><div class="line">   <span class="number">0x0000000000400f63</span> &lt;+<span class="number">32</span>&gt;:	<span class="keyword">jg</span>     <span class="number">0x400f6a</span> &lt;phase_3+<span class="number">39</span>&gt;</div><div class="line">   <span class="number">0x0000000000400f65</span> &lt;+<span class="number">34</span>&gt;:	callq  <span class="number">0x40143a</span> &lt;explode_bomb&gt;</div><div class="line">   <span class="number">0x0000000000400f6a</span> &lt;+<span class="number">39</span>&gt;:	cmpl   <span class="number">$0</span>x7,<span class="number">0x8</span>(%rsp)</div><div class="line">   <span class="number">0x0000000000400f6f</span> &lt;+<span class="number">44</span>&gt;:	<span class="keyword">ja</span>     <span class="number">0x400fad</span> &lt;phase_3+<span class="number">106</span>&gt;</div><div class="line">   <span class="number">0x0000000000400f71</span> &lt;+<span class="number">46</span>&gt;:	<span class="keyword">mov</span>    <span class="number">0x8</span>(%rsp),%eax</div><div class="line">   <span class="number">0x0000000000400f75</span> &lt;+<span class="number">50</span>&gt;:	jmpq   *<span class="number">0x402470</span>(,%rax,<span class="number">8</span>)</div><div class="line">   <span class="number">0x0000000000400f7c</span> &lt;+<span class="number">57</span>&gt;:	<span class="keyword">mov</span>    <span class="number">$0</span>xcf,%eax</div><div class="line">   <span class="number">0x0000000000400f81</span> &lt;+<span class="number">62</span>&gt;:	<span class="keyword">jmp</span>    <span class="number">0x400fbe</span> &lt;phase_3+<span class="number">123</span>&gt;</div><div class="line">   <span class="number">0x0000000000400f83</span> &lt;+<span class="number">64</span>&gt;:	<span class="keyword">mov</span>    <span class="number">$0</span>x2c3,%eax</div><div class="line">   <span class="number">0x0000000000400f88</span> &lt;+<span class="number">69</span>&gt;:	<span class="keyword">jmp</span>    <span class="number">0x400fbe</span> &lt;phase_3+<span class="number">123</span>&gt;</div><div class="line">   <span class="number">0x0000000000400f8a</span> &lt;+<span class="number">71</span>&gt;:	<span class="keyword">mov</span>    <span class="number">$0</span>x100,%eax</div><div class="line">   <span class="number">0x0000000000400f8f</span> &lt;+<span class="number">76</span>&gt;:	<span class="keyword">jmp</span>    <span class="number">0x400fbe</span> &lt;phase_3+<span class="number">123</span>&gt;</div><div class="line">   <span class="number">0x0000000000400f91</span> &lt;+<span class="number">78</span>&gt;:	<span class="keyword">mov</span>    <span class="number">$0</span>x185,%eax</div><div class="line">   <span class="number">0x0000000000400f96</span> &lt;+<span class="number">83</span>&gt;:	<span class="keyword">jmp</span>    <span class="number">0x400fbe</span> &lt;phase_3+<span class="number">123</span>&gt;</div><div class="line">   <span class="number">0x0000000000400f98</span> &lt;+<span class="number">85</span>&gt;:	<span class="keyword">mov</span>    <span class="number">$0</span>xce,%eax</div><div class="line">   <span class="number">0x0000000000400f9d</span> &lt;+<span class="number">90</span>&gt;:	<span class="keyword">jmp</span>    <span class="number">0x400fbe</span> &lt;phase_3+<span class="number">123</span>&gt;</div><div class="line">   <span class="number">0x0000000000400f9f</span> &lt;+<span class="number">92</span>&gt;:	<span class="keyword">mov</span>    <span class="number">$0</span>x2aa,%eax</div><div class="line">   <span class="number">0x0000000000400fa4</span> &lt;+<span class="number">97</span>&gt;:	<span class="keyword">jmp</span>    <span class="number">0x400fbe</span> &lt;phase_3+<span class="number">123</span>&gt;</div><div class="line">   <span class="number">0x0000000000400fa6</span> &lt;+<span class="number">99</span>&gt;:	<span class="keyword">mov</span>    <span class="number">$0</span>x147,%eax</div><div class="line">   <span class="number">0x0000000000400fab</span> &lt;+<span class="number">104</span>&gt;:	<span class="keyword">jmp</span>    <span class="number">0x400fbe</span> &lt;phase_3+<span class="number">123</span>&gt;</div><div class="line">   <span class="number">0x0000000000400fad</span> &lt;+<span class="number">106</span>&gt;:	callq  <span class="number">0x40143a</span> &lt;explode_bomb&gt;</div><div class="line">   <span class="number">0x0000000000400fb2</span> &lt;+<span class="number">111</span>&gt;:	<span class="keyword">mov</span>    <span class="number">$0</span>x0,%eax</div><div class="line">   <span class="number">0x0000000000400fb7</span> &lt;+<span class="number">116</span>&gt;:	<span class="keyword">jmp</span>    <span class="number">0x400fbe</span> &lt;phase_3+<span class="number">123</span>&gt;</div><div class="line">   <span class="number">0x0000000000400fb9</span> &lt;+<span class="number">118</span>&gt;:	<span class="keyword">mov</span>    <span class="number">$0</span>x137,%eax</div><div class="line">   <span class="number">0x0000000000400fbe</span> &lt;+<span class="number">123</span>&gt;:	<span class="keyword">cmp</span>    <span class="number">0xc</span>(%rsp),%eax</div><div class="line">   <span class="number">0x0000000000400fc2</span> &lt;+<span class="number">127</span>&gt;:	<span class="keyword">je</span>     <span class="number">0x400fc9</span> &lt;phase_3+<span class="number">134</span>&gt;</div><div class="line">   <span class="number">0x0000000000400fc4</span> &lt;+<span class="number">129</span>&gt;:	callq  <span class="number">0x40143a</span> &lt;explode_bomb&gt;</div><div class="line">   <span class="number">0x0000000000400fc9</span> &lt;+<span class="number">134</span>&gt;:	<span class="keyword">add</span>    <span class="number">$0</span>x18,%rsp</div><div class="line">   <span class="number">0x0000000000400fcd</span> &lt;+<span class="number">138</span>&gt;:	retq   </div><div class="line">End of assembler dump.</div></pre></td></tr></table></figure>
+<p>再看&lt;+39&gt;行，将第一个数字和7比较，如果大于7就explode_bomb。否则就根据第一个数进行跳转，查看0x402470及之后对应的内容。 其实就是一个跳转表，根据0~7跳到不同的分支下，每个分支下决定了第二个数字。</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">(gdb) x/8w <span class="number">0x402470</span></div><div class="line"><span class="number">0x402470</span>:	U<span class="string">"\x400f7c"</span></div><div class="line"><span class="number">0x402478</span>:	U<span class="string">"\x400fb9"</span></div><div class="line"><span class="number">0x402480</span>:	U<span class="string">"\x400f83"</span></div><div class="line"><span class="number">0x402488</span>:	U<span class="string">"\x400f8a"</span></div><div class="line"><span class="number">0x402490</span>:	U<span class="string">"\x400f91"</span></div><div class="line"><span class="number">0x402498</span>:	U<span class="string">"\x400f98"</span></div><div class="line"><span class="number">0x4024a0</span>:	U<span class="string">"\x400f9f"</span></div><div class="line"><span class="number">0x4024a8</span>:	U<span class="string">"\x400fa6"</span></div></pre></td></tr></table></figure>
+<p>所以对应的答案为：</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">0 </span><span class="number">0</span>xcf 	-&gt; <span class="number">0</span> <span class="number">207</span></div><div class="line"><span class="symbol">1 </span><span class="number">0</span>x137	-&gt; <span class="number">1</span> <span class="number">311</span></div><div class="line"><span class="symbol">2 </span><span class="number">0</span>x2c3 -&gt; <span class="number">2</span> <span class="number">707</span></div><div class="line"><span class="symbol">3 </span><span class="number">0</span>x100 -&gt; <span class="number">3</span> <span class="number">256</span></div><div class="line"><span class="symbol">4 </span><span class="number">0</span>x185 -&gt; <span class="number">4</span> <span class="number">389</span></div><div class="line"><span class="symbol">5 </span><span class="number">0</span>xce  -&gt; <span class="number">5</span> <span class="number">206</span></div><div class="line"><span class="symbol">6 </span><span class="number">0</span>x2aa -&gt; <span class="number">6</span> <span class="number">682</span></div><div class="line"><span class="symbol">7 </span><span class="number">0</span>x147 -&gt; <span class="number">7</span> <span class="number">327</span></div></pre></td></tr></table></figure>
+<h2 id="phase-4"><a href="#phase-4" class="headerlink" title="phase_4"></a>phase_4</h2><p>同样在phase_4中，读入两个数字，如果第一个数字小于$0xe，则调用func4。函数结束之后，判断第二参数是否为0</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">(gdb) disas phase_4</div><div class="line">Dump of assembler code <span class="keyword">for</span> function phase_4:</div><div class="line">   <span class="number">0</span>x000000000040100c <span class="variable">&lt;+0&gt;</span>:		sub    <span class="variable">$0x18</span>,%rsp</div><div class="line">   <span class="number">0</span>x0000000000401010 <span class="variable">&lt;+4&gt;</span>:		lea    <span class="number">0</span>xc(%rsp),%rcx</div><div class="line">   <span class="number">0</span>x0000000000401015 <span class="variable">&lt;+9&gt;</span>:		lea    <span class="number">0</span>x8(%rsp),%rdx</div><div class="line">   <span class="number">0</span>x000000000040101a <span class="variable">&lt;+14&gt;</span>:	mov    <span class="variable">$0x4025cf</span>,%esi</div><div class="line">   <span class="number">0</span>x000000000040101f <span class="variable">&lt;+19&gt;</span>:	mov    <span class="variable">$0x0</span>,%eax</div><div class="line">   <span class="number">0</span>x0000000000401024 <span class="variable">&lt;+24&gt;</span>:	callq  <span class="number">0</span>x400bf0 <span class="variable">&lt;__isoc99_sscanf@plt&gt;</span></div><div class="line">   <span class="number">0</span>x0000000000401029 <span class="variable">&lt;+29&gt;</span>:	cmp    <span class="variable">$0x2</span>,%eax</div><div class="line">   <span class="number">0</span>x000000000040102c <span class="variable">&lt;+32&gt;</span>:	jne    <span class="number">0</span>x401035 <span class="variable">&lt;phase_4+41&gt;</span></div><div class="line">   <span class="number">0</span>x000000000040102e <span class="variable">&lt;+34&gt;</span>:	cmpl   <span class="variable">$0xe</span>,<span class="number">0</span>x8(%rsp)</div><div class="line">   <span class="number">0</span>x0000000000401033 <span class="variable">&lt;+39&gt;</span>:	jbe    <span class="number">0</span>x40103a <span class="variable">&lt;phase_4+46&gt;</span></div><div class="line">   <span class="number">0</span>x0000000000401035 <span class="variable">&lt;+41&gt;</span>:	callq  <span class="number">0</span>x40143a <span class="variable">&lt;explode_bomb&gt;</span></div><div class="line">   <span class="number">0</span>x000000000040103a <span class="variable">&lt;+46&gt;</span>:	mov    <span class="variable">$0xe</span>,%edx</div><div class="line">   <span class="number">0</span>x000000000040103f <span class="variable">&lt;+51&gt;</span>:	mov    <span class="variable">$0x0</span>,%esi</div><div class="line">   <span class="number">0</span>x0000000000401044 <span class="variable">&lt;+56&gt;</span>:	mov    <span class="number">0</span>x8(%rsp),%edi</div><div class="line">   <span class="number">0</span>x0000000000401048 <span class="variable">&lt;+60&gt;</span>:	callq  <span class="number">0</span>x400fce <span class="variable">&lt;func4&gt;</span></div><div class="line">   <span class="number">0</span>x000000000040104d <span class="variable">&lt;+65&gt;</span>:	test   %eax,%eax</div><div class="line">   <span class="number">0</span>x000000000040104f <span class="variable">&lt;+67&gt;</span>:	jne    <span class="number">0</span>x401058 <span class="variable">&lt;phase_4+76&gt;</span></div><div class="line">   <span class="number">0</span>x0000000000401051 <span class="variable">&lt;+69&gt;</span>:	cmpl   <span class="variable">$0x0</span>,<span class="number">0</span>xc(%rsp)</div><div class="line">   <span class="number">0</span>x0000000000401056 <span class="variable">&lt;+74&gt;</span>:	je     <span class="number">0</span>x40105d <span class="variable">&lt;phase_4+81&gt;</span></div><div class="line">   <span class="number">0</span>x0000000000401058 <span class="variable">&lt;+76&gt;</span>:	callq  <span class="number">0</span>x40143a <span class="variable">&lt;explode_bomb&gt;</span></div><div class="line">   <span class="number">0</span>x000000000040105d <span class="variable">&lt;+81&gt;</span>:	add    <span class="variable">$0x18</span>,%rsp</div><div class="line">   <span class="number">0</span>x0000000000401061 <span class="variable">&lt;+85&gt;</span>:	retq   </div><div class="line">End of assembler dump.</div></pre></td></tr></table></figure>
+<p>反汇编func4,根据汇编逻辑可以发现如果第一个参数为7，正好符合逻辑。所以答案为 7 0</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">Dump of assembler code for function func4:</div><div class="line">   <span class="number">0x0000000000400fce</span> &lt;+<span class="number">0</span>&gt;:	<span class="keyword">sub</span>    <span class="number">$0</span>x8,%rsp</div><div class="line">   <span class="number">0x0000000000400fd2</span> &lt;+<span class="number">4</span>&gt;:	<span class="keyword">mov</span>    %edx,%eax</div><div class="line">   <span class="number">0x0000000000400fd4</span> &lt;+<span class="number">6</span>&gt;:	<span class="keyword">sub</span>    %esi,%eax</div><div class="line">   <span class="number">0x0000000000400fd6</span> &lt;+<span class="number">8</span>&gt;:	<span class="keyword">mov</span>    %eax,%ecx</div><div class="line">   <span class="number">0x0000000000400fd8</span> &lt;+<span class="number">10</span>&gt;:	<span class="keyword">shr</span>    <span class="number">$0</span>x1f,%ecx</div><div class="line">   <span class="number">0x0000000000400fdb</span> &lt;+<span class="number">13</span>&gt;:	<span class="keyword">add</span>    %ecx,%eax</div><div class="line">   <span class="number">0x0000000000400fdd</span> &lt;+<span class="number">15</span>&gt;:	<span class="keyword">sar</span>    %eax</div><div class="line">   <span class="number">0x0000000000400fdf</span> &lt;+<span class="number">17</span>&gt;:	<span class="keyword">lea</span>    (%rax,%rsi,<span class="number">1</span>),%ecx</div><div class="line">   <span class="number">0x0000000000400fe2</span> &lt;+<span class="number">20</span>&gt;:	<span class="keyword">cmp</span>    %edi,%ecx</div><div class="line">   <span class="number">0x0000000000400fe4</span> &lt;+<span class="number">22</span>&gt;:	<span class="keyword">jle</span>    <span class="number">0x400ff2</span> &lt;func4+<span class="number">36</span>&gt;</div><div class="line">   <span class="number">0x0000000000400fe6</span> &lt;+<span class="number">24</span>&gt;:	<span class="keyword">lea</span>    -<span class="number">0x1</span>(%rcx),%edx</div><div class="line">   <span class="number">0x0000000000400fe9</span> &lt;+<span class="number">27</span>&gt;:	callq  <span class="number">0x400fce</span> &lt;func4&gt;</div><div class="line">   <span class="number">0x0000000000400fee</span> &lt;+<span class="number">32</span>&gt;:	<span class="keyword">add</span>    %eax,%eax</div><div class="line">   <span class="number">0x0000000000400ff0</span> &lt;+<span class="number">34</span>&gt;:	<span class="keyword">jmp</span>    <span class="number">0x401007</span> &lt;func4+<span class="number">57</span>&gt;</div><div class="line">   <span class="number">0x0000000000400ff2</span> &lt;+<span class="number">36</span>&gt;:	<span class="keyword">mov</span>    <span class="number">$0</span>x0,%eax</div><div class="line">   <span class="number">0x0000000000400ff7</span> &lt;+<span class="number">41</span>&gt;:	<span class="keyword">cmp</span>    %edi,%ecx</div><div class="line">   <span class="number">0x0000000000400ff9</span> &lt;+<span class="number">43</span>&gt;:	<span class="keyword">jge</span>    <span class="number">0x401007</span> &lt;func4+<span class="number">57</span>&gt;</div><div class="line">   <span class="number">0x0000000000400ffb</span> &lt;+<span class="number">45</span>&gt;:	<span class="keyword">lea</span>    <span class="number">0x1</span>(%rcx),%esi</div><div class="line">   <span class="number">0x0000000000400ffe</span> &lt;+<span class="number">48</span>&gt;:	callq  <span class="number">0x400fce</span> &lt;func4&gt;</div><div class="line">   <span class="number">0x0000000000401003</span> &lt;+<span class="number">53</span>&gt;:	<span class="keyword">lea</span>    <span class="number">0x1</span>(%rax,%rax,<span class="number">1</span>),%eax</div><div class="line">   <span class="number">0x0000000000401007</span> &lt;+<span class="number">57</span>&gt;:	<span class="keyword">add</span>    <span class="number">$0</span>x8,%rsp</div><div class="line">   <span class="number">0x000000000040100b</span> &lt;+<span class="number">61</span>&gt;:	retq   </div><div class="line">End of assembler dump.</div></pre></td></tr></table></figure>
+<h2 id="phase-5"><a href="#phase-5" class="headerlink" title="phase_5"></a>phase_5</h2><p>phase5先读入长度为6的一个字符串，然后&lt;+41&gt;-&lt;+86&gt;行，将每个读入的字符做 and $0xf运算，得到最低4位。利用最低4位的值从0x4024b0开头的字符串中选择对应的值。</p>
+<figure class="highlight smalltalk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">(gdb) x/s <span class="number">0x4024b0</span></div><div class="line"><span class="number">0x4024b0</span> &lt;array<span class="number">.3449</span>&gt;:	<span class="comment">"maduiersnfotvbylSo you think you can stop the bomb with ctrl-c, do you?"</span></div></pre></td></tr></table></figure>
+<p>而最后将6个字符串变换之后，和”flyers”进行对比，如果相同则答案正确。</p>
+<p>所以这题有多个答案，只需要字符串的最低4位通过转化能够得到”flyers”都行。例如”ionefg”</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">(gdb) disas phase_5</div><div class="line">Dump of assembler code for function phase_5:</div><div class="line">   <span class="number">0x0000000000401062</span> &lt;+<span class="number">0</span>&gt;:		<span class="keyword">push</span>   %rbx</div><div class="line">   <span class="number">0x0000000000401063</span> &lt;+<span class="number">1</span>&gt;:		<span class="keyword">sub</span>    <span class="number">$0</span>x20,%rsp</div><div class="line">   <span class="number">0x0000000000401067</span> &lt;+<span class="number">5</span>&gt;:		<span class="keyword">mov</span>    %rdi,%rbx</div><div class="line">   <span class="number">0x000000000040106a</span> &lt;+<span class="number">8</span>&gt;:		<span class="keyword">mov</span>    %fs:<span class="number">0x28</span>,%rax</div><div class="line">   <span class="number">0x0000000000401073</span> &lt;+<span class="number">17</span>&gt;:	<span class="keyword">mov</span>    %rax,<span class="number">0x18</span>(%rsp)</div><div class="line">   <span class="number">0x0000000000401078</span> &lt;+<span class="number">22</span>&gt;:	<span class="keyword">xor</span>    %eax,%eax</div><div class="line">   <span class="number">0x000000000040107a</span> &lt;+<span class="number">24</span>&gt;:	callq  <span class="number">0x40131b</span> &lt;string_length&gt;</div><div class="line">   <span class="number">0x000000000040107f</span> &lt;+<span class="number">29</span>&gt;:	<span class="keyword">cmp</span>    <span class="number">$0</span>x6,%eax</div><div class="line">   <span class="number">0x0000000000401082</span> &lt;+<span class="number">32</span>&gt;:	<span class="keyword">je</span>     <span class="number">0x4010d2</span> &lt;phase_5+<span class="number">112</span>&gt;</div><div class="line">   <span class="number">0x0000000000401084</span> &lt;+<span class="number">34</span>&gt;:	callq  <span class="number">0x40143a</span> &lt;explode_bomb&gt;</div><div class="line">   <span class="number">0x0000000000401089</span> &lt;+<span class="number">39</span>&gt;:	<span class="keyword">jmp</span>    <span class="number">0x4010d2</span> &lt;phase_5+<span class="number">112</span>&gt;</div><div class="line">   <span class="number">0x000000000040108b</span> &lt;+<span class="number">41</span>&gt;:	movzbl (%rbx,%rax,<span class="number">1</span>),%ecx</div><div class="line">   <span class="number">0x000000000040108f</span> &lt;+<span class="number">45</span>&gt;:	<span class="keyword">mov</span>    %cl,(%rsp)</div><div class="line">   <span class="number">0x0000000000401092</span> &lt;+<span class="number">48</span>&gt;:	<span class="keyword">mov</span>    (%rsp),%rdx</div><div class="line">   <span class="number">0x0000000000401096</span> &lt;+<span class="number">52</span>&gt;:	<span class="keyword">and</span>    <span class="number">$0</span>xf,%edx</div><div class="line">   <span class="number">0x0000000000401099</span> &lt;+<span class="number">55</span>&gt;:	movzbl <span class="number">0x4024b0</span>(%rdx),%edx</div><div class="line">   <span class="number">0x00000000004010a0</span> &lt;+<span class="number">62</span>&gt;:	<span class="keyword">mov</span>    %dl,<span class="number">0x10</span>(%rsp,%rax,<span class="number">1</span>)</div><div class="line">   <span class="number">0x00000000004010a4</span> &lt;+<span class="number">66</span>&gt;:	<span class="keyword">add</span>    <span class="number">$0</span>x1,%rax</div><div class="line">   <span class="number">0x00000000004010a8</span> &lt;+<span class="number">70</span>&gt;:	<span class="keyword">cmp</span>    <span class="number">$0</span>x6,%rax</div><div class="line">   <span class="number">0x00000000004010ac</span> &lt;+<span class="number">74</span>&gt;:	<span class="keyword">jne</span>    <span class="number">0x40108b</span> &lt;phase_5+<span class="number">41</span>&gt;</div><div class="line">   <span class="number">0x00000000004010ae</span> &lt;+<span class="number">76</span>&gt;:	movb   <span class="number">$0</span>x0,<span class="number">0x16</span>(%rsp)</div><div class="line">   <span class="number">0x00000000004010b3</span> &lt;+<span class="number">81</span>&gt;:	<span class="keyword">mov</span>    <span class="number">$0</span>x40245e,%esi</div><div class="line">   <span class="number">0x00000000004010b8</span> &lt;+<span class="number">86</span>&gt;:	<span class="keyword">lea</span>    <span class="number">0x10</span>(%rsp),%rdi</div><div class="line">   <span class="number">0x00000000004010bd</span> &lt;+<span class="number">91</span>&gt;:	callq  <span class="number">0x401338</span> &lt;strings_not_equal&gt;</div><div class="line">   <span class="number">0x00000000004010c2</span> &lt;+<span class="number">96</span>&gt;:	<span class="keyword">test</span>   %eax,%eax</div><div class="line">   <span class="number">0x00000000004010c4</span> &lt;+<span class="number">98</span>&gt;:	<span class="keyword">je</span>     <span class="number">0x4010d9</span> &lt;phase_5+<span class="number">119</span>&gt;</div><div class="line">   <span class="number">0x00000000004010c6</span> &lt;+<span class="number">100</span>&gt;:	callq  <span class="number">0x40143a</span> &lt;explode_bomb&gt;</div><div class="line">   <span class="number">0x00000000004010cb</span> &lt;+<span class="number">105</span>&gt;:	nopl   <span class="number">0x0</span>(%rax,%rax,<span class="number">1</span>)</div><div class="line">   <span class="number">0x00000000004010d0</span> &lt;+<span class="number">110</span>&gt;:	<span class="keyword">jmp</span>    <span class="number">0x4010d9</span> &lt;phase_5+<span class="number">119</span>&gt;</div><div class="line">   <span class="number">0x00000000004010d2</span> &lt;+<span class="number">112</span>&gt;:	<span class="keyword">mov</span>    <span class="number">$0</span>x0,%eax</div><div class="line">   <span class="number">0x00000000004010d7</span> &lt;+<span class="number">117</span>&gt;:	<span class="keyword">jmp</span>    <span class="number">0x40108b</span> &lt;phase_5+<span class="number">41</span>&gt;</div><div class="line">   <span class="number">0x00000000004010d9</span> &lt;+<span class="number">119</span>&gt;:	<span class="keyword">mov</span>    <span class="number">0x18</span>(%rsp),%rax</div><div class="line">   <span class="number">0x00000000004010de</span> &lt;+<span class="number">124</span>&gt;:	<span class="keyword">xor</span>    %fs:<span class="number">0x28</span>,%rax</div><div class="line">   <span class="number">0x00000000004010e7</span> &lt;+<span class="number">133</span>&gt;:	<span class="keyword">je</span>     <span class="number">0x4010ee</span> &lt;phase_5+<span class="number">140</span>&gt;</div><div class="line">   <span class="number">0x00000000004010e9</span> &lt;+<span class="number">135</span>&gt;:	callq  <span class="number">0x400b30</span> &lt;__stack_chk_fail@plt&gt;</div><div class="line">   <span class="number">0x00000000004010ee</span> &lt;+<span class="number">140</span>&gt;:	<span class="keyword">add</span>    <span class="number">$0</span>x20,%rsp</div><div class="line">   <span class="number">0x00000000004010f2</span> &lt;+<span class="number">144</span>&gt;:	<span class="keyword">pop</span>    %rbx</div><div class="line">   <span class="number">0x00000000004010f3</span> &lt;+<span class="number">145</span>&gt;:	retq   </div><div class="line">End of assembler dump.</div></pre></td></tr></table></figure>
+<h2 id="phase-6"><a href="#phase-6" class="headerlink" title="phase_6"></a>phase_6</h2><p>phase_6的代码比较长，可以好几段进行解读。 首先还是从字符串中读入6个数字，然后判断数字范围都在1-6之前，并且每个数字互不相同。</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">(gdb) disas phase_6</div><div class="line">Dump of assembler code <span class="keyword">for</span> function phase_6:</div><div class="line">   <span class="number">0</span>x00000000004010f4 <span class="variable">&lt;+0&gt;</span>:		push   %r14</div><div class="line">   <span class="number">0</span>x00000000004010f6 <span class="variable">&lt;+2&gt;</span>:		push   %r13</div><div class="line">   <span class="number">0</span>x00000000004010f8 <span class="variable">&lt;+4&gt;</span>:		push   %r12</div><div class="line">   <span class="number">0</span>x00000000004010fa <span class="variable">&lt;+6&gt;</span>:		push   %rbp</div><div class="line">   <span class="number">0</span>x00000000004010fb <span class="variable">&lt;+7&gt;</span>:		push   %rbx</div><div class="line">   <span class="number">0</span>x00000000004010fc <span class="variable">&lt;+8&gt;</span>:		sub    <span class="variable">$0x50</span>,%rsp</div><div class="line">   <span class="number">0</span>x0000000000401100 <span class="variable">&lt;+12&gt;</span>:	mov    %rsp,%r13</div><div class="line">   <span class="number">0</span>x0000000000401103 <span class="variable">&lt;+15&gt;</span>:	mov    %rsp,%rsi</div><div class="line">   <span class="number">0</span>x0000000000401106 <span class="variable">&lt;+18&gt;</span>:	callq  <span class="number">0</span>x40145c <span class="variable">&lt;read_six_numbers&gt;</span></div><div class="line">   <span class="number">0</span>x000000000040110b <span class="variable">&lt;+23&gt;</span>:	mov    %rsp,%r14</div><div class="line">   <span class="number">0</span>x000000000040110e <span class="variable">&lt;+26&gt;</span>:	mov    <span class="variable">$0x0</span>,%r12d</div><div class="line">   <span class="number">0</span>x0000000000401114 <span class="variable">&lt;+32&gt;</span>:	mov    %r13,%rbp</div><div class="line">   <span class="number">0</span>x0000000000401117 <span class="variable">&lt;+35&gt;</span>:	mov    <span class="number">0</span>x0(%r13),%eax</div><div class="line">   <span class="number">0</span>x000000000040111b <span class="variable">&lt;+39&gt;</span>:	sub    <span class="variable">$0x1</span>,%eax</div><div class="line">   <span class="number">0</span>x000000000040111e <span class="variable">&lt;+42&gt;</span>:	cmp    <span class="variable">$0x5</span>,%eax</div><div class="line">   <span class="number">0</span>x0000000000401121 <span class="variable">&lt;+45&gt;</span>:	jbe    <span class="number">0</span>x401128 <span class="variable">&lt;phase_6+52&gt;</span></div><div class="line">   <span class="number">0</span>x0000000000401123 <span class="variable">&lt;+47&gt;</span>:	callq  <span class="number">0</span>x40143a <span class="variable">&lt;explode_bomb&gt;</span></div><div class="line">   <span class="number">0</span>x0000000000401128 <span class="variable">&lt;+52&gt;</span>:	add    <span class="variable">$0x1</span>,%r12d</div><div class="line">   <span class="number">0</span>x000000000040112c <span class="variable">&lt;+56&gt;</span>:	cmp    <span class="variable">$0x6</span>,%r12d</div><div class="line">   <span class="number">0</span>x0000000000401130 <span class="variable">&lt;+60&gt;</span>:	je     <span class="number">0</span>x401153 <span class="variable">&lt;phase_6+95&gt;</span></div><div class="line">   <span class="number">0</span>x0000000000401132 <span class="variable">&lt;+62&gt;</span>:	mov    %r12d,%ebx</div><div class="line">   <span class="number">0</span>x0000000000401135 <span class="variable">&lt;+65&gt;</span>:	movslq %ebx,%rax</div><div class="line">   <span class="number">0</span>x0000000000401138 <span class="variable">&lt;+68&gt;</span>:	mov    (%rsp,%rax,<span class="number">4</span>),%eax</div><div class="line">   <span class="number">0</span>x000000000040113b <span class="variable">&lt;+71&gt;</span>:	cmp    %eax,<span class="number">0</span>x0(%rbp)</div><div class="line">   <span class="number">0</span>x000000000040113e <span class="variable">&lt;+74&gt;</span>:	jne    <span class="number">0</span>x401145 <span class="variable">&lt;phase_6+81&gt;</span></div><div class="line">   <span class="number">0</span>x0000000000401140 <span class="variable">&lt;+76&gt;</span>:	callq  <span class="number">0</span>x40143a <span class="variable">&lt;explode_bomb&gt;</span></div><div class="line">   <span class="number">0</span>x0000000000401145 <span class="variable">&lt;+81&gt;</span>:	add    <span class="variable">$0x1</span>,%ebx</div><div class="line">   <span class="number">0</span>x0000000000401148 <span class="variable">&lt;+84&gt;</span>:	cmp    <span class="variable">$0x5</span>,%ebx</div><div class="line">   <span class="number">0</span>x000000000040114b <span class="variable">&lt;+87&gt;</span>:	jle    <span class="number">0</span>x401135 <span class="variable">&lt;phase_6+65&gt;</span></div><div class="line">   <span class="number">0</span>x000000000040114d <span class="variable">&lt;+89&gt;</span>:	add    <span class="variable">$0x4</span>,%r13</div><div class="line">   <span class="number">0</span>x0000000000401151 <span class="variable">&lt;+93&gt;</span>:	jmp    <span class="number">0</span>x401114 <span class="variable">&lt;phase_6+32&gt;</span></div></pre></td></tr></table></figure>
+<p>之后将每个数字$x_i$转化为$7-x_i$。</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="number">0x0000000000401153</span> &lt;+<span class="number">95</span>&gt;:	lea    <span class="number">0x18</span>(<span class="symbol">%rsp</span>),<span class="symbol">%rsi</span></div><div class="line"><span class="number">0x0000000000401158</span> &lt;+<span class="number">100</span>&gt;:	mov    <span class="symbol">%r14</span>,<span class="symbol">%rax</span></div><div class="line"><span class="number">0x000000000040115b</span> &lt;+<span class="number">103</span>&gt;:	mov    $<span class="number">0x7</span>,<span class="symbol">%ecx</span></div><div class="line"><span class="number">0x0000000000401160</span> &lt;+<span class="number">108</span>&gt;:	mov    <span class="symbol">%ecx</span>,<span class="symbol">%edx</span></div><div class="line"><span class="number">0x0000000000401162</span> &lt;+<span class="number">110</span>&gt;:	<span class="keyword">sub</span>    (<span class="symbol">%rax</span>),<span class="symbol">%edx</span></div><div class="line"><span class="number">0x0000000000401164</span> &lt;+<span class="number">112</span>&gt;:	mov    <span class="symbol">%edx</span>,(<span class="symbol">%rax</span>)</div><div class="line"><span class="number">0x0000000000401166</span> &lt;+<span class="number">114</span>&gt;:	<span class="keyword">add</span>    $<span class="number">0x4</span>,<span class="symbol">%rax</span></div><div class="line"><span class="number">0x000000000040116a</span> &lt;+<span class="number">118</span>&gt;:	cmp    <span class="symbol">%rsi</span>,<span class="symbol">%rax</span></div><div class="line"><span class="number">0x000000000040116d</span> &lt;+<span class="number">121</span>&gt;:	jne    <span class="number">0x401160</span> &lt;phase_<span class="number">6</span>+<span class="number">108</span>&gt;</div></pre></td></tr></table></figure>
+<p>然后根据1，2，3，4，5，6分别在栈中填上。0x6032d0, 0x6032e0, 0x6032f0, 0x603300, 0x603310, 0x603320</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="number">0</span>x000000000040116f <span class="variable">&lt;+123&gt;</span>:	mov    <span class="variable">$0x0</span>,%esi</div><div class="line"><span class="number">0</span>x0000000000401174 <span class="variable">&lt;+128&gt;</span>:	jmp    <span class="number">0</span>x401197 <span class="variable">&lt;phase_6+163&gt;</span></div><div class="line"><span class="number">0</span>x0000000000401176 <span class="variable">&lt;+130&gt;</span>:	mov    <span class="number">0</span>x8(%rdx),%rdx</div><div class="line"><span class="number">0</span>x000000000040117a <span class="variable">&lt;+134&gt;</span>:	add    <span class="variable">$0x1</span>,%eax</div><div class="line"><span class="number">0</span>x000000000040117d <span class="variable">&lt;+137&gt;</span>:	cmp    %ecx,%eax</div><div class="line"><span class="number">0</span>x000000000040117f <span class="variable">&lt;+139&gt;</span>:	jne    <span class="number">0</span>x401176 <span class="variable">&lt;phase_6+130&gt;</span></div><div class="line"><span class="number">0</span>x0000000000401181 <span class="variable">&lt;+141&gt;</span>:	jmp    <span class="number">0</span>x401188 <span class="variable">&lt;phase_6+148&gt;</span></div><div class="line"><span class="number">0</span>x0000000000401183 <span class="variable">&lt;+143&gt;</span>:	mov    <span class="variable">$0x6032d0</span>,%edx</div><div class="line"><span class="number">0</span>x0000000000401188 <span class="variable">&lt;+148&gt;</span>:	mov    %rdx,<span class="number">0</span>x20(%rsp,%rsi,<span class="number">2</span>)</div><div class="line"><span class="number">0</span>x000000000040118d <span class="variable">&lt;+153&gt;</span>:	add    <span class="variable">$0x4</span>,%rsi</div><div class="line"><span class="number">0</span>x0000000000401191 <span class="variable">&lt;+157&gt;</span>:	cmp    <span class="variable">$0x18</span>,%rsi</div><div class="line"><span class="number">0</span>x0000000000401195 <span class="variable">&lt;+161&gt;</span>:	je     <span class="number">0</span>x4011ab <span class="variable">&lt;phase_6+183&gt;</span></div><div class="line"><span class="number">0</span>x0000000000401197 <span class="variable">&lt;+163&gt;</span>:	mov    (%rsp,%rsi,<span class="number">1</span>),%ecx</div><div class="line"><span class="number">0</span>x000000000040119a <span class="variable">&lt;+166&gt;</span>:	cmp    <span class="variable">$0x1</span>,%ecx</div><div class="line"><span class="number">0</span>x000000000040119d <span class="variable">&lt;+169&gt;</span>:	jle    <span class="number">0</span>x401183 <span class="variable">&lt;phase_6+143&gt;</span></div><div class="line"><span class="number">0</span>x000000000040119f <span class="variable">&lt;+171&gt;</span>:	mov    <span class="variable">$0x1</span>,%eax</div><div class="line"><span class="number">0</span>x00000000004011a4 <span class="variable">&lt;+176&gt;</span>:	mov    <span class="variable">$0x6032d0</span>,%edx</div><div class="line"><span class="number">0</span>x00000000004011a9 <span class="variable">&lt;+181&gt;</span>:	jmp    <span class="number">0</span>x401176 <span class="variable">&lt;phase_6+130&gt;</span></div></pre></td></tr></table></figure>
+<p>然后我们观察一下0x6032d0的内容,其实就是一个结构体，包括value，id，和next_node。</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(gdb) x/<span class="number">24w</span>x <span class="number">0x6032d0</span></div><div class="line"><span class="number">0x6032d0</span> &lt;node1&gt;:	<span class="number">0</span>x0000014c	<span class="number">0x00000001</span>	<span class="number">0</span>x<span class="number">006032e0</span>	<span class="number">0x00000000</span></div><div class="line"><span class="number">0x6032e0</span> &lt;node2&gt;:	<span class="number">0</span>x<span class="number">000000a8</span>	<span class="number">0x00000002</span>	<span class="number">0</span>x<span class="number">006032f0</span>	<span class="number">0x00000000</span></div><div class="line"><span class="number">0x6032f0</span> &lt;node3&gt;:	<span class="number">0</span>x0000039c	<span class="number">0x00000003</span>	<span class="number">0x00603300</span>	<span class="number">0x00000000</span></div><div class="line"><span class="number">0x603300</span> &lt;node4&gt;:	<span class="number">0</span>x<span class="number">000002b3</span>	<span class="number">0x00000004</span>	<span class="number">0x00603310</span>	<span class="number">0x00000000</span></div><div class="line"><span class="number">0x603310</span> &lt;node5&gt;:	<span class="number">0</span>x000001dd	<span class="number">0x00000005</span>	<span class="number">0x00603320</span>	<span class="number">0x00000000</span></div><div class="line"><span class="number">0x603320</span> &lt;node6&gt;:	<span class="number">0</span>x000001bb	<span class="number">0x00000006</span>	<span class="number">0x00000000</span>	<span class="number">0x00000000</span></div></pre></td></tr></table></figure>
+<p>之后把栈里的链表按照栈中的顺序重新排列，并且使得第一个数对应的结点val最大，依次递推，第6个数对应最小的结点。所以最后的输入为4 3 2 1 6 5</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">   <span class="number">0x00000000004011ab</span> &lt;+<span class="number">183</span>&gt;:	<span class="keyword">mov</span>    <span class="number">0x20</span>(%rsp),%rbx</div><div class="line">   <span class="number">0x00000000004011b0</span> &lt;+<span class="number">188</span>&gt;:	<span class="keyword">lea</span>    <span class="number">0x28</span>(%rsp),%rax</div><div class="line">   <span class="number">0x00000000004011b5</span> &lt;+<span class="number">193</span>&gt;:	<span class="keyword">lea</span>    <span class="number">0x50</span>(%rsp),%rsi</div><div class="line">   <span class="number">0x00000000004011ba</span> &lt;+<span class="number">198</span>&gt;:	<span class="keyword">mov</span>    %rbx,%rcx</div><div class="line">   <span class="number">0x00000000004011bd</span> &lt;+<span class="number">201</span>&gt;:	<span class="keyword">mov</span>    (%rax),%rdx</div><div class="line">   <span class="number">0x00000000004011c0</span> &lt;+<span class="number">204</span>&gt;:	<span class="keyword">mov</span>    %rdx,<span class="number">0x8</span>(%rcx)</div><div class="line">   <span class="number">0x00000000004011c4</span> &lt;+<span class="number">208</span>&gt;:	<span class="keyword">add</span>    <span class="number">$0</span>x8,%rax</div><div class="line">   <span class="number">0x00000000004011c8</span> &lt;+<span class="number">212</span>&gt;:	<span class="keyword">cmp</span>    %rsi,%rax</div><div class="line">   <span class="number">0x00000000004011cb</span> &lt;+<span class="number">215</span>&gt;:	<span class="keyword">je</span>     <span class="number">0x4011d2</span> &lt;phase_6+<span class="number">222</span>&gt;</div><div class="line">   <span class="number">0x00000000004011cd</span> &lt;+<span class="number">217</span>&gt;:	<span class="keyword">mov</span>    %rdx,%rcx</div><div class="line">   <span class="number">0x00000000004011d0</span> &lt;+<span class="number">220</span>&gt;:	<span class="keyword">jmp</span>    <span class="number">0x4011bd</span> &lt;phase_6+<span class="number">201</span>&gt;</div><div class="line">   <span class="number">0x00000000004011d2</span> &lt;+<span class="number">222</span>&gt;:	<span class="keyword">movq</span>   <span class="number">$0</span>x0,<span class="number">0x8</span>(%rdx)</div><div class="line">   <span class="number">0x00000000004011da</span> &lt;+<span class="number">230</span>&gt;:	<span class="keyword">mov</span>    <span class="number">$0</span>x5,%ebp</div><div class="line">   <span class="number">0x00000000004011df</span> &lt;+<span class="number">235</span>&gt;:	<span class="keyword">mov</span>    <span class="number">0x8</span>(%rbx),%rax</div><div class="line">   <span class="number">0x00000000004011e3</span> &lt;+<span class="number">239</span>&gt;:	<span class="keyword">mov</span>    (%rax),%eax</div><div class="line">   <span class="number">0x00000000004011e5</span> &lt;+<span class="number">241</span>&gt;:	<span class="keyword">cmp</span>    %eax,(%rbx)</div><div class="line">   <span class="number">0x00000000004011e7</span> &lt;+<span class="number">243</span>&gt;:	<span class="keyword">jge</span>    <span class="number">0x4011ee</span> &lt;phase_6+<span class="number">250</span>&gt;</div><div class="line">   <span class="number">0x00000000004011e9</span> &lt;+<span class="number">245</span>&gt;:	callq  <span class="number">0x40143a</span> &lt;explode_bomb&gt;</div><div class="line">   <span class="number">0x00000000004011ee</span> &lt;+<span class="number">250</span>&gt;:	<span class="keyword">mov</span>    <span class="number">0x8</span>(%rbx),%rbx</div><div class="line">   <span class="number">0x00000000004011f2</span> &lt;+<span class="number">254</span>&gt;:	<span class="keyword">sub</span>    <span class="number">$0</span>x1,%ebp</div><div class="line">   <span class="number">0x00000000004011f5</span> &lt;+<span class="number">257</span>&gt;:	<span class="keyword">jne</span>    <span class="number">0x4011df</span> &lt;phase_6+<span class="number">235</span>&gt;</div><div class="line">   <span class="number">0x00000000004011f7</span> &lt;+<span class="number">259</span>&gt;:	<span class="keyword">add</span>    <span class="number">$0</span>x50,%rsp</div><div class="line">   <span class="number">0x00000000004011fb</span> &lt;+<span class="number">263</span>&gt;:	<span class="keyword">pop</span>    %rbx</div><div class="line">   <span class="number">0x00000000004011fc</span> &lt;+<span class="number">264</span>&gt;:	<span class="keyword">pop</span>    %rbp</div><div class="line">   <span class="number">0x00000000004011fd</span> &lt;+<span class="number">265</span>&gt;:	<span class="keyword">pop</span>    %r12</div><div class="line">   <span class="number">0x00000000004011ff</span> &lt;+<span class="number">267</span>&gt;:	<span class="keyword">pop</span>    %r13</div><div class="line">   <span class="number">0x0000000000401201</span> &lt;+<span class="number">269</span>&gt;:	<span class="keyword">pop</span>    %r14</div><div class="line">   <span class="number">0x0000000000401203</span> &lt;+<span class="number">271</span>&gt;:	retq   </div><div class="line">End of assembler dump.</div></pre></td></tr></table></figure>
+<p>整个Bomb Lab还是非常有意思的，而且通过bomb lab对汇编代码，以及gdb的使用理解更加深刻。</p>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/11/01/dlsym调用动态链接库/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/04/09/cmu15213-attacklab/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/books/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              书单
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'SIO__Five';
+    
+    var disqus_url = 'http://yoursite.com/2018/01/13/cmu15213-bomblab/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//SIO__Five.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
